@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
@@ -86,11 +87,6 @@ public class Mission {
             return false;
         }
         final Mission other = (Mission) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
-    
-    
 }

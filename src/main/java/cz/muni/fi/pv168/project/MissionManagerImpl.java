@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class MissionManagerImpl implements MissionManager {
-
+    
     @Override
     public void addMission(Mission mission) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
