@@ -23,7 +23,7 @@ public class AgentManagerTest
     @Test
     public void addNewAgent()
     {
-        Agent agent = createAgent(0L, "test", AgentStatus.AVAILABLE, AgentExperience.DEFAULT);
+        Agent agent = createAgent(0L, "test", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
         manager.addAgent(agent);
         
         assertNotNull("Agent's id is null.", agent.getId());
@@ -38,13 +38,20 @@ public class AgentManagerTest
         manager.addAgent(null);
     }
     
+    @Test(expected = UnsupportedOperationException.class)
+    public void updateNonExistentAgent() throws Exception
+    {
+        Agent nonExistentAgent = createAgent(1L, "doesn't exist", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        manager.updateAgent(nonExistentAgent);
+    }
+    
     @Test
     public void getAgentsWithStatus()
     {
-        Agent first = createAgent(0L, "first", AgentStatus.AVAILABLE, AgentExperience.DEFAULT);
-        Agent second = createAgent(1L, "second", AgentStatus.ON_MISSION, AgentExperience.DEFAULT);
-        Agent third = createAgent(2L, "third", AgentStatus.AVAILABLE, AgentExperience.DEFAULT);
-        Agent fourth = createAgent(3L, "fourth", AgentStatus.RETIRED, AgentExperience.DEFAULT);
+        Agent first = createAgent(0L, "first", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent second = createAgent(1L, "second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent third = createAgent(2L, "third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent fourth = createAgent(3L, "fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
         
         manager.addAgent(first);
         manager.addAgent(second);

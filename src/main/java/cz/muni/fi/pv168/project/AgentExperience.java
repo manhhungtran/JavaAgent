@@ -1,9 +1,12 @@
 package cz.muni.fi.pv168.project;
 
 /**
- * @author ...
+ * @author Filip Petrovic
  */
 public enum AgentExperience
 {
-    DEFAULT
+    NOVICE,
+    INTERMEDIATE,
+    EXPERT,
+    MASTER
 }
