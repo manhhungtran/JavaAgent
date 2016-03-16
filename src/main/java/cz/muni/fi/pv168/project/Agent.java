@@ -24,7 +24,7 @@ public class Agent
     
     @Override public String toString()
     {
-        return "Agent id: " + id + ", name: " + alias + ", status: " + status + ", experience: " + experience;
+        return "{ " + alias + ", " + id + ", " + status + ", " + experience + " }";
     }
     
     @Override

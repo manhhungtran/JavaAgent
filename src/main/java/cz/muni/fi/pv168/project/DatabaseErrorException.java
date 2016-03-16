@@ -22,5 +22,4 @@ public class DatabaseErrorException extends RuntimeException
     {
         super(message, cause);
     }
-
 }
