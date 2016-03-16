@@ -8,16 +8,24 @@ import java.util.List;
 public interface AgentManager
 {
     /**
-     * Adds new agent into collection.
+     * Adds new agent.
      * @param agent Agent to be added.
+     * @throws IllegalArgumentException when agent is null or agent id is already aset.
+     * @throws DatabaseErrorException when database error occurs.
      */
     void addAgent(Agent agent);
     
     /**
-     * Updates existing agent in collection.
+     * Updates existing agent.
      * @param agent Agent that will be updated.
      */
     void updateAgent(Agent agent);
+    
+    /**
+     * Deletes existing agent.
+     * @param agent Agent that will be deleted.
+     */
+    void deleteAgent(Agent agent);
     
     /**
      * Returns existing agent with given id.
@@ -27,22 +35,22 @@ public interface AgentManager
     Agent getAgent(Long id);
     
     /**
-     * Returns list of all agents in collection.
-     * @return List of all agents in collection.
+     * Returns list of all agents.
+     * @return List of all agents.
      */
     List<Agent> getAllAgents();
     
     /**
-     * Returns list of all agents in collection who have given experince.
+     * Returns list of all agents with given experience.
      * @param experience Desired experience.
-     * @return List of all agents in collection who have given experince.
+     * @return List of all agents with given experience.
      */
     List<Agent> getAgentsWithExperience(AgentExperience experience);
     
     /**
-     * Returns list of all agents in collection who have given status.
+     * Returns list of all agents with given status.
      * @param status Desired status.
-     * @return List of all agents in collection who have given status.
+     * @return List of all agents with given status.
      */
     List<Agent> getAgentsWithStatus(AgentStatus status);
 }

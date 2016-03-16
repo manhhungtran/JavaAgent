@@ -2,8 +2,8 @@ package cz.muni.fi.pv168.project;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.List;
+import javax.sql.DataSource;
 
 import static org.junit.Assert.*;
 
@@ -13,17 +13,18 @@ import static org.junit.Assert.*;
 public class AgentManagerTest
 {
     private AgentManager manager;
+    private DataSource dataSource;
     
     @Before
     public void setUp()
     {
-        manager = new AgentManagerImpl();
+        manager = new AgentManagerImpl(dataSource);
     }
     
     @Test
     public void addNewAgent()
     {
-        Agent agent = createAgent(0L, "test", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent agent = createAgent(null, "test", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
         manager.addAgent(agent);
         
         assertNotNull("Agent's id is null.", agent.getId());

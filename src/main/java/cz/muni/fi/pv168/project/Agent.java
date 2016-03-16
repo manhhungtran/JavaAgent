@@ -17,17 +17,15 @@ public class Agent
     public AgentStatus getStatus() { return status; }
     public AgentExperience getExperience() { return experience; }
     
-    public void setId(Long id)
-    {
-        if (this.id != null)
-        {
-            throw new UnsupportedOperationException("Agent id cannot be changed once set.");
-        }
-        this.id = id;
-    }    
+    public void setId(Long id) { this.id = id; }    
     public void setAlias(String alias) { this.alias = alias; }
     public void setStatus(AgentStatus status) { this.status = status; }
     public void setExperience(AgentExperience experience) { this.experience = experience; }
+    
+    @Override public String toString()
+    {
+        return "Agent id: " + id + ", name: " + alias + ", status: " + status + ", experience: " + experience;
+    }
     
     @Override
     public boolean equals(Object other)
