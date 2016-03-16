@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project;
 
 /**
- * 
  * This exception indicates problem with database.
  * 
  * @author Filip Petrovic

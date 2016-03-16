@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project;
 
 /**
- * 
  * This exception is thrown when update or similar operation is performed
  * on entity which doesn't exist in database.
  * 

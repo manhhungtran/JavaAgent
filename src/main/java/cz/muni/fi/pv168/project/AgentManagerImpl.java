@@ -32,7 +32,7 @@ public class AgentManagerImpl implements AgentManager
         
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ( "INSERT INTO Agent (alias,status,experience) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS))
+            ("INSERT INTO Agent (alias,status,experience) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS))
         {
             statement.setString(1, agent.getAlias());
             statement.setString(2, agent.getStatus().name());
@@ -72,7 +72,7 @@ public class AgentManagerImpl implements AgentManager
         
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ( "UPDATE Agent SET alias = ?, status = ?, experience = ?, WHERE id = ?"))
+            ("UPDATE Agent SET alias = ?, status = ?, experience = ?, WHERE id = ?"))
         {
             statement.setString(1, agent.getAlias());
             statement.setString(2, agent.getStatus().name());

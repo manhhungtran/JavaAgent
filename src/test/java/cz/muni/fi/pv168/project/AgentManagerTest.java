@@ -24,7 +24,7 @@ public class AgentManagerTest
     @Test
     public void addNewAgent()
     {
-        Agent agent = createAgent(null, "test", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent agent = createAgent(null, "Agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
         manager.addAgent(agent);
         
         assertNotNull("Agent's id is null.", agent.getId());
@@ -39,20 +39,20 @@ public class AgentManagerTest
         manager.addAgent(null);
     }
     
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void updateNonExistentAgent() throws Exception
     {
-        Agent nonExistentAgent = createAgent(1L, "doesn't exist", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent nonExistentAgent = createAgent(1L, "Non-existent agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
         manager.updateAgent(nonExistentAgent);
     }
     
     @Test
     public void getAgentsWithStatus()
     {
-        Agent first = createAgent(0L, "first", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
-        Agent second = createAgent(1L, "second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
-        Agent third = createAgent(2L, "third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent fourth = createAgent(3L, "fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
+        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
         
         manager.addAgent(first);
         manager.addAgent(second);
@@ -64,7 +64,7 @@ public class AgentManagerTest
         {
             if(!agent.getStatus().equals(AgentStatus.AVAILABLE))
             {
-                fail("Agent with wrong status was returned.");
+                fail("Expected agent status: AVAILABLE, returned agent status: " + agent.getStatus().name());
             }
         }
         
@@ -74,7 +74,7 @@ public class AgentManagerTest
         {
             if(agent.getStatus().equals(AgentStatus.AVAILABLE))
             {
-                fail("Some agent with desired status wasn't returned.");
+                fail("Agent with desired status: AVAILABLE wasn't returned:" + agent);
             }
         }
     }
