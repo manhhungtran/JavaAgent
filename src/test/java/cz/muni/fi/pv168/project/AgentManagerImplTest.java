@@ -1,24 +1,54 @@
 package cz.muni.fi.pv168.project;
 
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
 import static org.junit.Assert.*;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
-public class AgentManagerTest
+public class AgentManagerImplTest
 {
     private AgentManager manager;
     private DataSource dataSource;
     
     @Before
-    public void setUp()
+    public void setUp() throws SQLException
     {
+        dataSource = prepareDataSource();
+        try(Connection connection = dataSource.getConnection())
+        {
+            connection.prepareStatement("CREATE TABLE Agent ("
+                    + "id bigint primary key generated always as identity,"
+                    + "alias varchar(50),"
+                    + "status varchar(30),"
+                    + "experience varchar(30))").executeUpdate();
+        }
         manager = new AgentManagerImpl(dataSource);
+    }
+    
+    private static DataSource prepareDataSource() throws SQLException
+    {
+        EmbeddedDataSource dataSource = new EmbeddedDataSource();
+        dataSource.setDatabaseName("memory:agentmanagerimpl-test");
+        dataSource.setCreateDatabase("create");
+        return dataSource;
+    }
+    
+    @After
+    public void tearDown() throws SQLException
+    {
+        try(Connection connection = dataSource.getConnection())
+        {
+            connection.prepareStatement("DROP TABLE Agent").executeUpdate();
+        }
     }
     
     @Test
@@ -74,7 +104,7 @@ public class AgentManagerTest
         {
             if(agent.getStatus().equals(AgentStatus.AVAILABLE))
             {
-                fail("Agent with desired status: AVAILABLE wasn't returned:" + agent);
+                fail("Following agent with desired status AVAILABLE wasn't returned:" + agent);
             }
         }
     }

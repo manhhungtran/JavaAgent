@@ -1,7 +1,7 @@
 package cz.muni.fi.pv168.project;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 public enum AgentStatus
 {

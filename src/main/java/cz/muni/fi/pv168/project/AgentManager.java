@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project;
 import java.util.List;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 public interface AgentManager
 {
@@ -17,7 +17,7 @@ public interface AgentManager
     
     /**
      * Updates existing agent.
-     * @param agent Agent that will be updated.
+     * @param agent Agent to be updated.
      * @throws IllegalArgumentException when agent is null or agent id is null.
      * @throws DatabaseErrorException when database error occurs.
      * @throws EntityNotFoundException when agent with given id doesn't exist.
@@ -26,7 +26,7 @@ public interface AgentManager
     
     /**
      * Deletes existing agent.
-     * @param agent Agent that will be deleted.
+     * @param agent Agent to be deleted.
      * @throws IllegalArgumentException when agent is null or agent id is null.
      * @throws DatabaseErrorException when database error occurs.
      * @throws EntityNotFoundException when agent with given id doesn't exist.

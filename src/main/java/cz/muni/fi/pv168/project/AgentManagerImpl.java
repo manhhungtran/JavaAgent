@@ -10,7 +10,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 public class AgentManagerImpl implements AgentManager
 {
@@ -72,7 +72,7 @@ public class AgentManagerImpl implements AgentManager
         
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ("UPDATE Agent SET alias = ?, status = ?, experience = ?, WHERE id = ?"))
+            ("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?"))
         {
             statement.setString(1, agent.getAlias());
             statement.setString(2, agent.getStatus().name());

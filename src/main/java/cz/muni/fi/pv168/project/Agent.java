@@ -3,7 +3,7 @@ package cz.muni.fi.pv168.project;
 import java.util.Objects;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 public class Agent
 {
