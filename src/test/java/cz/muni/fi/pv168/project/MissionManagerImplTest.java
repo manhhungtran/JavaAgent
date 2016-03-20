@@ -1,9 +1,14 @@
 package cz.muni.fi.pv168.project;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import javax.sql.DataSource;
+import org.apache.derby.jdbc.EmbeddedDataSource;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -13,7 +18,7 @@ import static org.junit.Assert.*;
  * @author Tran Manh Hung 433556
  */
 public class MissionManagerImplTest {
-    
+    private DataSource data;
     private MissionManager manager;
     private Mission first;
     private Mission second;
@@ -21,17 +26,27 @@ public class MissionManagerImplTest {
     private Mission fourth;
     private Mission fifth;
     
-    
     @Before
-    public void setUp() {
-        manager = new MissionManagerImpl();
-                
-        first = newMission(0L, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        second = newMission(1L, "Testing Mission.", LocalDate.now(), 5000, MissionDifficulty.HARD, MissionStatus.FAILED);
-        third = newMission(2L, "Testing Mission.", LocalDate.now(), 5, MissionDifficulty.EASY, MissionStatus.ONGOING);
-        fourth = newMission(3L, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.EASY, MissionStatus.SUCCEDED);
-        fifth = newMission(4L, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        
+    public void setUp() throws SQLException {
+        data = prepareDataSource();
+        try(Connection connection = data.getConnection())
+        {
+            connection.prepareStatement
+                ("CREATE TABLE Mission ("
+                + "id bigint primary key generated always as identity,"
+                + "description varchar(200),"
+                + "start varchar(50)," 
+                + "duration int,"
+                + "difficulty varchar(30),"
+                + "status varchar(30)"
+                + ")").executeUpdate();
+        }
+        manager = new MissionManagerImpl(data);
+        first = newMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        second = newMission(null, "Testing Mission.", LocalDate.now(), 5000, MissionDifficulty.HARD, MissionStatus.FAILED);
+        third = newMission(null, "Testing Mission.", LocalDate.now(), 5, MissionDifficulty.EASY, MissionStatus.ONGOING);
+        fourth = newMission(null, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.EASY, MissionStatus.SUCCEDED);
+        fifth = newMission(null, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
     }
 
     /**
@@ -39,19 +54,14 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testAddMission() {
-        System.out.println("addMission");
-        manager = new MissionManagerImpl();
-        
-        assertNotNull("Saved mission has null ID", first.getId());
-        assertNotNull("saved grave has null Description", first.getDescription());
-        assertNotNull("Saved mission has null Start", first.getDuration());
-        assertNotNull("Saved mission has null Difficulty", first.getDifficulty());
-        
+
         manager.addMission(first);
+                
+        assertNotNull("Saved mission has null ID", first.getId());
         
-        Mission result = manager.getMission(0L);
+        Mission result = manager.getMission(first.getId());
         
-        assertThat("Retrieved mission differs from the saved one", first, is(equalTo(result)));
+        assertEquals("Retrieved mission differs from the saved one", first.getId(), result.getId());
         
         
     }
@@ -59,14 +69,32 @@ public class MissionManagerImplTest {
     /**
      *  Test illegal null arguments
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testsWithNull() throws IllegalArgumentException {
-        manager.updateMission(null);
-        manager.addMission(null);
-        manager.getMissionsWithDifficulty(null);
-        manager.getMissionsWithStatus(null);
+        try{
+            manager.updateMission(null);
+        }catch(IllegalArgumentException ignored) {
+            //ok
+        }
+        
+        try{
+            manager.addMission(null);
+        }catch(IllegalArgumentException ignored) {
+            //ok
+        }
+                
+        try{
+            manager.getMissionsWithDifficulty(null);
+        }catch(IllegalArgumentException ignored) {
+            //ok
+        }
+                        
+        try{
+            manager.getMissionsWithStatus(null);
+        }catch(IllegalArgumentException ignored) {
+            //ok
+        }
     }
-
 
     /**
      * Test of getMission method, of class MissionManagerImpl.
@@ -74,7 +102,6 @@ public class MissionManagerImplTest {
     @Test
     public void testGetMission() {
         System.out.println("getMission");
-        manager = new MissionManagerImpl();
         
         manager.addMission(first);
         manager.addMission(second);
@@ -82,14 +109,16 @@ public class MissionManagerImplTest {
         manager.addMission(fourth);
         
         Mission result;
-        for(int i = 0; i < 4; i++) {
-           
-            Long id = new Long(i);
-            result = manager.getMission(id);
-            assertEquals("Retrieved mission id differs from the saved one", id, result.getId());
-        }
         
-    }
+        result = manager.getMission(first.getId());
+        assertEquals(result, first);
+        
+        result = manager.getMission(second.getId());
+        assertEquals(result, second);
+        
+        result = manager.getMission(third.getId());
+        assertEquals(result, third);
+   }
 
     /**
      * Test of getAllMissions method, of class MissionManagerImpl.
@@ -97,7 +126,6 @@ public class MissionManagerImplTest {
     @Test
     public void testGetAllMissions() {
         System.out.println("getAllMissions");
-        manager = new MissionManagerImpl();
         
         manager.addMission(first);
         manager.addMission(second);
@@ -121,7 +149,6 @@ public class MissionManagerImplTest {
     @Test
     public void testGetMissionsWithStatus() {
         System.out.println("getMissionsWithStatus");
-        manager = new MissionManagerImpl();
         
         manager.addMission(first);
         manager.addMission(second);
@@ -147,7 +174,6 @@ public class MissionManagerImplTest {
     @Test
     public void testGetMissionsWithDifficulty() {
         System.out.println("getMissionsWithDifficulty");
-        manager = new MissionManagerImpl();
         
         manager.addMission(first);
         manager.addMission(second);
@@ -157,7 +183,7 @@ public class MissionManagerImplTest {
         
         List<Mission> result = manager.getMissionsWithDifficulty(MissionDifficulty.MEDIUM);
      
-        assertTrue("Retrieved collection shouldn't contain any mission", !result.isEmpty());
+        assertTrue("Retrieved collection shouldn't contain any mission", result.isEmpty());
         
         result = manager.getMissionsWithDifficulty(MissionDifficulty.CHUCKNORRIS);
         assertTrue("Retrieved collection doesn't contain right amount od missions.", result.size() == 2);
@@ -176,5 +202,18 @@ public class MissionManagerImplTest {
         mission.setStatus(status);
         return mission;
     }
+        
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource dataSource = new EmbeddedDataSource();
+        dataSource.setDatabaseName("memory:missionmanagerimpl-test");
+        dataSource.setCreateDatabase("create");
+        return dataSource;
+    }
     
+    @After
+    public void tearDown() throws SQLException {
+        try(Connection connection = data.getConnection()) {
+            connection.prepareStatement("DROP TABLE Mission").executeUpdate();
+        }
+    }
 }

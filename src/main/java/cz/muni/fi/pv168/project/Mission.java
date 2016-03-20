@@ -19,12 +19,7 @@ public class Mission {
         return id;
     }
 
-    public void setId(Long id)
-    {
-        if (this.id != null)
-        {
-            throw new UnsupportedOperationException("Mission ID cannot be changed once set.");
-        }
+    public void setId(Long id) {
         this.id = id;
     }  
 
@@ -70,6 +65,9 @@ public class Mission {
 
     @Override
     public int hashCode() {
+        if(id == null)
+            return 0;
+        
         int hash = 7;
         hash = 43 * hash + (int) (this.id ^ (this.id >>> 32));
         return hash;
@@ -88,5 +86,10 @@ public class Mission {
         }
         final Mission other = (Mission) obj;
         return Objects.equals(this.id, other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Mission{" + "id=" + id + ", description=" + description + ", start=" + start + ", duration=" + duration + ", difficulty=" + difficulty + ", status=" + status + '}';
     }
 }
