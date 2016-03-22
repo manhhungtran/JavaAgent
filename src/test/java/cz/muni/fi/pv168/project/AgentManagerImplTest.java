@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 /**
@@ -77,6 +78,57 @@ public class AgentManagerImplTest
     }
     
     @Test
+    public void getAllAgents()
+    {
+        assertThat(manager.getAllAgents().isEmpty());
+        
+        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
+        
+        manager.addAgent(first);
+        manager.addAgent(second);
+        manager.addAgent(third);
+        manager.addAgent(fourth);
+        
+        assertThat(manager.getAllAgents()).usingFieldByFieldElementComparator().containsOnly(first, second, third, fourth);
+    }
+    
+    @Test
+    public void getAgentsWithExperience()
+    {
+        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
+        
+        manager.addAgent(first);
+        manager.addAgent(second);
+        manager.addAgent(third);
+        manager.addAgent(fourth);
+        
+        List<Agent> experts = manager.getAgentsWithExperience(AgentExperience.EXPERT);
+        for(Agent agent : experts)
+        {
+            if(!agent.getExperience().equals(AgentExperience.EXPERT))
+            {
+                fail("Following agent with different experience than EXPERT was returned: " + agent);
+            }
+        }
+        
+        List<Agent> others = manager.getAllAgents();
+        others.removeAll(experts);
+        for(Agent agent : others)
+        {
+            if(agent.getExperience().equals(AgentExperience.EXPERT))
+            {
+                fail("Following agent with desired experience EXPERT wasn't returned: " + agent);
+            }
+        }
+    }
+    
+    @Test
     public void getAgentsWithStatus()
     {
         Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
@@ -94,7 +146,7 @@ public class AgentManagerImplTest
         {
             if(!agent.getStatus().equals(AgentStatus.AVAILABLE))
             {
-                fail("Expected agent status: AVAILABLE, returned agent status: " + agent.getStatus().name());
+                fail("Following agent with different status than AVAILABLE was returned: " + agent);
             }
         }
         
@@ -104,7 +156,7 @@ public class AgentManagerImplTest
         {
             if(agent.getStatus().equals(AgentStatus.AVAILABLE))
             {
-                fail("Following agent with desired status AVAILABLE wasn't returned:" + agent);
+                fail("Following agent with desired status AVAILABLE wasn't returned: " + agent);
             }
         }
     }
