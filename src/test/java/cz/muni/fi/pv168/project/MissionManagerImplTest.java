@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.sql.DataSource;
 import org.apache.derby.jdbc.EmbeddedDataSource;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,16 +52,10 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testAddMission() {
-
         manager.addMission(first);
-                
         assertNotNull("Saved mission has null ID", first.getId());
-        
         Mission result = manager.getMission(first.getId());
-        
         assertEquals("Retrieved mission differs from the saved one", first.getId(), result.getId());
-        
-        
     }
     
     /**
@@ -94,6 +86,12 @@ public class MissionManagerImplTest {
         }catch(IllegalArgumentException ignored) {
             //ok
         }
+        
+        try{
+            manager.deleteMission(null);
+        }catch(IllegalArgumentException ignored) {
+            //ok
+        }
     }
 
     /**
@@ -101,7 +99,6 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testGetMission() {
-        System.out.println("getMission");
         
         manager.addMission(first);
         manager.addMission(second);
@@ -125,7 +122,6 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testGetAllMissions() {
-        System.out.println("getAllMissions");
         
         manager.addMission(first);
         manager.addMission(second);
@@ -148,7 +144,6 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testGetMissionsWithStatus() {
-        System.out.println("getMissionsWithStatus");
         
         manager.addMission(first);
         manager.addMission(second);
@@ -173,7 +168,6 @@ public class MissionManagerImplTest {
      */
     @Test
     public void testGetMissionsWithDifficulty() {
-        System.out.println("getMissionsWithDifficulty");
         
         manager.addMission(first);
         manager.addMission(second);
@@ -191,6 +185,37 @@ public class MissionManagerImplTest {
         assertTrue("Retrieved collection doesn't contain required mission", result.contains(fifth));
     }
     
+    /*
+     * Test of deleteMission method
+     */
+    @Test
+    public void testDeleteMission() {
+
+        manager.addMission(first);
+        manager.addMission(second);
+        
+        manager.deleteMission(first);
+
+        assertTrue(!manager.getAllMissions().contains(first));
+    }
+    
+    /*
+     * Test of updateMission method
+     */
+    @Test
+    public void testUpdateMisssion() {
+        manager.addMission(first);
+        second.setId(first.getId());
+        manager.updateMission(second);
+        
+        Mission result = manager.getMission(first.getId());
+        assertEquals(second.getId(), result.getId());
+        assertEquals(second.getDescription(), result.getDescription());
+        assertEquals(second.getDifficulty(), result.getDifficulty());
+        assertEquals(second.getStatus(), result.getStatus());
+        assertEquals(second.getStart(), result.getStart());
+    }
+    
     private static Mission newMission(Long id, String description, LocalDate start, int duration, MissionDifficulty difficulty, MissionStatus status) {
         Mission mission = new Mission();
         mission.setId(id);
@@ -202,7 +227,7 @@ public class MissionManagerImplTest {
         mission.setStatus(status);
         return mission;
     }
-        
+    
     private static DataSource prepareDataSource() throws SQLException {
         EmbeddedDataSource dataSource = new EmbeddedDataSource();
         dataSource.setDatabaseName("memory:missionmanagerimpl-test");
