@@ -7,6 +7,6 @@ package cz.muni.fi.pv168.project;
 public enum MissionStatus {
     ONGOING,
     SUCCEDED,
-    FAILED;
-           
+    FAILED,
+    FRESH;
 }
