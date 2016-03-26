@@ -1,0 +1,21 @@
+CREATE TABLE "Agent" (
+    "Id" BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "Alias" VARCHAR(50),
+    "Status" VARCHAR(30),
+    "Experience" VARCHAR(30)
+);
+
+CREATE TABLE "Mission" (
+    "Id" BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "Description" VARCHAR(200),
+    "Start" VARCHAR(50),
+    "Duration" INTEGER,
+    "Difficulty" VARCHAR(30),
+    "Status" VARCHAR(30)
+);
+
+CREATE TABLE "Assignment" (
+    "Id" BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "AgentId" BIGINT REFERENCES Agent (Id),
+    "MissionId" BIGINT REFERENCES Mission (Id)
+);

@@ -13,7 +13,7 @@ public interface AssignmentManager
      * @throws IllegalArgumentException when assignment is null or assignment id is already set.
      * @throws DatabaseErrorException when database error occurs.
      */
-    void addAssigment(Assignment assignment);
+    void addAssignment(Assignment assignment);
     
     /**
      * Updates existing assignment.
@@ -22,7 +22,7 @@ public interface AssignmentManager
      * @throws DatabaseErrorException when database error occurs.
      * @throws EntityNotFoundException when assignment with given id doesn't exist.
      */
-    void updateAssigment(Assignment assignment);
+    void updateAssignment(Assignment assignment);
     
     /**
      * Deletes existing assignment.
