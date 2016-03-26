@@ -42,21 +42,12 @@ public class Assignment {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object other) {
+        if(!(other instanceof Assignment)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Assignment other = (Assignment) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        
+        return id.equals(((Assignment)other).id);
     }
 
     @Override
