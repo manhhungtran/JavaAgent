@@ -15,16 +15,21 @@ import javax.sql.DataSource;
 public class AgentManagerImpl implements AgentManager
 {
     private DataSource dataSource;
-    
-    public AgentManagerImpl(DataSource dataSource) { this.dataSource = dataSource; }
+
+    public AgentManagerImpl(DataSource dataSource)
+    {
+        if(dataSource == null)
+        {
+            throw new IllegalArgumentException("Data source is null.");
+        }
+        this.dataSource = dataSource;
+    }
     
     @Override
     public void addAgent(Agent agent)
     {
-        if(agent == null)
-        {
-            throw new IllegalArgumentException("Agent is null.");
-        }
+        validateAgent(agent);
+        
         if(agent.getId() != null)
         {
             throw new IllegalArgumentException("Agent id is already set.");
@@ -61,10 +66,8 @@ public class AgentManagerImpl implements AgentManager
     @Override
     public void updateAgent(Agent agent)
     {
-        if(agent == null)
-        {
-            throw new IllegalArgumentException("Agent is null.");
-        }
+        validateAgent(agent);
+        
         if(agent.getId() == null)
         {
             throw new IllegalArgumentException("Agent id is null.");
@@ -243,6 +246,26 @@ public class AgentManagerImpl implements AgentManager
         {
             throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert agent " +
                                              agent + ", no key found.");
+        }
+    }
+    
+    private void validateAgent(Agent agent)
+    {
+        if(agent == null)
+        {
+            throw new IllegalArgumentException("Agent is null.");
+        }
+        if(agent.getAlias() == null)
+        {
+            throw new IllegalArgumentException("Agent alias is null.");
+        }
+        if(agent.getStatus() == null)
+        {
+            throw new IllegalArgumentException("Agent status is null.");
+        }
+        if(agent.getExperience() == null)
+        {
+            throw new IllegalArgumentException("Agent experience is null.");
         }
     }
     

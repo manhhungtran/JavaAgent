@@ -15,15 +15,20 @@ public class AssignmentManagerImpl implements AssignmentManager
 {
     private DataSource dataSource;
     
-    public AssignmentManagerImpl(DataSource dataSource) { this.dataSource = dataSource; }
+    public AssignmentManagerImpl(DataSource dataSource)
+    {
+        if(dataSource == null)
+        {
+            throw new IllegalArgumentException("Data source is null.");
+        }
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void addAssignment(Assignment assignment)
     {
-        if(assignment == null)
-        {
-            throw new IllegalArgumentException("Assignment is null.");
-        }
+        validateAssignment(assignment);
+        
         if(assignment.getId() != null)
         {
             throw new IllegalArgumentException("Assignment id is already set.");
@@ -59,10 +64,8 @@ public class AssignmentManagerImpl implements AssignmentManager
     @Override
     public void updateAssignment(Assignment assignment)
     {
-        if(assignment == null)
-        {
-            throw new IllegalArgumentException("Assignment is null.");
-        }
+        validateAssignment(assignment);
+        
         if(assignment.getId() == null)
         {
             throw new IllegalArgumentException("Assignment id is null.");
@@ -164,6 +167,22 @@ public class AssignmentManagerImpl implements AssignmentManager
         {
             throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert assignment " +
                                              assignment + ", no key found.");
+        }
+    }
+    
+    private void validateAssignment(Assignment assignment)
+    {
+        if(assignment == null)
+        {
+            throw new IllegalArgumentException("Assignment is null.");
+        }
+        if(assignment.getAgent() == null)
+        {
+            throw new IllegalArgumentException("Agent in an assignment is null.");
+        }
+        if(assignment.getMission() == null)
+        {
+            throw new IllegalArgumentException("Mission in an assignment is null.");
         }
     }
 }
