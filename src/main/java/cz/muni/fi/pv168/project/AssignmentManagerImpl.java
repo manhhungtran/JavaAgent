@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
@@ -127,18 +128,71 @@ public class AssignmentManagerImpl implements AssignmentManager
     }
     
     @Override
-    public List<Assignment> getAllAssignments() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Assignment> getAllAssignments() 
+    {
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement
+                ("SELECT * FROM Assignment")) 
+        {
+            ResultSet set = statement.executeQuery();
+            List<Assignment> assignmentList = new ArrayList<>();
+
+            while (set.next()) 
+            {
+                assignmentList.add(getAssignmentFromSet(set));
+            }
+            return assignmentList;
+        }
+        catch (SQLException ex) 
+        {
+            throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
+        }
     }
     
     @Override
-    public List<Assignment> getAssignmentsForMission(Mission mission) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Assignment> getAssignmentsForMission(Mission mission) 
+    {
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement
+                ("SELECT * FROM Assignment WHERE mission = ?")) 
+        {
+            statement.setObject(1, mission.getId());
+            ResultSet set = statement.executeQuery();
+            List<Assignment> assignmentList = new ArrayList<>();
+            
+            while (set.next()) 
+            {
+                assignmentList.add(getAssignmentFromSet(set));
+            }
+            return assignmentList;
+        }
+        catch (SQLException ex) 
+        {
+            throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
+        }
     }
 
     @Override
-    public List<Assignment> getAssignmentsForAgent(Agent agent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Assignment> getAssignmentsForAgent(Agent agent) 
+    {
+        try(Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement
+                ("SELECT * FROM Assignment WHERE agent = ?")) 
+        {
+            statement.setObject(1, agent.getId());
+            ResultSet set = statement.executeQuery();
+            List<Assignment> assignmentList = new ArrayList<>();
+            
+            while (set.next()) 
+            {
+                assignmentList.add(getAssignmentFromSet(set));
+            }
+            return assignmentList;
+        }
+        catch (SQLException ex) 
+        {
+            throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
+        }
     }
     
     private Long getKey(ResultSet keyRS, Assignment assignment) throws DatabaseErrorException, SQLException
@@ -165,5 +219,17 @@ public class AssignmentManagerImpl implements AssignmentManager
             throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert assignment " +
                                              assignment + ", no key found.");
         }
+    }
+
+    private Assignment getAssignmentFromSet(ResultSet set) throws SQLException
+    {
+        MissionManager mission = new MissionManagerImpl(dataSource);
+        AgentManager agent = new AgentManagerImpl(dataSource);
+        Assignment assignment = new Assignment();
+        
+        assignment.setId(set.getLong("id"));
+        assignment.setAgent(agent.getAgent(set.getLong("agent")));
+        assignment.setMission(mission.getMission(set.getLong("mission")));
+        return assignment;
     }
 }
