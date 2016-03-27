@@ -1,3 +1,3 @@
-DROP TABLE "Agent";
-DROP TABLE "Mission";
-DROP TABLE "Assignment";
+DROP TABLE Assignment;
+DROP TABLE Agent;
+DROP TABLE Mission;
