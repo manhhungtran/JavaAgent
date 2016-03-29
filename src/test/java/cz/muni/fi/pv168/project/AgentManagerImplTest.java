@@ -1,12 +1,13 @@
 package cz.muni.fi.pv168.project;
 
-import org.junit.Before;
-import org.junit.Test;
 import java.sql.SQLException;
 import java.util.List;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -15,6 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AgentManagerImplTest extends SetupBaseTest
 {
     private AgentManager manager;
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     
     @Before
     public void setUp() throws SQLException
@@ -47,6 +51,39 @@ public class AgentManagerImplTest extends SetupBaseTest
     {
         Agent nonExistentAgent = createAgent(1L, "Non-existent agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
         manager.updateAgent(nonExistentAgent);
+    }
+    
+    @Test
+    public void updateAgent() throws Exception
+    {
+        Agent agent = createAgent(null, "Agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        manager.addAgent(agent);
+        
+        Agent update = createAgent(agent.getId(), "Asddfd", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        manager.updateAgent(update);
+        
+        assertEquals("Updated agent's alias is incorrect.", update.getAlias(), manager.getAgent(update.getId()).getAlias());
+        assertEquals("Updated agent's status is incorrect.", update.getStatus(), manager.getAgent(update.getId()).getStatus());
+        assertEquals("Updated agent's experience is incorrect.", update.getExperience(), manager.getAgent(update.getId()).getExperience());
+    }
+    
+    @Test
+    public void deleteAgent()
+    {
+        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        manager.addAgent(first);
+        manager.addAgent(second);
+
+        assertThat(manager.getAgent(first.getId())).isNotNull();
+        assertThat(manager.getAgent(second.getId())).isNotNull();
+
+        manager.deleteAgent(first);
+
+        assertThat(manager.getAgent(second.getId())).isNotNull();
+        
+        expectedException.expect(EntityNotFoundException.class);
+        manager.getAgent(first.getId());
     }
     
     @Test

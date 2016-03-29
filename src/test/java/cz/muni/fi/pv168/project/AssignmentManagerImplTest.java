@@ -22,7 +22,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AssignmentManagerImplTest extends SetupBaseTest
 {
-    private AssignmentManager manager;
+    private AssignmentManager assignmentManager;
+    private AgentManager agentManager;
+    private MissionManager missionManager;
+    
+    private Agent agentOne;
+    private Agent agentTwo;
+    private Agent agentThree;
+    
+    private Mission missionOne;
+    private Mission missionTwo;
+    
     private Assignment first;
     private Assignment second;
     private Assignment third;
@@ -32,31 +42,40 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     {
         dataSource = prepareDataSource("memory:agentmanagerimpl-test");
         executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
-        manager = new AssignmentManagerImpl(dataSource);
-    
-        Mission mission = createMission(1L, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        Agent agentfirst = createAgent(1L, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
-        Agent agentsecond = createAgent(2L, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
-        Agent agentthird = createAgent(3L, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
         
-        first = createAssignment(null, agentfirst, mission);
-        second = createAssignment(null, agentsecond, mission);
-        third = createAssignment(null, agentthird, mission);
+        agentManager = new AgentManagerImpl(dataSource);
+        missionManager = new MissionManagerImpl(dataSource);
+        assignmentManager = new AssignmentManagerImpl(dataSource);
+    
+        agentOne = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        agentTwo = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        agentThree = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        
+        missionOne = createMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        missionOne = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), 500, MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
+        
+        first = createAssignment(null, agentOne, missionOne);
+        second = createAssignment(null, agentTwo, missionOne);
+        third = createAssignment(null, agentThree, missionTwo);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void addNullAssignment() throws Exception
     {
-        manager.addAssignment(null);
+        assignmentManager.addAssignment(null);
     }
     
     @Test
     public void testAddAssignment()
     {
-        manager.addAssignment(first);
-        assertNotNull("Saved assignment has null ID", first.getId());
-        List<Assignment> result = manager.getAssignmentsForAgent(first.getAgent());
-        assertEquals("Retrieved assignment differs from the saved one", first.getId(), result.get(0).getId());
+        agentManager.addAgent(agentOne);
+        missionManager.addMission(missionOne);
+        assignmentManager.addAssignment(first);
+        
+        assertNotNull("Saved assignment has null ID.", first.getId());
+        
+        List<Assignment> result = assignmentManager.getAssignmentsForAgent(first.getAgent());
+        assertEquals("Retrieved assignment differs from the saved one.", first.getId(), result.get(0).getId());
     }
     
     @Test
