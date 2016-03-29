@@ -48,7 +48,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         assignmentManager = new AssignmentManagerImpl(dataSource);
     
         agentOne = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
-        agentTwo = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        agentTwo = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.MASTER);
         agentThree = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
         
         missionOne = createMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
@@ -66,7 +66,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     }
     
     @Test
-    public void testAddAssignment()
+    public void addAssignment()
     {
         agentManager.addAgent(agentOne);
         missionManager.addMission(missionOne);
@@ -79,9 +79,19 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     }
     
     @Test
-    public void testUpdateAssignment()
+    public void updateAssignment()
+    {
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        missionManager.addMission(missionOne);
+        
+        assignmentManager.addAssignment(first);
+        //Assignment update = createAssignment();
+    }
+    
+    @Test
+    public void deleteAssignment()
     {
         
     }
-    
 }
