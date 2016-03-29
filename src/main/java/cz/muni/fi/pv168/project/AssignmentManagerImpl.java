@@ -135,9 +135,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
-             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
-             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId"))
+            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
+             "INNER JOIN Mission ON Mission.id = missionId " +
+             "WHERE Assignment.id = ?"))
         {
             statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
@@ -286,18 +288,18 @@ public class AssignmentManagerImpl implements AssignmentManager
     private Assignment getAssignmentFromSet(ResultSet set) throws SQLException
     {
         Agent agent = new Agent();
-        agent.setId(set.getLong("Agent.id"));
-        agent.setAlias(set.getString("Agent.alias"));
-        agent.setStatus(AgentStatus.valueOf(set.getString("Agent.status")));
-        agent.setExperience(AgentExperience.valueOf(set.getString("Agent.experience")));
+        agent.setId(set.getLong("aid"));
+        agent.setAlias(set.getString("aalias"));
+        agent.setStatus(AgentStatus.valueOf(set.getString("astatus")));
+        agent.setExperience(AgentExperience.valueOf(set.getString("aexperience")));
         
         Mission mission = new Mission();
-        mission.setId(set.getLong("Mission.id"));
-        mission.setDescription(set.getString("Mission.description"));
-        mission.setDifficulty(MissionDifficulty.valueOf(set.getString("Mission.difficulty")));
-        mission.setStatus(MissionStatus.valueOf(set.getString("Mission.status")));
-        mission.setDuration(set.getInt("Mission.duration"));
-        mission.setStart(set.getDate("Mission.start").toLocalDate());
+        mission.setId(set.getLong("mid"));
+        mission.setDescription(set.getString("mdescription"));
+        mission.setDifficulty(MissionDifficulty.valueOf(set.getString("mdifficulty")));
+        mission.setStatus(MissionStatus.valueOf(set.getString("mstatus")));
+        mission.setDuration(set.getInt("mduration"));
+        mission.setStart(set.getDate("mstart").toLocalDate());
         
         Assignment assignment = new Assignment();
         assignment.setId(set.getLong("id"));

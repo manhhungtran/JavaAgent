@@ -1,20 +1,14 @@
 package cz.muni.fi.pv168.project;
 
-import org.apache.derby.jdbc.EmbeddedDataSource;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.SQLException;
 import java.util.List;
-import javax.sql.DataSource;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -36,6 +30,9 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     private Assignment first;
     private Assignment second;
     private Assignment third;
+    
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() throws SQLException
@@ -74,8 +71,8 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         
         assertNotNull("Saved assignment has null ID.", first.getId());
         
-        List<Assignment> result = assignmentManager.getAssignmentsForAgent(first.getAgent());
-        assertEquals("Retrieved assignment differs from the saved one.", first.getId(), result.get(0).getId());
+        Assignment result = assignmentManager.getAssignment(first.getId());
+        assertEquals("Retrieved assignment differs from the saved one.", first.getId(), result.getId());
     }
     
     @Test
@@ -84,15 +81,33 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         agentManager.addAgent(agentOne);
         agentManager.addAgent(agentTwo);
         missionManager.addMission(missionOne);
-        
         assignmentManager.addAssignment(first);
-        //Assignment update = createAssignment();
+        
+        Assignment update = createAssignment(first.getId(), agentTwo, missionOne);
+        assignmentManager.updateAssignment(update);
+        
+        assertEquals("Updated assignment's agent is incorrect.", update.getAgent(), assignmentManager.getAssignment(update.getId()).getAgent());
+        assertEquals("Updated assignment's mission is incorrect.", update.getMission(), assignmentManager.getAssignment(update.getId()).getMission());
     }
     
     @Test
     public void deleteAssignment()
     {
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        missionManager.addMission(missionOne);
+        assignmentManager.addAssignment(first);
+        assignmentManager.addAssignment(second);
+
+        assertThat(assignmentManager.getAssignment(first.getId())).isNotNull();
+        assertThat(assignmentManager.getAssignment(second.getId())).isNotNull();
+
+        assignmentManager.deleteAssignment(first);
+
+        assertThat(assignmentManager.getAssignment(second.getId())).isNotNull();
         
+        expectedException.expect(EntityNotFoundException.class);
+        assignmentManager.getAssignment(first.getId());
     }
     
     @Test
