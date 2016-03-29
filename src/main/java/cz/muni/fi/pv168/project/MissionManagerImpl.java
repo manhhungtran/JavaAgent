@@ -10,27 +10,32 @@ import java.util.List;
 import javax.sql.DataSource;
 
 /**
- * @author Tran Manh Hung 
+ * @author Tran Manh Hung (433556) 
  */
-public class MissionManagerImpl implements MissionManager {
+public class MissionManagerImpl implements MissionManager 
+{
     
-    private DataSource data;
+    private DataSource dataSource;
     
-    public MissionManagerImpl(DataSource data) {
-        this.data = data;
+    public MissionManagerImpl(DataSource data) 
+    {
+        this.dataSource = data;
     }
     
     @Override
-    public void addMission(Mission mission) {
+    public void addMission(Mission mission) 
+    {
         checkValidation(mission);
         
-        if(mission.getId() != null) {
+        if(mission.getId() != null) 
+        {
             throw new IllegalArgumentException("Mission id is already set.");
         }
         
-        try (Connection connection = data.getConnection();
+        try (Connection connection = dataSource.getConnection(); 
                 PreparedStatement statement = connection.prepareStatement
-        ("INSERT INTO Mission (description, start, duration, difficulty, status) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+        ("INSERT INTO Mission (description, start, duration, difficulty, status) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) 
+        {
             
             statement.setString(1, mission.getDescription());
             statement.setString(2, mission.getStart().toString());
@@ -39,28 +44,35 @@ public class MissionManagerImpl implements MissionManager {
             statement.setString(5, mission.getStatus().name());
 
             int count = statement.executeUpdate();
-            if(count != 1) {
+            if(count != 1) 
+            {
                 throw new DatabaseErrorException("Error: More rows were inserted when trying to insert mission: " + mission);
             }
                     
             ResultSet keyRS = statement.getGeneratedKeys();
             mission.setId(getKey(keyRS, mission));
             
-        }catch(SQLException ex) {
+        }
+        catch(SQLException ex) 
+        {
            throw new DatabaseErrorException("Error when inserting mission: " + mission, ex);
         }
     }
 
     @Override
-    public void updateMission(Mission mission) {
-                
+    public void updateMission(Mission mission) 
+    {
         checkValidation(mission);
-        if (mission.getId() == null) {
+        
+        if (mission.getId() == null) 
+        {
             throw new IllegalArgumentException("Mission id is null.");
         }
-        try (Connection connection = data.getConnection();
+        
+        try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
-        ("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?")) {
+        ("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?")) 
+        {
 
             statement.setString(1, mission.getDescription());   
             statement.setString(2, mission.getStart().toString());
@@ -70,166 +82,201 @@ public class MissionManagerImpl implements MissionManager {
             statement.setLong(6, mission.getId());
 
             int count = statement.executeUpdate();
-            if (count == 0) {
+            
+            if (count == 0) 
+            {
                 throw new EntityNotFoundException("Mission " + mission + " was not found in database!");
-            } else if (count != 1) {
+            } 
+            else if (count != 1) 
+            {
                 throw new DatabaseErrorException("Invalid updated rows count detected (one row should be updated): " + count);
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException(
                     "Error when updating mission " + mission, ex);
         }
     }
 
     @Override
-    public Mission getMission(Long id) {
-                
-        try (Connection connection = data.getConnection();
+    public Mission getMission(Long id) 
+    {
+        try (Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
                 ("SELECT * FROM Mission WHERE id = ?")) {
 
             statement.setLong(1, id);
             ResultSet set = statement.executeQuery();
 
-            if (set.next()) {
+            if (set.next()) 
+            {
                 
                 Mission mission = getMissionFromSet(set);
-                if (set.next()) {
+                if (set.next()) 
+                {
                     throw new DatabaseErrorException(
                             "Internal error: More entities with the same id found "
                             + "(source id: " + id + ", found " + mission + " and " + getMissionFromSet(set));
                 }
                 return mission;
-            } else {
+            } 
+            else 
+            {
                 throw new DatabaseErrorException("Mission with cannot be found in database.");
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException("Error when retrieving grave with id " + id, ex);
         }
     }
 
     @Override
-    public List<Mission> getAllMissions() {
-        try(Connection connection = data.getConnection();
+    public List<Mission> getAllMissions() 
+    {
+        try(Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Mission")) {
+                ("SELECT * FROM Mission")) 
+        {
             
             ResultSet set = statement.executeQuery();
             List<Mission> missionList = new ArrayList<>();
 
-            while (set.next()) {
+            while (set.next()) 
+            {
                 missionList.add(getMissionFromSet(set));
             }
             return missionList;
         }
-        catch (SQLException ex) {
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException("Error when retrieving all missions.", ex);
         }
     }
 
     @Override
-    public List<Mission> getMissionsWithStatus(MissionStatus status) {
+    public List<Mission> getMissionsWithStatus(MissionStatus status) 
+    {
         
-        if(status == null) {
+        if(status == null) 
+        {
             throw new IllegalArgumentException("Null argument given.");
         }
-        try(Connection connection = data.getConnection();
+        try(Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Mission WHERE status = ?")) {
+                ("SELECT * FROM Mission WHERE status = ?")) 
+        {
             
             statement.setString(1, status.toString());
             ResultSet set = statement.executeQuery();
             
             List<Mission> missionList = new ArrayList<>();
 
-            while (set.next()) {
+            while (set.next()) 
+            {
                 missionList.add(getMissionFromSet(set));
             }
             return missionList;
         }
-        catch (SQLException ex) {
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException("Error when retrieving missions.", ex);
         }
     }
 
     @Override
-    public List<Mission> getMissionsWithDifficulty(MissionDifficulty difficulty) {
-                
-        if(difficulty == null) {
+    public List<Mission> getMissionsWithDifficulty(MissionDifficulty difficulty) 
+    {
+        if(difficulty == null) 
+        {
             throw new IllegalArgumentException("Null argument given.");
         }
-        try(Connection connection = data.getConnection();
+        try(Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Mission WHERE difficulty = ?")) {
-            
+                ("SELECT * FROM Mission WHERE difficulty = ?")) 
+        {
             statement.setString(1, difficulty.toString());
             ResultSet set = statement.executeQuery();
-            
             List<Mission> missionList = new ArrayList<>();
 
-            while (set.next()) {
+            while (set.next()) 
+            {
                 missionList.add(getMissionFromSet(set));
             }
             return missionList;
         }
-        catch (SQLException ex) {
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException("Error when retrieving missions.", ex);
         }
     }
         
     @Override
-    public void deleteMission(Mission mission) {
+    public void deleteMission(Mission mission) 
+    {
         checkValidation(mission);
         
-        if (mission.getId() == null) {
+        if (mission.getId() == null) 
+        {
             throw new IllegalArgumentException("Mission id is null.");
         }
         
-        try(Connection connection = data.getConnection();
+        try(Connection connection = dataSource.getConnection();
                 PreparedStatement statement = connection.prepareStatement
-                ("DELETE FROM Mission WHERE id = ?")) {
-                        
+                ("DELETE FROM Mission WHERE id = ?")) 
+        {
             statement.setLong(1, mission.getId());
-            
             int count = statement.executeUpdate();
             
-            if(count == 0) {
+            if(count == 0) 
+            {
                 throw new EntityNotFoundException("Mission" + mission + "was not found in database!");
-            } else if (count != 1) {
+            } 
+            else if (count != 1) 
+            {
                 throw new DatabaseErrorException("Invalid deleted rows count detected (one row should be deleted):" + count);
             }
         }
-        catch (SQLException ex) {
+        catch (SQLException ex) 
+        {
             throw new DatabaseErrorException("Error when deleting mission.", ex);
         }        
     }
     
-    private void checkValidation(Mission mission) {
-        if(mission == null) {
+    private void checkValidation(Mission mission) 
+    { 
+        if(mission == null) 
+        {
             throw new IllegalArgumentException("Mission is null.");
         }
     }
     
-    private Long getKey(ResultSet keyRS, Mission mission) throws DatabaseErrorException, SQLException {
+    private Long getKey(ResultSet keyRS, Mission mission) throws DatabaseErrorException, SQLException 
+    {
         if(keyRS.next()) {
-            if (keyRS.getMetaData().getColumnCount() != 1) {
+            if (keyRS.getMetaData().getColumnCount() != 1) 
+            {
                 throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission: "
                                                  + mission + ", wrong column count: " + keyRS.getMetaData().getColumnCount());
             }
             Long result = keyRS.getLong(1);
-            if (keyRS.next()) {
+            if (keyRS.next()) 
+            {
                 throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission: " +
                                                  mission + ", multiple keys found.");
             }
             return result;
         }
-        else {
+        else 
+        {
             throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission " +
                                              mission + ", no key found.");
         }
     }
 
-    private Mission getMissionFromSet(ResultSet set) throws SQLException {
+    private Mission getMissionFromSet(ResultSet set) throws SQLException 
+    {
         Mission mission = new Mission();
         mission.setId(set.getLong("id"));
         mission.setDescription(set.getString("description"));

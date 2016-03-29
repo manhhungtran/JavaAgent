@@ -9,32 +9,39 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Tran Manh Hung (433556), Filip Petrovic (422334)
  */
-public class AssignmentManagerImplTest
+public class AssignmentManagerImplTest extends SetupBaseTest
 {
     private AssignmentManager manager;
-    private DataSource dataSource;
+    private Assignment first;
+    private Assignment second;
+    private Assignment third;
 
     @Before
     public void setUp() throws SQLException
     {
-        dataSource = prepareDataSource();
+        dataSource = prepareDataSource("memory:agentmanagerimpl-test");
         executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
         manager = new AssignmentManagerImpl(dataSource);
-    }
     
-    @After
-    public void tearDown() throws SQLException
-    {
-        executeSqlScript(dataSource, AssignmentManager.class.getResource("dropTables.sql"));
+        Mission mission = createMission(1L, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        Agent agentfirst = createAgent(1L, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent agentsecond = createAgent(2L, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent agentthird = createAgent(3L, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        
+        first = createAssignment(null, agentfirst, mission);
+        second = createAssignment(null, agentsecond, mission);
+        third = createAssignment(null, agentthird, mission);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -43,59 +50,19 @@ public class AssignmentManagerImplTest
         manager.addAssignment(null);
     }
     
-    private static DataSource prepareDataSource() throws SQLException
+    @Test
+    public void testAddAssignment()
     {
-        EmbeddedDataSource dataSource = new EmbeddedDataSource();
-        dataSource.setDatabaseName("memory:assignmentmanagerimpl-test");
-        dataSource.setCreateDatabase("create");
-        return dataSource;
+        manager.addAssignment(first);
+        assertNotNull("Saved assignment has null ID", first.getId());
+        List<Assignment> result = manager.getAssignmentsForAgent(first.getAgent());
+        assertEquals("Retrieved assignment differs from the saved one", first.getId(), result.get(0).getId());
     }
     
-    private static String[] readSqlStatements(URL url)
+    @Test
+    public void testUpdateAssignment()
     {
-        try(InputStreamReader reader = new InputStreamReader(url.openStream(), "UTF-8"))
-        {
-            char buffer[] = new char[256];
-            StringBuilder result = new StringBuilder();
-            
-            while(true)
-            {
-                int count = reader.read(buffer);
-                if(count < 0)
-                {
-                    break;
-                }
-                result.append(buffer, 0, count);
-            }
-            return result.toString().split(";");
-        }
-        catch(IOException ex)
-        {
-            throw new RuntimeException("Cannot read SQL statement: " + url, ex);
-        }
-    }
-    
-    private static void executeSqlScript(DataSource dataSource, URL scriptUrl) throws SQLException
-    {
-        try(Connection connection = dataSource.getConnection())
-        {
-            for(String sqlStatement : readSqlStatements(scriptUrl))
-            {
-                if(!sqlStatement.trim().isEmpty()) 
-                {
-                    connection.prepareStatement(sqlStatement).executeUpdate();
-                }
-            }
-        }
-    }
-    
-    private static Assignment createAssignment(Long id, Agent agent, Mission mission)
-    {
-        Assignment assignment = new Assignment();
-        assignment.setId(id);
-        assignment.setAgent(agent);
-        assignment.setMission(mission);
         
-        return assignment;
     }
+    
 }

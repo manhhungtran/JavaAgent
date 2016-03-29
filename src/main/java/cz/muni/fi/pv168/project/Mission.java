@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
- * @author Tran Manh Hung 433556
+ * @author Tran Manh Hung (433556)
  */
-public class Mission {
+public class Mission 
+{
     private Long id;
     private String description;
     private LocalDate start;
@@ -15,27 +15,33 @@ public class Mission {
     private MissionDifficulty difficulty;
     private MissionStatus status;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }  
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public LocalDate getStart() {
+    public LocalDate getStart()
+    {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(LocalDate start)
+    {
         this.start = start;
     }
 
@@ -43,28 +49,34 @@ public class Mission {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(int duration)
+    {
         this.duration = duration;
     }
 
-    public MissionDifficulty getDifficulty() {
+    public MissionDifficulty getDifficulty()
+    {
         return difficulty;
     }
 
-    public void setDifficulty(MissionDifficulty difficulty) {
+    public void setDifficulty(MissionDifficulty difficulty)
+    {
         this.difficulty = difficulty;
     }
 
-    public MissionStatus getStatus() {
+    public MissionStatus getStatus()
+    {
         return status;
     }
 
-    public void setStatus(MissionStatus status) {
+    public void setStatus(MissionStatus status)
+    {
         this.status = status;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         if(id == null)
             return 0;
         
@@ -74,14 +86,18 @@ public class Mission {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
+        {
             return false;
         }
         final Mission other = (Mission) obj;
@@ -89,7 +105,8 @@ public class Mission {
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "Mission{" + "id=" + id + ", description=" + description + ", start=" + start + ", duration=" + duration + ", difficulty=" + difficulty + ", status=" + status + '}';
     }
 }

@@ -4,10 +4,10 @@ import java.util.List;
 
 /**
  *
- * @author Tran Manh Hung 433556
+ * @author Tran Manh Hung (433556)
  */
-public interface MissionManager {
-    
+public interface MissionManager 
+{
     /**
      * Add mission into collection
      * @param mission Mission that will be added

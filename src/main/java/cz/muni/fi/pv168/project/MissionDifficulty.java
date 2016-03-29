@@ -2,10 +2,10 @@
 package cz.muni.fi.pv168.project;
 
 /**
- *
  * @author ...
  */
-public enum MissionDifficulty {
+public enum MissionDifficulty 
+{
     EASY,
     MEDIUM,
     HARD,

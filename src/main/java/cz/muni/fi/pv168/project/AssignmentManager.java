@@ -33,7 +33,25 @@ public interface AssignmentManager
      */
     void deleteAssignment(Assignment assignment);
     
+    /**
+     * Get all missions
+     * @return Collection of all assignments in database
+     */
     List<Assignment> getAllAssignments();
+
+    /**
+     * Get collection of assignments based on mission
+     * @param mission
+     * @return Collection of assignments
+     * @throws DatabaseErrorException when database error occurs
+     */
     List<Assignment> getAssignmentsForMission(Mission mission);
+    
+    /**
+     * Get collection of assignments based on agent
+     * @param agent
+     * @return Collection of assignments
+     * @throws DatabaseErrorException when database error occurs
+     */
     List<Assignment> getAssignmentsForAgent(Agent agent);
 }
