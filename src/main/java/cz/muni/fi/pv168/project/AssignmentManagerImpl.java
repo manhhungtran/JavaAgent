@@ -131,11 +131,48 @@ public class AssignmentManagerImpl implements AssignmentManager
     }
     
     @Override
+    public Assignment getAssignment(Long id)
+    {
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement
+            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
+             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
+             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId"))
+        {
+            statement.setLong(1, id);
+            ResultSet set = statement.executeQuery();
+
+            if(set.next())
+            {
+                Assignment assignment = getAssignmentFromSet(set);
+
+                if(set.next())
+                {
+                    throw new DatabaseErrorException("Error: More entities with same id found, source id: " +
+                                                     id + ", found: " + assignment + " and " + getAssignmentFromSet(set));
+                }
+
+                return assignment;
+            }
+            else
+            {
+                throw new EntityNotFoundException("Assignment with id <" + id + "> was not found in database.");
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new DatabaseErrorException("Error when retrieving assignment with id: " + id, ex);
+        }
+    }
+    
+    @Override
     public List<Assignment> getAllAssignments() 
     {
         try(Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Assignment")) 
+            PreparedStatement statement = connection.prepareStatement
+            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
+             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
+             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId"))
         {
             ResultSet set = statement.executeQuery();
             List<Assignment> assignmentList = new ArrayList<>();
@@ -156,8 +193,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     public List<Assignment> getAssignmentsForMission(Mission mission) 
     {
         try(Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Assignment WHERE mission = ?")) 
+            PreparedStatement statement = connection.prepareStatement
+            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
+             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
+             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId" +
+             "WHERE Mission.id = ?"))
         {
             statement.setObject(1, mission.getId());
             ResultSet set = statement.executeQuery();
@@ -179,8 +219,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     public List<Assignment> getAssignmentsForAgent(Agent agent) 
     {
         try(Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Assignment WHERE agent = ?")) 
+            PreparedStatement statement = connection.prepareStatement
+            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
+             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
+             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId" +
+             "WHERE Agent.id = ?"))
         {
             statement.setObject(1, agent.getId());
             ResultSet set = statement.executeQuery();
@@ -242,13 +285,25 @@ public class AssignmentManagerImpl implements AssignmentManager
     
     private Assignment getAssignmentFromSet(ResultSet set) throws SQLException
     {
-        MissionManager mission = new MissionManagerImpl(dataSource);
-        AgentManager agent = new AgentManagerImpl(dataSource);
-        Assignment assignment = new Assignment();
+        Agent agent = new Agent();
+        agent.setId(set.getLong("Agent.id"));
+        agent.setAlias(set.getString("Agent.alias"));
+        agent.setStatus(AgentStatus.valueOf(set.getString("Agent.status")));
+        agent.setExperience(AgentExperience.valueOf(set.getString("Agent.experience")));
         
+        Mission mission = new Mission();
+        mission.setId(set.getLong("Mission.id"));
+        mission.setDescription(set.getString("Mission.description"));
+        mission.setDifficulty(MissionDifficulty.valueOf(set.getString("Mission.difficulty")));
+        mission.setStatus(MissionStatus.valueOf(set.getString("Mission.status")));
+        mission.setDuration(set.getInt("Mission.duration"));
+        mission.setStart(set.getDate("Mission.start").toLocalDate());
+        
+        Assignment assignment = new Assignment();
         assignment.setId(set.getLong("id"));
-        assignment.setAgent(agent.getAgent(set.getLong("agent")));
-        assignment.setMission(mission.getMission(set.getLong("mission")));
+        assignment.setAgent(agent);
+        assignment.setMission(mission);
+        
         return assignment;
     }
 }

@@ -34,7 +34,16 @@ public interface AssignmentManager
     void deleteAssignment(Assignment assignment);
     
     /**
-     * Get all missions
+     * Returns existing assignment with given id.
+     * @param id Id of an assignment to be returned.
+     * @return Existing assignment with given id.
+     * @throws DatabaseErrorException when database error occurs.
+     * @throws EntityNotFoundException when assignment with given id doesn't exist.
+     */
+    Assignment getAssignment(Long id);
+    
+    /**
+     * Get all assignments
      * @return Collection of all assignments in database
      */
     List<Assignment> getAllAssignments();
