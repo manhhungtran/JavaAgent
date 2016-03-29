@@ -49,7 +49,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         agentThree = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
         
         missionOne = createMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        missionOne = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), 500, MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
+        missionTwo = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), 500, MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
         
         first = createAssignment(null, agentOne, missionOne);
         second = createAssignment(null, agentTwo, missionOne);
@@ -117,21 +117,48 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         agentManager.addAgent(agentTwo);
         agentManager.addAgent(agentThree);
         missionManager.addMission(missionOne);
+        assignmentManager.addAssignment(first);
+        assignmentManager.addAssignment(second);
+        List<Assignment> result = assignmentManager.getAllAssignments();
+        
+        assertTrue(result.size() == 2);
+        assertTrue(result.contains(first));
+        assertTrue(result.contains(second));
+    }
+    
+    @Test
+    public void testGetAssignmentsForAgent() 
+    {
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        agentManager.addAgent(agentThree);
+        missionManager.addMission(missionOne);
         missionManager.addMission(missionTwo);
         assignmentManager.addAssignment(first);
         assignmentManager.addAssignment(second);
         assignmentManager.addAssignment(third);
-        List<Assignment> result = assignmentManager.getAllAssignments();
+        List<Assignment> result = assignmentManager.getAssignmentsForAgent(agentOne);
         
-        assertTrue(result.size() == 3);
+        assertTrue(result.size() == 1);
         assertTrue(result.contains(first));
-        assertTrue(result.contains(second));
-        assertTrue(result.contains(third));
+        assertTrue(!result.contains(second));
     }
     
     @Test
-    public void testGetAssignment() 
+    public void testGetAssignmentsForMission() 
     {
-    
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        agentManager.addAgent(agentThree);
+        missionManager.addMission(missionOne);
+        missionManager.addMission(missionTwo);
+        assignmentManager.addAssignment(first);
+        assignmentManager.addAssignment(second);
+        assignmentManager.addAssignment(third);
+        List<Assignment> result = assignmentManager.getAssignmentsForMission(missionOne);
+        
+        assertTrue(result.size() == 2);
+        assertTrue(result.contains(first));
+        assertTrue(result.contains(second));
     }
 }

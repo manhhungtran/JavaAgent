@@ -172,9 +172,10 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
-             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
-             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId"))
+            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
+             "INNER JOIN Mission ON Mission.id = missionId "))
         {
             ResultSet set = statement.executeQuery();
             List<Assignment> assignmentList = new ArrayList<>();
@@ -196,9 +197,10 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
-             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
-             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId" +
+            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
+             "INNER JOIN Mission ON Mission.id = missionId " +
              "WHERE Mission.id = ?"))
         {
             statement.setObject(1, mission.getId());
@@ -222,9 +224,10 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,Agent.id,Agent.alias,Agent.status,Agent.experience," +
-             "Mission.id,Mission.description,Mission.start,Mission.duration,Mission.difficulty,Mission.status" +
-             "FROM Agent JOIN Assignment ON Agent.id = Assignment.agentId JOIN Mission ON Mission.id = Assignment.missionId" +
+            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
+             "INNER JOIN Mission ON Mission.id = missionId " +
              "WHERE Agent.id = ?"))
         {
             statement.setObject(1, agent.getId());
