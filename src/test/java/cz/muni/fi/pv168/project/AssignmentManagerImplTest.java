@@ -74,8 +74,8 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         
         assertNotNull("Saved assignment has null ID.", first.getId());
         
-        List<Assignment> result = assignmentManager.getAssignmentsForAgent(first.getAgent());
-        assertEquals("Retrieved assignment differs from the saved one.", first.getId(), result.get(0).getId());
+        Assignment result = assignmentManager.getAssignment(first.getId());
+        assertEquals("Retrieved assignment differs from the saved one.", first.getId(), result.getId());
     }
     
     @Test
@@ -91,6 +91,12 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     
     @Test
     public void deleteAssignment()
+    {
+        
+    }
+    
+    @Test
+    public void getAssignment()
     {
         
     }
