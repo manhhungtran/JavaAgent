@@ -163,7 +163,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
         catch (SQLException ex)
         {
-            throw new DatabaseErrorException(ex.getMessage() + "Error when retrieving assignment with id: " + id, ex);
+            throw new DatabaseErrorException("Error when retrieving assignment with id: " + id, ex);
         }
     }
     
