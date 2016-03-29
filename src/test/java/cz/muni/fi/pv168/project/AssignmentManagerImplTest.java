@@ -84,4 +84,28 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         
     }
     
+    @Test
+    public void testGetAllAssignments() 
+    {
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        agentManager.addAgent(agentThree);
+        missionManager.addMission(missionOne);
+        missionManager.addMission(missionTwo);
+        assignmentManager.addAssignment(first);
+        assignmentManager.addAssignment(second);
+        assignmentManager.addAssignment(third);
+        List<Assignment> result = assignmentManager.getAllAssignments();
+        
+        assertTrue(result.size() == 3);
+        assertTrue(result.contains(first));
+        assertTrue(result.contains(second));
+        assertTrue(result.contains(third));
+    }
+    
+    @Test
+    public void testGetAssignment() 
+    {
+    
+    }
 }
