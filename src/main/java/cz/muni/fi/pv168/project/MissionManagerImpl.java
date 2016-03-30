@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 /**
  * @author Tran Manh Hung (433556) 
  */
+import java.sql.Date;
 public class MissionManagerImpl implements MissionManager 
 {
     
@@ -38,7 +39,7 @@ public class MissionManagerImpl implements MissionManager
         {
             
             statement.setString(1, mission.getDescription());
-            statement.setString(2, mission.getStart().toString());
+            statement.setDate(2, Date.valueOf(mission.getStart()));
             statement.setInt(3, mission.getDuration());
             statement.setString(4, mission.getDifficulty().name());
             statement.setString(5, mission.getStatus().name());
@@ -75,7 +76,7 @@ public class MissionManagerImpl implements MissionManager
         {
 
             statement.setString(1, mission.getDescription());   
-            statement.setString(2, mission.getStart().toString());
+            statement.setDate(2, Date.valueOf(mission.getStart()));
             statement.setInt(3, mission.getDuration());
             statement.setString(4, mission.getDifficulty().name());
             statement.setString(5, mission.getStatus().name());
@@ -249,6 +250,21 @@ public class MissionManagerImpl implements MissionManager
         if(mission == null) 
         {
             throw new IllegalArgumentException("Mission is null.");
+        }
+        
+        if(mission.getStart() == null)
+        {
+            throw new IllegalArgumentException("Start date is null.");
+        }
+        
+        if(mission.getDifficulty() == null)
+        {
+            throw new IllegalArgumentException("Difficulty is null.");
+        }
+        
+        if(mission.getStatus() == null)
+        {
+            throw new IllegalArgumentException("Status is null.");
         }
     }
     
