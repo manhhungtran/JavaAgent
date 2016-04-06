@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Mission 
 {
     private Long id;
-    private String description;
+    private String description = "";
     private LocalDate start;
     private int duration;
     private MissionDifficulty difficulty;

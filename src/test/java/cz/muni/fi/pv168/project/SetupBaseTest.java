@@ -13,7 +13,7 @@ import org.junit.After;
 /**
  * @author Tran Manh Hung (433556), Filip Petrovic (422334)
  */
-public class SetupBaseTest {
+public abstract class SetupBaseTest {
         
     protected DataSource dataSource;
     
