@@ -26,12 +26,12 @@ public interface AgentManager
     
     /**
      * Deletes existing agent.
-     * @param agent Agent to be deleted.
+     * @param id Id of an agent to be deleted.
      * @throws IllegalArgumentException when agent is null or agent id is null.
      * @throws DatabaseErrorException when database error occurs.
      * @throws EntityNotFoundException when agent with given id doesn't exist.
      */
-    void deleteAgent(Agent agent);
+    void deleteAgent(Long id);
     
     /**
      * Returns existing agent with given id.

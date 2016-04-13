@@ -99,13 +99,9 @@ public class AgentManagerImpl implements AgentManager
     }
     
     @Override
-    public void deleteAgent(Agent agent)
+    public void deleteAgent(Long id)
     {
-        if(agent == null)
-        {
-            throw new IllegalArgumentException("Agent is null.");
-        }
-        if(agent.getId() == null)
+        if(id == null)
         {
             throw new IllegalArgumentException("Agent id is null.");
         }
@@ -114,12 +110,12 @@ public class AgentManagerImpl implements AgentManager
             PreparedStatement statement = connection.prepareStatement
             ("DELETE FROM Agent WHERE id = ?"))
         {
-            statement.setLong(1, agent.getId());
+            statement.setLong(1, id);
 
             int deletedRows = statement.executeUpdate();
             if(deletedRows == 0)
             {
-                throw new EntityNotFoundException(agent + " was not found in database.");
+                throw new EntityNotFoundException("Agent with id <" + id + "> was not found in database.");
             }
             else if(deletedRows > 1)
             {
@@ -128,7 +124,7 @@ public class AgentManagerImpl implements AgentManager
         }
         catch(SQLException ex)
         {
-            throw new DatabaseErrorException("Error when deleting agent: " + agent, ex);
+            throw new DatabaseErrorException("Error when deleting agent with id: " + id, ex);
         }
     }
     

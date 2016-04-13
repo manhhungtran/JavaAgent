@@ -78,7 +78,7 @@ public class AgentManagerImplTest extends SetupBaseTest
         assertThat(manager.getAgent(first.getId())).isNotNull();
         assertThat(manager.getAgent(second.getId())).isNotNull();
 
-        manager.deleteAgent(first);
+        manager.deleteAgent(first.getId());
 
         assertThat(manager.getAgent(second.getId())).isNotNull();
         
