@@ -102,7 +102,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         assertThat(assignmentManager.getAssignment(first.getId())).isNotNull();
         assertThat(assignmentManager.getAssignment(second.getId())).isNotNull();
 
-        assignmentManager.deleteAssignment(first);
+        assignmentManager.deleteAssignment(first.getId());
 
         assertThat(assignmentManager.getAssignment(second.getId())).isNotNull();
         

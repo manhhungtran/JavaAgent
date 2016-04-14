@@ -26,12 +26,12 @@ public interface AssignmentManager
     
     /**
      * Deletes existing assignment.
-     * @param assignment Assignment to be deleted.
+     * @param id Id of an assignment to be deleted.
      * @throws IllegalArgumentException when assignment is null or assignment id is null.
      * @throws DatabaseErrorException when database error occurs.
      * @throws EntityNotFoundException when assignment with given id doesn't exist.
      */
-    void deleteAssignment(Assignment assignment);
+    void deleteAssignment(Long id);
     
     /**
      * Returns existing assignment with given id.

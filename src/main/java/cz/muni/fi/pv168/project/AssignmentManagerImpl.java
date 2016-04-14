@@ -97,13 +97,9 @@ public class AssignmentManagerImpl implements AssignmentManager
     }
     
     @Override
-    public void deleteAssignment(Assignment assignment)
+    public void deleteAssignment(Long id)
     {
-        if(assignment == null)
-        {
-            throw new IllegalArgumentException("Assignment is null.");
-        }
-        if(assignment.getId() == null)
+        if(id == null)
         {
             throw new IllegalArgumentException("Assignment id is null.");
         }
@@ -112,12 +108,12 @@ public class AssignmentManagerImpl implements AssignmentManager
             PreparedStatement statement = connection.prepareStatement
             ("DELETE FROM Assignment WHERE id = ?"))
         {
-            statement.setLong(1, assignment.getId());
+            statement.setLong(1, id);
 
             int deletedRows = statement.executeUpdate();
             if(deletedRows == 0)
             {
-                throw new EntityNotFoundException(assignment + " was not found in database.");
+                throw new EntityNotFoundException("Assignment with id <" + id + "> was not found in database.");
             }
             else if(deletedRows > 1)
             {
@@ -126,7 +122,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
         catch(SQLException ex)
         {
-            throw new DatabaseErrorException("Error when deleting assignment: " + assignment, ex);
+            throw new DatabaseErrorException("Error when deleting assignment with id: " + id, ex);
         }
     }
     

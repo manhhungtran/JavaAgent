@@ -23,6 +23,11 @@ public class Main
         return dataSource;
     }
     
+    public static void deleteMemoryDatabase(DataSource dataSource) throws SQLException
+    {
+        executeSqlScript(dataSource, AgentManager.class.getResource("dropTables.sql"));
+    }
+    
     protected static DataSource prepareDataSource(String dbName) throws SQLException
     {
         EmbeddedDataSource dataSource = new EmbeddedDataSource();
