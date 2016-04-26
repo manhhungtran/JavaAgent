@@ -9,12 +9,25 @@ import java.util.Objects;
 public class Mission 
 {
     private Long id;
-    private String description = "";
+    private String description;
     private LocalDate start;
     private int duration;
     private MissionDifficulty difficulty;
     private MissionStatus status;
 
+    public Mission() {
+    }
+
+    public Mission(Long id, String description, LocalDate start, int duration, MissionDifficulty difficulty, MissionStatus status) {
+        this.id = id;
+        this.description = description;
+        this.start = start;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.status = status;
+    }
+    
+    
     public Long getId()
     {
         return id;

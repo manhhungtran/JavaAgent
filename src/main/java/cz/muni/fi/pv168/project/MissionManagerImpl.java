@@ -1,27 +1,41 @@
 package cz.muni.fi.pv168.project;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
  * @author Tran Manh Hung (433556) 
  */
-import java.sql.Date;
 public class MissionManagerImpl implements MissionManager 
 {
     
-    private DataSource dataSource;
+    private final JdbcTemplate jdbc;
+    private final DataSource dataSource;
     
-    public MissionManagerImpl(DataSource data) 
+    public MissionManagerImpl(DataSource dataSource) 
     {
-        this.dataSource = data;
+        this.dataSource = dataSource;
+        this.jdbc = new JdbcTemplate(dataSource);
     }
+    
+    private final RowMapper<Mission> missionMapper = (rs, rowNum) ->
+            new Mission(rs.getLong("id"), 
+                    rs.getString("description"), 
+                    rs.getDate("start").toLocalDate(), 
+                    rs.getInt("duration"), 
+                    MissionDifficulty.valueOf(rs.getString("difficulty")), 
+                    MissionStatus.valueOf(rs.getString("status"))); 
     
     @Override
     public void addMission(Mission mission) 
@@ -32,32 +46,19 @@ public class MissionManagerImpl implements MissionManager
         {
             throw new IllegalArgumentException("Mission id is already set.");
         }
+                
+        SimpleJdbcInsert insertMission = new SimpleJdbcInsert(jdbc)
+                .withTableName("Mission").usingGeneratedKeyColumns("id");
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("description", mission.getDescription())
+                .addValue("start", Date.valueOf(mission.getStart()))
+                .addValue("duration", mission.getDuration())
+                .addValue("difficulty", mission.getDifficulty().name())
+                .addValue("status", mission.getStatus().name())
+                ;
         
-        try (Connection connection = dataSource.getConnection(); 
-                PreparedStatement statement = connection.prepareStatement
-        ("INSERT INTO Mission (description, start, duration, difficulty, status) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) 
-        {
-            
-            statement.setString(1, mission.getDescription());
-            statement.setDate(2, Date.valueOf(mission.getStart()));
-            statement.setInt(3, mission.getDuration());
-            statement.setString(4, mission.getDifficulty().name());
-            statement.setString(5, mission.getStatus().name());
-
-            int count = statement.executeUpdate();
-            if(count != 1) 
-            {
-                throw new DatabaseErrorException("Error: More rows were inserted when trying to insert mission: " + mission);
-            }
-                    
-            ResultSet keyRS = statement.getGeneratedKeys();
-            mission.setId(getKey(keyRS, mission));
-            
-        }
-        catch(SQLException ex) 
-        {
-           throw new DatabaseErrorException("Error when inserting mission: " + mission, ex);
-        }
+        Number id = insertMission.executeAndReturnKey(parameters);
+        mission.setId(id.longValue());
     }
 
     @Override
@@ -70,96 +71,41 @@ public class MissionManagerImpl implements MissionManager
             throw new IllegalArgumentException("Mission id is null.");
         }
         
-        try (Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-        ("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?")) 
+        int count = jdbc.update("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?",
+                mission.getDescription(),
+                Date.valueOf(mission.getStart()),
+                mission.getDuration(),
+                mission.getDifficulty().name(),
+                mission.getStatus().name(),
+                mission.getId()
+        );
+        
+        if (count == 0) 
         {
-
-            statement.setString(1, mission.getDescription());   
-            statement.setDate(2, Date.valueOf(mission.getStart()));
-            statement.setInt(3, mission.getDuration());
-            statement.setString(4, mission.getDifficulty().name());
-            statement.setString(5, mission.getStatus().name());
-            statement.setLong(6, mission.getId());
-
-            int count = statement.executeUpdate();
-            
-            if (count == 0) 
-            {
-                throw new EntityNotFoundException("Mission " + mission + " was not found in database!");
-            } 
-            else if (count != 1) 
-            {
-                throw new DatabaseErrorException("Invalid updated rows count detected (one row should be updated): " + count);
-            }
+            throw new EntityNotFoundException("Mission " + mission + " was not found in database!");
         } 
-        catch (SQLException ex) 
+        else if (count != 1) 
         {
-            throw new DatabaseErrorException(
-                    "Error when updating mission " + mission, ex);
+            throw new DatabaseErrorException("Invalid updated rows count detected (one row should be updated): " + count);
         }
     }
 
     @Override
     public Mission getMission(Long id) 
     {
-        try (Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Mission WHERE id = ?")) {
-
-            statement.setLong(1, id);
-            ResultSet set = statement.executeQuery();
-
-            if (set.next()) 
-            {
-                
-                Mission mission = getMissionFromSet(set);
-                if (set.next()) 
-                {
-                    throw new DatabaseErrorException(
-                            "Internal error: More entities with the same id found "
-                            + "(source id: " + id + ", found " + mission + " and " + getMissionFromSet(set));
-                }
-                return mission;
-            } 
-            else 
-            {
-                throw new DatabaseErrorException("Mission with cannot be found in database.");
-            }
-        } 
-        catch (SQLException ex) 
-        {
-            throw new DatabaseErrorException("Error when retrieving grave with id " + id, ex);
-        }
+       return jdbc.queryForObject("SELECT * FROM Mission WHERE id=?", missionMapper, id);
     }
 
     @Override
     public List<Mission> getAllMissions() 
     {
-        try(Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("SELECT * FROM Mission")) 
-        {
-            
-            ResultSet set = statement.executeQuery();
-            List<Mission> missionList = new ArrayList<>();
-
-            while (set.next()) 
-            {
-                missionList.add(getMissionFromSet(set));
-            }
-            return missionList;
-        }
-        catch (SQLException ex) 
-        {
-            throw new DatabaseErrorException("Error when retrieving all missions.", ex);
-        }
+        return jdbc.query("SELECT * FROM Mission", missionMapper);
     }
 
     @Override
     public List<Mission> getMissionsWithStatus(MissionStatus status) 
     {
-        
+                
         if(status == null) 
         {
             throw new IllegalArgumentException("Null argument given.");
@@ -188,7 +134,7 @@ public class MissionManagerImpl implements MissionManager
 
     @Override
     public List<Mission> getMissionsWithDifficulty(MissionDifficulty difficulty) 
-    {
+     {
         if(difficulty == null) 
         {
             throw new IllegalArgumentException("Null argument given.");
@@ -214,35 +160,13 @@ public class MissionManagerImpl implements MissionManager
     }
         
     @Override
-    public void deleteMission(Mission mission) 
+    public void deleteMission(Long id) 
     {
-        checkValidation(mission);
-        
-        if (mission.getId() == null) 
+        if (id == null) 
         {
             throw new IllegalArgumentException("Mission id is null.");
         }
-        
-        try(Connection connection = dataSource.getConnection();
-                PreparedStatement statement = connection.prepareStatement
-                ("DELETE FROM Mission WHERE id = ?")) 
-        {
-            statement.setLong(1, mission.getId());
-            int count = statement.executeUpdate();
-            
-            if(count == 0) 
-            {
-                throw new EntityNotFoundException("Mission" + mission + "was not found in database!");
-            } 
-            else if (count != 1) 
-            {
-                throw new DatabaseErrorException("Invalid deleted rows count detected (one row should be deleted):" + count);
-            }
-        }
-        catch (SQLException ex) 
-        {
-            throw new DatabaseErrorException("Error when deleting mission.", ex);
-        }        
+        jdbc.update("DELETE FROM Mission WHERE id=?", id);       
     }
     
     private void checkValidation(Mission mission) 
@@ -265,29 +189,6 @@ public class MissionManagerImpl implements MissionManager
         if(mission.getStatus() == null)
         {
             throw new IllegalArgumentException("Status is null.");
-        }
-    }
-    
-    private Long getKey(ResultSet keyRS, Mission mission) throws DatabaseErrorException, SQLException 
-    {
-        if(keyRS.next()) {
-            if (keyRS.getMetaData().getColumnCount() != 1) 
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission: "
-                                                 + mission + ", wrong column count: " + keyRS.getMetaData().getColumnCount());
-            }
-            Long result = keyRS.getLong(1);
-            if (keyRS.next()) 
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission: " +
-                                                 mission + ", multiple keys found.");
-            }
-            return result;
-        }
-        else 
-        {
-            throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert mission " +
-                                             mission + ", no key found.");
         }
     }
 

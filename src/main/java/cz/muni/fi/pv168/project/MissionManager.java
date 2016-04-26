@@ -58,10 +58,10 @@ public interface MissionManager
     
     /**
      * Deletes mission
-     * @param mission Mission to be deleted
+     * @param id Mission to be deleted
      * @throws IllegalArgumentException when mission or his id is null
      * @throws DatabaseErrorException when database error occurs
      * @throws EntityNotFoundException when mission with given id doesn't exist
      */
-    void deleteMission(Mission mission);
+    void deleteMission(Long id);
 }
