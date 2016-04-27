@@ -1,26 +1,26 @@
 ----------------------------------------------------------------
-Wed Apr 27 10:42:00 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-56e1-cfcb-00000e381f00 
-on database directory memory:C:\Users\harbr\Documents\NetBeansProjects\pv168-project\agentmanagerimpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
-Loaded from file:/C:/Users/harbr/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+Wed Apr 27 10:56:32 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-56ef-1f4d-00000600bbf0 
+on database directory memory:D:\FI MUNI\Semester VI\PV168\project\agentmanagerimpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
+Loaded from file:/C:/Users/Fillo/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_73-b02
-user.dir=C:\Users\harbr\Documents\NetBeansProjects\pv168-project
-os.name=Windows 10
+java.runtime.version=1.8.0_60-b27
+user.dir=D:\FI MUNI\Semester VI\PV168\project
+os.name=Windows 7
 os.arch=amd64
-os.version=10.0
+os.version=6.1
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Apr 27 10:42:02 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance 5e8cc31e-0154-56e1-cfcb-00000e381f00 
-on database directory memory:C:\Users\harbr\Documents\NetBeansProjects\pv168-project\missionmanagerimpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
-Loaded from file:/C:/Users/harbr/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+Wed Apr 27 10:56:40 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance 5e8cc31e-0154-56ef-1f4d-00000600bbf0 
+on database directory memory:D:\FI MUNI\Semester VI\PV168\project\missionmanagerimpl-test with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
+Loaded from file:/C:/Users/Fillo/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_73-b02
-user.dir=C:\Users\harbr\Documents\NetBeansProjects\pv168-project
-os.name=Windows 10
+java.runtime.version=1.8.0_60-b27
+user.dir=D:\FI MUNI\Semester VI\PV168\project
+os.name=Windows 7
 os.arch=amd64
-os.version=10.0
+os.version=6.1
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
