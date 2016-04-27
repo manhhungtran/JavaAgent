@@ -70,7 +70,8 @@ public class MissionManagerImpl implements MissionManager
             throw new IllegalArgumentException("Mission id is null.");
         }
         
-        int count = jdbc.update("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?",
+        int count = jdbc.update("UPDATE Mission SET codename = ?, description = ?, start = ?, difficulty = ?, status = ? WHERE id = ?",
+                mission.getCodename(),
                 mission.getDescription(),
                 Date.valueOf(mission.getStart()),
                 mission.getDifficulty().name(),

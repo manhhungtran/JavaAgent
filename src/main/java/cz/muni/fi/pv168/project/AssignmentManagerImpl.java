@@ -132,7 +132,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
             ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
              "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
              "INNER JOIN Mission ON Mission.id = missionId " +
              "WHERE Assignment.id = ?"))
@@ -169,7 +169,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
             ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus,  mission.codename as mcodename, mission.start as mstart " +
              "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
              "INNER JOIN Mission ON Mission.id = missionId "))
         {
@@ -194,7 +194,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
             ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
              "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
              "INNER JOIN Mission ON Mission.id = missionId " +
              "WHERE Mission.id = ?"))
@@ -221,7 +221,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement
             ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.duration as mduration, mission.start as mstart " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
              "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
              "INNER JOIN Mission ON Mission.id = missionId " +
              "WHERE Agent.id = ?"))
@@ -295,6 +295,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         Mission mission = new Mission();
         mission.setId(set.getLong("mid"));
         mission.setDescription(set.getString("mdescription"));
+        mission.setCodename(set.getString("mcodename"));
         mission.setDifficulty(MissionDifficulty.valueOf(set.getString("mdifficulty")));
         mission.setStatus(MissionStatus.valueOf(set.getString("mstatus")));
         mission.setStart(set.getDate("mstart").toLocalDate());

@@ -7,9 +7,9 @@ CREATE TABLE Agent (
 
 CREATE TABLE Mission (
     Id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    Description VARCHAR(200),
+    Codename VARCHAR(100),
+    Description VARCHAR(1000),
     Start DATE,
-    Duration INTEGER,
     Difficulty VARCHAR(30),
     Status VARCHAR(30)
 );
