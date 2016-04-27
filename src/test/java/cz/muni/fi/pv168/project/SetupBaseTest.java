@@ -79,13 +79,12 @@ public abstract class SetupBaseTest {
         return agent;
     }
     
-    protected static Mission createMission(Long id, String description, LocalDate start, int duration, MissionDifficulty difficulty, MissionStatus status) {
+    protected static Mission createMission(Long id, String description, LocalDate start, MissionDifficulty difficulty, MissionStatus status) {
         Mission mission = new Mission();
         mission.setId(id);
         mission.setDescription(description);
         mission.setDifficulty(difficulty);
         mission.setDescription(description);
-        mission.setDuration(duration);
         mission.setStart(start);  
         mission.setStatus(status);
         return mission;

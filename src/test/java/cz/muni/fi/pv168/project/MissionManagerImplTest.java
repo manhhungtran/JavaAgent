@@ -24,11 +24,11 @@ public class MissionManagerImplTest extends SetupBaseTest
         dataSource = prepareDataSource("memory:missionmanagerimpl-test");
         executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
         manager = new MissionManagerImpl(dataSource);
-        first = createMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        second = createMission(null, "Testing Mission.", LocalDate.now(), 5000, MissionDifficulty.HARD, MissionStatus.FAILED);
-        third = createMission(null, "Testing Mission.", LocalDate.now(), 5, MissionDifficulty.EASY, MissionStatus.ONGOING);
-        fourth = createMission(null, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.EASY, MissionStatus.SUCCEDED);
-        fifth = createMission(null, "Testing Mission.", LocalDate.now(), 50, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        first = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        second = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.HARD, MissionStatus.FAILED);
+        third = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.EASY, MissionStatus.ONGOING);
+        fourth = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.EASY, MissionStatus.SUCCEDED);
+        fifth = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
     }
 
     /**
@@ -194,7 +194,7 @@ public class MissionManagerImplTest extends SetupBaseTest
         manager.addMission(first);
         manager.addMission(second);
         
-        manager.deleteMission(first);
+        manager.deleteMission(first.getId());
 
         assertTrue(!manager.getAllMissions().contains(first));
     }

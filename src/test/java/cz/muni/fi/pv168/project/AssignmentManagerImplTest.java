@@ -48,8 +48,8 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         agentTwo = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.MASTER);
         agentThree = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
         
-        missionOne = createMission(null, "Testing Mission.", LocalDate.now(), 500, MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        missionTwo = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), 500, MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
+        missionOne = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        missionTwo = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
         
         first = createAssignment(null, agentOne, missionOne);
         second = createAssignment(null, agentTwo, missionOne);

@@ -297,7 +297,6 @@ public class AssignmentManagerImpl implements AssignmentManager
         mission.setDescription(set.getString("mdescription"));
         mission.setDifficulty(MissionDifficulty.valueOf(set.getString("mdifficulty")));
         mission.setStatus(MissionStatus.valueOf(set.getString("mstatus")));
-        mission.setDuration(set.getInt("mduration"));
         mission.setStart(set.getDate("mstart").toLocalDate());
         
         Assignment assignment = new Assignment();

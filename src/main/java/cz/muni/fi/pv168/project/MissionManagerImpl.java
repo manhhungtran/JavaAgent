@@ -31,9 +31,9 @@ public class MissionManagerImpl implements MissionManager
     
     private final RowMapper<Mission> missionMapper = (rs, rowNum) ->
             new Mission(rs.getLong("id"), 
+                    rs.getString("codename"),
                     rs.getString("description"), 
                     rs.getDate("start").toLocalDate(), 
-                    rs.getInt("duration"), 
                     MissionDifficulty.valueOf(rs.getString("difficulty")), 
                     MissionStatus.valueOf(rs.getString("status"))); 
     
@@ -52,7 +52,6 @@ public class MissionManagerImpl implements MissionManager
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("description", mission.getDescription())
                 .addValue("start", Date.valueOf(mission.getStart()))
-                .addValue("duration", mission.getDuration())
                 .addValue("difficulty", mission.getDifficulty().name())
                 .addValue("status", mission.getStatus().name())
                 ;
@@ -74,7 +73,6 @@ public class MissionManagerImpl implements MissionManager
         int count = jdbc.update("UPDATE Mission SET description = ?, start = ?, duration = ?, difficulty = ?, status = ? WHERE id = ?",
                 mission.getDescription(),
                 Date.valueOf(mission.getStart()),
-                mission.getDuration(),
                 mission.getDifficulty().name(),
                 mission.getStatus().name(),
                 mission.getId()
@@ -199,7 +197,6 @@ public class MissionManagerImpl implements MissionManager
         mission.setDescription(set.getString("description"));
         mission.setDifficulty(MissionDifficulty.valueOf(set.getString("difficulty")));
         mission.setStatus(MissionStatus.valueOf(set.getString("status")));
-        mission.setDuration(set.getInt("duration"));
         mission.setStart(set.getDate("start").toLocalDate());
         return mission;
     }

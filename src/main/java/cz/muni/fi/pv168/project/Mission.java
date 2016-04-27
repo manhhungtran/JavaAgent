@@ -9,20 +9,20 @@ import java.util.Objects;
 public class Mission 
 {
     private Long id;
+    private String codename;
     private String description;
     private LocalDate start;
-    private int duration;
     private MissionDifficulty difficulty;
     private MissionStatus status;
 
     public Mission() {
     }
 
-    public Mission(Long id, String description, LocalDate start, int duration, MissionDifficulty difficulty, MissionStatus status) {
+    public Mission(Long id, String codename, String description, LocalDate start, MissionDifficulty difficulty, MissionStatus status) {
         this.id = id;
+        this.codename = codename;
         this.description = description;
         this.start = start;
-        this.duration = duration;
         this.difficulty = difficulty;
         this.status = status;
     }
@@ -43,6 +43,14 @@ public class Mission
         return description;
     }
 
+    public String getCodename() {
+        return codename;
+    }
+
+    public void setCodename(String codename) {
+        this.codename = codename;
+    }
+
     public void setDescription(String description)
     {
         this.description = description;
@@ -56,15 +64,6 @@ public class Mission
     public void setStart(LocalDate start)
     {
         this.start = start;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration)
-    {
-        this.duration = duration;
     }
 
     public MissionDifficulty getDifficulty()
@@ -120,6 +119,6 @@ public class Mission
     @Override
     public String toString() 
     {
-        return "Mission{" + "id=" + id + ", description=" + description + ", start=" + start + ", duration=" + duration + ", difficulty=" + difficulty + ", status=" + status + '}';
+        return "Mission{" + "id=" + id + ", description=" + description + ", start=" + start + ", difficulty=" + difficulty + ", status=" + status + '}';
     }
 }
