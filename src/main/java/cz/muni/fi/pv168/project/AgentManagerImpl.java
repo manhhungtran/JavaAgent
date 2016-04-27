@@ -1,20 +1,20 @@
 package cz.muni.fi.pv168.project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
  * @author Filip Petrovic (422334)
  */
 public class AgentManagerImpl implements AgentManager
 {
-    private DataSource dataSource;
+    private final JdbcTemplate jdbc;
 
     public AgentManagerImpl(DataSource dataSource)
     {
@@ -22,7 +22,7 @@ public class AgentManagerImpl implements AgentManager
         {
             throw new IllegalArgumentException("Data source is null.");
         }
-        this.dataSource = dataSource;
+        this.jdbc = new JdbcTemplate(dataSource);
     }
     
     @Override
@@ -35,32 +35,15 @@ public class AgentManagerImpl implements AgentManager
             throw new IllegalArgumentException("Agent id is already set.");
         }
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("INSERT INTO Agent (alias,status,experience) VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS))
-        {
-            statement.setString(1, agent.getAlias());
-            statement.setString(2, agent.getStatus().name());
-            statement.setString(3, agent.getExperience().name());
-
-            int addedRows = statement.executeUpdate();
-            if(addedRows == 0)
-            {
-                throw new DatabaseErrorException("Error: No rows were inserted when trying to insert agent: " + agent);
-            }
-            else if(addedRows > 1)
-            {
-                throw new DatabaseErrorException("Error: More rows (" + addedRows +
-                                                 ") were inserted when trying to insert agent: " + agent);
-            }
-
-            ResultSet keyRS = statement.getGeneratedKeys();
-            agent.setId(getKey(keyRS, agent));
-        }
-        catch(SQLException ex)
-        {
-            throw new DatabaseErrorException("Error when inserting agent: " + agent, ex);
-        }
+        SimpleJdbcInsert insertAgent = new SimpleJdbcInsert(jdbc)
+                .withTableName("Agent").usingGeneratedKeyColumns("id");
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("alias", agent.getAlias())
+                .addValue("experience", agent.getExperience().name())
+                .addValue("status", agent.getStatus().name());
+                
+        Number id = insertAgent.executeAndReturnKey(parameters);
+        agent.setId(id.longValue());
     }
     
     @Override
@@ -72,29 +55,19 @@ public class AgentManagerImpl implements AgentManager
         {
             throw new IllegalArgumentException("Agent id is null.");
         }
+        int updatedRows = jdbc.update("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?", 
+                agent.getAlias(), 
+                agent.getStatus().name(), 
+                agent.getExperience().name(), 
+                agent.getId());
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?"))
+        if(updatedRows == 0)
         {
-            statement.setString(1, agent.getAlias());
-            statement.setString(2, agent.getStatus().name());
-            statement.setString(3, agent.getExperience().name());
-            statement.setLong(4, agent.getId());
-
-            int updatedRows = statement.executeUpdate();
-            if(updatedRows == 0)
-            {
-                throw new EntityNotFoundException(agent + " was not found in database.");
-            }
-            else if(updatedRows > 1)
-            {
-                throw new DatabaseErrorException("Error: Invalid updated rows count detected: " + updatedRows);
-            }
+            throw new EntityNotFoundException(agent + " was not found in database.");
         }
-        catch(SQLException ex)
+        else if(updatedRows > 1)
         {
-            throw new DatabaseErrorException("Error when updating agent: " + agent, ex);
+            throw new DatabaseErrorException("Error: Invalid updated rows count detected: " + updatedRows);
         }
     }
     
@@ -106,13 +79,10 @@ public class AgentManagerImpl implements AgentManager
             throw new IllegalArgumentException("Agent id is null.");
         }
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("DELETE FROM Agent WHERE id = ?"))
+        try
         {
-            statement.setLong(1, id);
-
-            int deletedRows = statement.executeUpdate();
+            int deletedRows =  jdbc.update("DELETE FROM Agent WHERE id = ?", id);  
+            
             if(deletedRows == 0)
             {
                 throw new EntityNotFoundException("Agent with id <" + id + "> was not found in database.");
@@ -122,7 +92,7 @@ public class AgentManagerImpl implements AgentManager
                 throw new DatabaseErrorException("Error: Invalid deleted rows count detected: " + deletedRows);
             }
         }
-        catch(SQLException ex)
+        catch(DataAccessException | EntityNotFoundException | DatabaseErrorException ex)
         {
             throw new DatabaseErrorException("Error when deleting agent with id: " + id, ex);
         }
@@ -131,117 +101,55 @@ public class AgentManagerImpl implements AgentManager
     @Override
     public Agent getAgent(Long id)
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,alias,status,experience FROM Agent WHERE id = ?"))
+        try
         {
-            statement.setLong(1, id);
-            ResultSet set = statement.executeQuery();
-
-            if(set.next())
-            {
-                Agent agent = getAgentFromSet(set);
-
-                if(set.next())
-                {
-                    throw new DatabaseErrorException("Error: More entities with same id found, source id: " +
-                                                     id + ", found: " + agent + " and " + getAgentFromSet(set));
-                }
-
-                return agent;
-            }
-            else
-            {
-                throw new EntityNotFoundException("Agent with id <" + id + "> was not found in database.");
-            }
+           return jdbc.queryForObject("SELECT * FROM Agent WHERE id= ?", agentMapper, id);
         }
-        catch (SQLException ex)
+        catch(Exception ex)
         {
-            throw new DatabaseErrorException("Error when retrieving agent with id: " + id, ex);
+           throw new DatabaseErrorException("Error when retrieving agent with id: " + id, ex);
         }
     }
     
     @Override
     public List<Agent> getAllAgents()
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT id,alias,status,experience FROM Agent"))
-        {
-            ResultSet set = statement.executeQuery();
-
-            List<Agent> agentList = new ArrayList<>();
-            while (set.next())
-            {
-                agentList.add(getAgentFromSet(set));
-            }
-            return agentList;
-        }
-        catch (SQLException ex)
-        {
-            throw new DatabaseErrorException("Error when retrieving all agents.", ex);
-        }
+        return jdbc.query("SELECT * FROM Agent", agentMapper);
     }
     
     @Override
     public List<Agent> getAgentsWithExperience(AgentExperience experience)
     {
-        List<Agent> agentList = getAllAgents();
-        List<Agent> invalidAgents = new ArrayList<>();
-        
-        for(Agent agent : agentList)
+        if(experience == null)
         {
-            if(agent.getExperience() != experience)
-            {
-                invalidAgents.add(agent);
-            }
+        throw new IllegalArgumentException("Null argument given.");
         }
         
-        agentList.removeAll(invalidAgents);
-        return agentList;
+        try
+        {
+           return jdbc.query("SELECT * FROM Agent WHERE experience = ?", agentMapper, experience.toString());
+        }
+        catch(Exception ex)
+        {
+           throw new DatabaseErrorException("Error when retrieving missions.", ex);
+        }
     }
     
     @Override
     public List<Agent> getAgentsWithStatus(AgentStatus status)
     {
-        List<Agent> agentList = getAllAgents();
-        List<Agent> invalidAgents = new ArrayList<>();
-        
-        for(Agent agent : agentList)
+        if(status == null)
         {
-            if(agent.getStatus() != status)
-            {
-                invalidAgents.add(agent);
-            }
+        throw new IllegalArgumentException("Null argument given.");
         }
         
-        agentList.removeAll(invalidAgents);
-        return agentList;
-    }
-    
-    private Long getKey(ResultSet keyRS, Agent agent) throws DatabaseErrorException, SQLException
-    {
-        if(keyRS.next())
+        try
         {
-            if (keyRS.getMetaData().getColumnCount() != 1)
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert agent: "
-                                                 + agent + ", wrong column count: " + keyRS.getMetaData().getColumnCount());
-            }
-            
-            Long result = keyRS.getLong(1);
-            
-            if (keyRS.next())
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert agent: " +
-                                                 agent + ", multiple keys found.");
-            }
-            return result;
+           return jdbc.query("SELECT * FROM Agent WHERE status = ?", agentMapper, status.toString());
         }
-        else
+        catch(Exception ex)
         {
-            throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert agent " +
-                                             agent + ", no key found.");
+           throw new DatabaseErrorException("Error when retrieving missions.", ex);
         }
     }
     
@@ -265,13 +173,10 @@ public class AgentManagerImpl implements AgentManager
         }
     }
     
-    private Agent getAgentFromSet(ResultSet set) throws SQLException
-    {
-        Agent agent = new Agent();
-        agent.setId(set.getLong("id"));
-        agent.setAlias(set.getString("alias"));
-        agent.setStatus(AgentStatus.valueOf(set.getString("status")));
-        agent.setExperience(AgentExperience.valueOf(set.getString("experience")));
-        return agent;
-    }
+    private final RowMapper<Agent> agentMapper = (rs, rowNum) ->
+            new Agent(
+                    rs.getLong("id"),
+                    rs.getString("alias"),
+                    AgentStatus.valueOf(rs.getString("status")),
+                    AgentExperience.valueOf(rs.getString("experience")));
 }

@@ -6,9 +6,19 @@ import java.util.Objects;
  * @author Tran Manh Hung 433556
  */
 public class Assignment {
+
     private Mission mission;
     private Agent agent;
     private Long id;
+    
+    public Assignment(Long id, Mission mission, Agent agent) {
+        this.id = id;
+        this.mission = mission;
+        this.agent = agent;
+    }
+
+    public Assignment() {
+    }
 
     public Mission getMission() {
         return mission;

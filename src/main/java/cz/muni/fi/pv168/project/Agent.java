@@ -11,6 +11,16 @@ public class Agent
     private String alias;
     private AgentStatus status;
     private AgentExperience experience;
+
+    public Agent() {
+    }
+
+    public Agent(Long id, String alias, AgentStatus status, AgentExperience experience) {
+        this.id = id;
+        this.alias = alias;
+        this.status = status;
+        this.experience = experience;
+    }
     
     public Long getId() { return id; }
     public String getAlias() { return alias; }

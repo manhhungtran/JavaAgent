@@ -88,6 +88,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         
         assertEquals("Updated assignment's agent is incorrect.", update.getAgent(), assignmentManager.getAssignment(update.getId()).getAgent());
         assertEquals("Updated assignment's mission is incorrect.", update.getMission(), assignmentManager.getAssignment(update.getId()).getMission());
+        assertEquals("Updated assignment's mission is incorrect.", update.getId(), assignmentManager.getAssignment(update.getId()).getId());
     }
     
     @Test
@@ -106,7 +107,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
 
         assertThat(assignmentManager.getAssignment(second.getId())).isNotNull();
         
-        expectedException.expect(EntityNotFoundException.class);
+        expectedException.expect(DatabaseErrorException.class);
         assignmentManager.getAssignment(first.getId());
     }
     
@@ -121,7 +122,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         assignmentManager.addAssignment(second);
         List<Assignment> result = assignmentManager.getAllAssignments();
         
-        assertTrue(result.size() == 2);
+        assertEquals(2, result.size());
         assertTrue(result.contains(first));
         assertTrue(result.contains(second));
     }
@@ -138,10 +139,11 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         assignmentManager.addAssignment(second);
         assignmentManager.addAssignment(third);
         List<Assignment> result = assignmentManager.getAssignmentsForAgent(agentOne);
-        
-        assertTrue(result.size() == 1);
+
+        assertEquals(1, result.size());
         assertTrue(result.contains(first));
         assertTrue(!result.contains(second));
+        assertTrue(!result.contains(third));
     }
     
     @Test

@@ -82,7 +82,7 @@ public class AgentManagerImplTest extends SetupBaseTest
 
         assertThat(manager.getAgent(second.getId())).isNotNull();
         
-        expectedException.expect(EntityNotFoundException.class);
+        expectedException.expect(DatabaseErrorException.class);
         manager.getAgent(first.getId());
     }
     

@@ -1,20 +1,25 @@
 package cz.muni.fi.pv168.project;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
  * @author Tran Manh Hung (433556), Filip Petrovic (422334)
  */
 public class AssignmentManagerImpl implements AssignmentManager
 {
-    private DataSource dataSource;
+    private final JdbcTemplate jdbc;
+    
+    private static final String SQLBASE = "SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
+             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
+             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
+             "INNER JOIN Mission ON Mission.id = missionId";
     
     public AssignmentManagerImpl(DataSource dataSource)
     {
@@ -22,7 +27,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         {
             throw new IllegalArgumentException("Data source is null.");
         }
-        this.dataSource = dataSource;
+        this.jdbc = new JdbcTemplate(dataSource);
     }
 
     @Override
@@ -35,31 +40,13 @@ public class AssignmentManagerImpl implements AssignmentManager
             throw new IllegalArgumentException("Assignment id is already set.");
         }
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("INSERT INTO Assignment (agentId,missionId) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS))
-        {
-            statement.setLong(1, assignment.getAgent().getId());
-            statement.setLong(2, assignment.getMission().getId());
-
-            int addedRows = statement.executeUpdate();
-            if(addedRows == 0)
-            {
-                throw new DatabaseErrorException("Error: No rows were inserted when trying to insert assignment: " + assignment);
-            }
-            else if(addedRows > 1)
-            {
-                throw new DatabaseErrorException("Error: More rows (" + addedRows +
-                                                 ") were inserted when trying to insert assignment: " + assignment);
-            }
-
-            ResultSet keyRS = statement.getGeneratedKeys();
-            assignment.setId(getKey(keyRS, assignment));
-        }
-        catch(SQLException ex)
-        {
-            throw new DatabaseErrorException("Error when inserting assignment: " + assignment, ex);
-        }
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
+                .withTableName("Assignment").usingGeneratedKeyColumns("id");
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("missionId", assignment.getMission().getId())
+                .addValue("agentId", assignment.getAgent().getId());
+        Number id = insert.executeAndReturnKey(parameters);
+        assignment.setId(id.longValue());
     }
 
     @Override
@@ -71,28 +58,19 @@ public class AssignmentManagerImpl implements AssignmentManager
         {
             throw new IllegalArgumentException("Assignment id is null.");
         }
+                
+        int count = jdbc.update("UPDATE Assignment SET agentId = ?, missionId = ? WHERE id = ?",
+                assignment.getAgent().getId(),
+                assignment.getMission().getId(),
+                assignment.getId());
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("UPDATE Assignment SET agentId = ?, missionId = ? WHERE id = ?"))
+        if(count == 0)
         {
-            statement.setLong(1, assignment.getAgent().getId());
-            statement.setLong(2, assignment.getMission().getId());
-            statement.setLong(3, assignment.getId());
-
-            int updatedRows = statement.executeUpdate();
-            if(updatedRows == 0)
-            {
-                throw new EntityNotFoundException(assignment + " was not found in database.");
-            }
-            else if(updatedRows > 1)
-            {
-                throw new DatabaseErrorException("Error: Invalid updated rows count detected: " + updatedRows);
-            }
+            throw new EntityNotFoundException(assignment + " was not found in database.");
         }
-        catch(SQLException ex)
+        else if(count > 1)
         {
-            throw new DatabaseErrorException("Error when updating assignment: " + assignment, ex);
+            throw new DatabaseErrorException("Error: Invalid updated rows count detected: " + count);
         }
     }
     
@@ -104,13 +82,9 @@ public class AssignmentManagerImpl implements AssignmentManager
             throw new IllegalArgumentException("Assignment id is null.");
         }
         
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("DELETE FROM Assignment WHERE id = ?"))
+        try
         {
-            statement.setLong(1, id);
-
-            int deletedRows = statement.executeUpdate();
+            int deletedRows = jdbc.update("DELETE FROM Assignment WHERE id=?", id); 
             if(deletedRows == 0)
             {
                 throw new EntityNotFoundException("Assignment with id <" + id + "> was not found in database.");
@@ -120,7 +94,7 @@ public class AssignmentManagerImpl implements AssignmentManager
                 throw new DatabaseErrorException("Error: Invalid deleted rows count detected: " + deletedRows);
             }
         }
-        catch(SQLException ex)
+        catch(DataAccessException | EntityNotFoundException | DatabaseErrorException ex)
         {
             throw new DatabaseErrorException("Error when deleting assignment with id: " + id, ex);
         }
@@ -129,35 +103,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     @Override
     public Assignment getAssignment(Long id)
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
-             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
-             "INNER JOIN Mission ON Mission.id = missionId " +
-             "WHERE Assignment.id = ?"))
+        try
         {
-            statement.setLong(1, id);
-            ResultSet set = statement.executeQuery();
-
-            if(set.next())
-            {
-                Assignment assignment = getAssignmentFromSet(set);
-
-                if(set.next())
-                {
-                    throw new DatabaseErrorException("Error: More entities with same id found, source id: " +
-                                                     id + ", found: " + assignment + " and " + getAssignmentFromSet(set));
-                }
-
-                return assignment;
-            }
-            else
-            {
-                throw new EntityNotFoundException("Assignment with id <" + id + "> was not found in database.");
-            }
+          return jdbc.queryForObject(SQLBASE + " WHERE Assignment.id=?", assignmentMapper, id);
         }
-        catch (SQLException ex)
+        catch (Exception ex)
         {
             throw new DatabaseErrorException("Error when retrieving assignment with id: " + id, ex);
         }
@@ -166,23 +116,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     @Override
     public List<Assignment> getAllAssignments() 
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus,  mission.codename as mcodename, mission.start as mstart " +
-             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
-             "INNER JOIN Mission ON Mission.id = missionId "))
+        try
         {
-            ResultSet set = statement.executeQuery();
-            List<Assignment> assignmentList = new ArrayList<>();
-
-            while (set.next()) 
-            {
-                assignmentList.add(getAssignmentFromSet(set));
-            }
-            return assignmentList;
+          return jdbc.query(SQLBASE, assignmentMapper);
         }
-        catch (SQLException ex) 
+        catch (Exception ex) 
         {
             throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
         }
@@ -191,80 +129,26 @@ public class AssignmentManagerImpl implements AssignmentManager
     @Override
     public List<Assignment> getAssignmentsForMission(Mission mission) 
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
-             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
-             "INNER JOIN Mission ON Mission.id = missionId " +
-             "WHERE Mission.id = ?"))
+        try
         {
-            statement.setObject(1, mission.getId());
-            ResultSet set = statement.executeQuery();
-            List<Assignment> assignmentList = new ArrayList<>();
-            
-            while (set.next()) 
-            {
-                assignmentList.add(getAssignmentFromSet(set));
-            }
-            return assignmentList;
+          return jdbc.query(SQLBASE + " WHERE Mission.id = ?", assignmentMapper, mission.getId());
         }
-        catch (SQLException ex) 
+        catch (Exception ex)
         {
-            throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
+            throw new DatabaseErrorException("Error when retrieving assignment with mission: " + mission.toString(), ex);
         }
     }
 
     @Override
     public List<Assignment> getAssignmentsForAgent(Agent agent) 
     {
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement
-            ("SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
-             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
-             "INNER JOIN Mission ON Mission.id = missionId " +
-             "WHERE Agent.id = ?"))
+        try
         {
-            statement.setObject(1, agent.getId());
-            ResultSet set = statement.executeQuery();
-            List<Assignment> assignmentList = new ArrayList<>();
-            
-            while (set.next()) 
-            {
-                assignmentList.add(getAssignmentFromSet(set));
-            }
-            return assignmentList;
+          return jdbc.query(SQLBASE + " WHERE Agent.id = ?", assignmentMapper, agent.getId());
         }
-        catch (SQLException ex) 
+        catch (Exception ex)
         {
-            throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
-        }
-    }
-    
-    private Long getKey(ResultSet keyRS, Assignment assignment) throws DatabaseErrorException, SQLException
-    {
-        if(keyRS.next())
-        {
-            if (keyRS.getMetaData().getColumnCount() != 1)
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert assignment: "
-                                                 + assignment + ", wrong column count: " + keyRS.getMetaData().getColumnCount());
-            }
-            
-            Long result = keyRS.getLong(1);
-            
-            if (keyRS.next())
-            {
-                throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert assignment: " +
-                                                 assignment + ", multiple keys found.");
-            }
-            return result;
-        }
-        else
-        {
-            throw new DatabaseErrorException("Error: Generated key retrieval failed when trying to insert assignment " +
-                                             assignment + ", no key found.");
+            throw new DatabaseErrorException("Error when retrieving assignment with agent: " + agent.toString(), ex);
         }
     }
     
@@ -284,27 +168,26 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
     }
     
-    private Assignment getAssignmentFromSet(ResultSet set) throws SQLException
+     
+    private final RowMapper<Assignment> assignmentMapper = (rs, rowNum) -> 
     {
-        Agent agent = new Agent();
-        agent.setId(set.getLong("aid"));
-        agent.setAlias(set.getString("aalias"));
-        agent.setStatus(AgentStatus.valueOf(set.getString("astatus")));
-        agent.setExperience(AgentExperience.valueOf(set.getString("aexperience")));
+        Agent agent = new Agent(
+                rs.getLong("aid"),
+                rs.getString("aalias"),
+                AgentStatus.valueOf(rs.getString("astatus")),
+                AgentExperience.valueOf(rs.getString("aexperience")));
         
-        Mission mission = new Mission();
-        mission.setId(set.getLong("mid"));
-        mission.setDescription(set.getString("mdescription"));
-        mission.setCodename(set.getString("mcodename"));
-        mission.setDifficulty(MissionDifficulty.valueOf(set.getString("mdifficulty")));
-        mission.setStatus(MissionStatus.valueOf(set.getString("mstatus")));
-        mission.setStart(set.getDate("mstart").toLocalDate());
+        Mission mission = new Mission(
+                rs.getLong("mid"),
+                rs.getString("mcodename"),
+                rs.getString("mdescription"),
+                rs.getDate("mstart").toLocalDate(),
+                MissionDifficulty.valueOf(rs.getString("mdifficulty")),
+                MissionStatus.valueOf(rs.getString("mstatus")));
         
-        Assignment assignment = new Assignment();
-        assignment.setId(set.getLong("id"));
-        assignment.setAgent(agent);
-        assignment.setMission(mission);
-        
-        return assignment;
-    }
+        return new Assignment(
+                rs.getLong("id"),
+                mission,
+                agent);
+    };
 }
