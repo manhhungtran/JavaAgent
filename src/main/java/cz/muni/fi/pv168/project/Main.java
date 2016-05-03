@@ -87,6 +87,7 @@ public class Main extends javax.swing.JFrame
         jTable6 = new javax.swing.JTable();
         jButton16 = new javax.swing.JButton();
         jComboBox6 = new javax.swing.JComboBox<>();
+        jButton7 = new javax.swing.JButton();
         jFrame6 = new javax.swing.JFrame();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
@@ -94,6 +95,7 @@ public class Main extends javax.swing.JFrame
         jScrollPane12 = new javax.swing.JScrollPane();
         jTable10 = new javax.swing.JTable();
         jButton25 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jFrame7 = new javax.swing.JFrame();
         jPanel13 = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -101,6 +103,7 @@ public class Main extends javax.swing.JFrame
         jScrollPane14 = new javax.swing.JScrollPane();
         jTable12 = new javax.swing.JTable();
         jButton17 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -125,6 +128,8 @@ public class Main extends javax.swing.JFrame
         jButton22 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
 
+        jFrame1.setLocation(new java.awt.Point(0, 0));
+        jFrame1.setMinimumSize(new java.awt.Dimension(250, 250));
         jFrame1.setName("Add New Agent"); // NOI18N
 
         jPanel14.setLayout(new java.awt.GridBagLayout());
@@ -163,6 +168,11 @@ public class Main extends javax.swing.JFrame
         jPanel14.add(jComboBox11, gridBagConstraints);
 
         jButton23.setText("Submit");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -201,6 +211,11 @@ public class Main extends javax.swing.JFrame
         jPanel14.add(jLabel17, gridBagConstraints);
 
         jButton24.setText("Cancel");
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -283,6 +298,11 @@ public class Main extends javax.swing.JFrame
         jPanel17.add(jComboBox13, gridBagConstraints);
 
         jButton26.setText("Submit");
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -321,6 +341,11 @@ public class Main extends javax.swing.JFrame
         jPanel17.add(jLabel23, gridBagConstraints);
 
         jButton27.setText("Cancel");
+        jButton27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton27ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -372,6 +397,11 @@ public class Main extends javax.swing.JFrame
         jDialog1.getContentPane().add(jLabel25, gridBagConstraints);
 
         jButton28.setText("Delete");
+        jButton28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton28ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -381,6 +411,11 @@ public class Main extends javax.swing.JFrame
         jDialog1.getContentPane().add(jButton28, gridBagConstraints);
 
         jButton29.setText("Cancel");
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton29ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -427,6 +462,11 @@ public class Main extends javax.swing.JFrame
         jPanel18.add(jComboBox15, gridBagConstraints);
 
         jButton30.setText("Submit");
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton30ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -465,6 +505,11 @@ public class Main extends javax.swing.JFrame
         jPanel18.add(jLabel28, gridBagConstraints);
 
         jButton31.setText("Cancel");
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton31ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -571,6 +616,11 @@ public class Main extends javax.swing.JFrame
         jPanel19.add(jComboBox17, gridBagConstraints);
 
         jButton32.setText("Submit");
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton32ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -609,6 +659,11 @@ public class Main extends javax.swing.JFrame
         jPanel19.add(jLabel32, gridBagConstraints);
 
         jButton33.setText("Cancel");
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -684,6 +739,11 @@ public class Main extends javax.swing.JFrame
         jDialog3.getContentPane().add(jLabel34, gridBagConstraints);
 
         jButton34.setText("Delete");
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton34ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -693,6 +753,11 @@ public class Main extends javax.swing.JFrame
         jDialog3.getContentPane().add(jButton34, gridBagConstraints);
 
         jButton35.setText("Cancel");
+        jButton35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton35ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -773,6 +838,11 @@ public class Main extends javax.swing.JFrame
         jPanel11.add(jScrollPane5, gridBagConstraints);
 
         jButton16.setText("End Mission");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -790,11 +860,25 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 50, 10, 0);
         jPanel11.add(jComboBox6, gridBagConstraints);
 
+        jButton7.setText("Cancel");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(0, 160, 0, 0);
+        jPanel11.add(jButton7, gridBagConstraints);
+
         javax.swing.GroupLayout jFrame5Layout = new javax.swing.GroupLayout(jFrame5.getContentPane());
         jFrame5.getContentPane().setLayout(jFrame5Layout);
         jFrame5Layout.setHorizontalGroup(
             jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
             .addGroup(jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame5Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -956,6 +1040,11 @@ public class Main extends javax.swing.JFrame
         jPanel16.add(jScrollPane12, gridBagConstraints);
 
         jButton25.setText("Assign Selected Agent");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -965,11 +1054,25 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
         jPanel16.add(jButton25, gridBagConstraints);
 
+        jButton8.setText("Cancel");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 25;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 100);
+        jPanel16.add(jButton8, gridBagConstraints);
+
         javax.swing.GroupLayout jFrame6Layout = new javax.swing.GroupLayout(jFrame6.getContentPane());
         jFrame6.getContentPane().setLayout(jFrame6Layout);
         jFrame6Layout.setHorizontalGroup(
             jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 958, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
             .addGroup(jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame6Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1131,6 +1234,11 @@ public class Main extends javax.swing.JFrame
         jPanel13.add(jScrollPane14, gridBagConstraints);
 
         jButton17.setText("Remove Selected Agent");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1140,11 +1248,25 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
         jPanel13.add(jButton17, gridBagConstraints);
 
+        jButton9.setText("Cancel");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 25;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 100);
+        jPanel13.add(jButton9, gridBagConstraints);
+
         javax.swing.GroupLayout jFrame7Layout = new javax.swing.GroupLayout(jFrame7.getContentPane());
         jFrame7.getContentPane().setLayout(jFrame7Layout);
         jFrame7Layout.setHorizontalGroup(
             jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 958, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
             .addGroup(jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame7Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1163,6 +1285,7 @@ public class Main extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agent System");
+        setLocation(new java.awt.Point(0, 0));
         setName("Agent System"); // NOI18N
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
@@ -1314,6 +1437,11 @@ public class Main extends javax.swing.JFrame
         jPanel5.add(jScrollPane1, gridBagConstraints);
 
         jButton2.setText("Edit Selected Agent");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1323,6 +1451,11 @@ public class Main extends javax.swing.JFrame
         jPanel5.add(jButton2, gridBagConstraints);
 
         jButton3.setText("Delete Selected Agent");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -1415,6 +1548,11 @@ public class Main extends javax.swing.JFrame
         jPanel20.add(jScrollPane10, gridBagConstraints);
 
         jButton37.setText("Edit Selected Mission");
+        jButton37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton37ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1442,6 +1580,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
         jButton19.setText("End Mission");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -1453,6 +1596,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.add(jButton19, gridBagConstraints);
 
         jButton20.setText("Remove Agent from Mission");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1464,6 +1612,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.add(jButton20, gridBagConstraints);
 
         jButton22.setText("Assign Agent to Mission");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1487,10 +1640,13 @@ public class Main extends javax.swing.JFrame
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        jFrame1.pack();
+        jFrame1.setLocationRelativeTo(null);
+        jFrame1.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton4KeyPressed
@@ -1510,11 +1666,15 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
-        // TODO add your handling code here:
+        jFrame3.pack();
+        jFrame3.setLocationRelativeTo(null);
+        jFrame3.setVisible(true);
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
-        // TODO add your handling code here:
+        jDialog3.pack();
+        jDialog3.setLocationRelativeTo(null);
+        jDialog3.setVisible(true);
     }//GEN-LAST:event_jButton38ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1524,6 +1684,114 @@ public class Main extends javax.swing.JFrame
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jFrame2.pack();
+        jFrame2.setLocationRelativeTo(null);
+        jFrame2.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        jFrame1.dispose();
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        jFrame1.dispose();
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
+        jFrame2.dispose();
+    }//GEN-LAST:event_jButton27ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        jFrame2.dispose();
+    }//GEN-LAST:event_jButton26ActionPerformed
+
+    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+        jDialog1.dispose();
+    }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        jDialog1.dispose();
+    }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
+        jFrame4.pack();
+        jFrame4.setLocationRelativeTo(null);
+        jFrame4.setVisible(true);
+    }//GEN-LAST:event_jButton37ActionPerformed
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jFrame3.dispose();
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        jFrame3.dispose();
+    }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
+        jFrame4.dispose();
+    }//GEN-LAST:event_jButton32ActionPerformed
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+        jFrame4.dispose();
+    }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        jDialog3.dispose();
+    }//GEN-LAST:event_jButton34ActionPerformed
+
+    private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
+        jDialog3.dispose();
+    }//GEN-LAST:event_jButton35ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        jFrame5.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        jFrame6.pack();
+        jFrame6.setLocationRelativeTo(null);
+        jFrame6.setVisible(true);
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        jFrame5.dispose();
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        jFrame5.pack();
+        jFrame5.setLocationRelativeTo(null);
+        jFrame5.setVisible(true);
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        jFrame7.pack();
+        jFrame7.setLocationRelativeTo(null);
+        jFrame7.setVisible(true);
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        jFrame6.dispose();
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jFrame6.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        jFrame7.dispose();
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        jFrame7.dispose();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1592,6 +1860,9 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox10;
     private javax.swing.JComboBox<String> jComboBox11;
     private javax.swing.JComboBox<String> jComboBox12;
