@@ -1,7 +1,7 @@
-package cz.muni.fi.pv168.gui;
+package cz.muni.fi.pv168.project;
 
 /**
- * @author Filip Petrovic
+ * @author Filip Petrovic (422334)
  */
 public class Main extends javax.swing.JFrame
 {
@@ -1164,7 +1164,7 @@ public class Main extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agent System");
         setName("Agent System"); // NOI18N
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jTabbedPane1.setName(""); // NOI18N
 
@@ -1196,6 +1196,11 @@ public class Main extends javax.swing.JFrame
         jButton5.setText("Manage Missions");
         jButton5.setMaximumSize(new java.awt.Dimension(133, 23));
         jButton5.setMinimumSize(new java.awt.Dimension(133, 23));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1207,6 +1212,11 @@ public class Main extends javax.swing.JFrame
         jPanel1.add(jButton5, gridBagConstraints);
 
         jButton6.setText("Manage Assignments");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -1488,7 +1498,7 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton4KeyPressed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
@@ -1506,6 +1516,14 @@ public class Main extends javax.swing.JFrame
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton38ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
