@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project;
 
 import cz.muni.fi.pv168.project.models.AgentTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Filip Petrovic (422334)
@@ -106,6 +107,9 @@ public class Main extends javax.swing.JFrame
         jTable12 = new javax.swing.JTable();
         jButton17 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jDialog2 = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -1295,6 +1299,27 @@ public class Main extends javax.swing.JFrame
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        jDialog2.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel3.setText("You need to select an agent first.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
+        jDialog2.getContentPane().add(jLabel3, gridBagConstraints);
+
+        jButton10.setText("Ok");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        jDialog2.getContentPane().add(jButton10, gridBagConstraints);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agent System");
         setLocation(new java.awt.Point(0, 0));
@@ -1660,9 +1685,18 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jDialog1.pack();
-        jDialog1.setLocationRelativeTo(null);
-        jDialog1.setVisible(true);
+        if(jTable2.getSelectedRow() == -1)
+        {
+            jDialog2.pack();
+            jDialog2.setLocationRelativeTo(null);
+            jDialog2.setVisible(true);
+        }
+        else
+        {
+            jDialog1.pack();
+            jDialog1.setLocationRelativeTo(null);
+            jDialog1.setVisible(true);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
@@ -1677,7 +1711,6 @@ public class Main extends javax.swing.JFrame
         
         AgentTableModel model = (AgentTableModel)jTable2.getModel();
         model.addAgent(agent);
-        model.fireTableDataChanged();
         
         jFrame1.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
@@ -1691,6 +1724,9 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+        AgentTableModel model = (AgentTableModel)jTable2.getModel();
+        model.removeAgent(jTable2.getSelectedRow());
+        
         jDialog1.dispose();
     }//GEN-LAST:event_jButton28ActionPerformed
 
@@ -1778,6 +1814,10 @@ public class Main extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox11ActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        jDialog2.dispose();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1819,6 +1859,7 @@ public class Main extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton19;
@@ -1858,6 +1899,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JComboBox<String> jComboBox17;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JDialog jDialog3;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
@@ -1882,6 +1924,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;

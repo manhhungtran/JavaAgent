@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AgentTableModel extends AbstractTableModel
 {
-    private List<Agent> agents = new ArrayList<Agent>();
+    private List<Agent> agents = new ArrayList<>();
  
     @Override
     public int getRowCount()
@@ -45,6 +45,13 @@ public class AgentTableModel extends AbstractTableModel
     public void addAgent(Agent agent)
     {
         agents.add(agent);
+        this.fireTableDataChanged();
+    }
+    
+    public void removeAgent(int rowIndex)
+    {
+        agents.remove(rowIndex);
+        this.fireTableDataChanged();
     }
     
     @Override
