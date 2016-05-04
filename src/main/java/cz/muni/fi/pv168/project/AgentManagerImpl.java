@@ -39,8 +39,8 @@ public class AgentManagerImpl implements AgentManager
                 .withTableName("Agent").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("alias", agent.getAlias())
-                .addValue("experience", agent.getExperience().name())
-                .addValue("status", agent.getStatus().name());
+                .addValue("experience", agent.getExperience().toString())
+                .addValue("status", agent.getStatus().toString());
                 
         Number id = insertAgent.executeAndReturnKey(parameters);
         agent.setId(id.longValue());
@@ -57,8 +57,8 @@ public class AgentManagerImpl implements AgentManager
         }
         int updatedRows = jdbc.update("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?", 
                 agent.getAlias(), 
-                agent.getStatus().name(), 
-                agent.getExperience().name(), 
+                agent.getStatus().toString(), 
+                agent.getExperience().toString(), 
                 agent.getId());
         
         if(updatedRows == 0)
@@ -174,9 +174,9 @@ public class AgentManagerImpl implements AgentManager
     }
     
     private final RowMapper<Agent> agentMapper = (rs, rowNum) ->
-            new Agent(
-                    rs.getLong("id"),
-                    rs.getString("alias"),
-                    AgentStatus.valueOf(rs.getString("status")),
-                    AgentExperience.valueOf(rs.getString("experience")));
+        new Agent(
+            rs.getLong("id"),
+            rs.getString("alias"),
+            AgentStatus.fromString(rs.getString("status")),
+            AgentExperience.fromString(rs.getString("experience")));
 }

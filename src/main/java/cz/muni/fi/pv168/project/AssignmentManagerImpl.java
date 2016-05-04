@@ -174,8 +174,8 @@ public class AssignmentManagerImpl implements AssignmentManager
         Agent agent = new Agent(
                 rs.getLong("aid"),
                 rs.getString("aalias"),
-                AgentStatus.valueOf(rs.getString("astatus")),
-                AgentExperience.valueOf(rs.getString("aexperience")));
+                AgentStatus.fromString(rs.getString("astatus")),
+                AgentExperience.fromString(rs.getString("aexperience")));
         
         Mission mission = new Mission(
                 rs.getLong("mid"),

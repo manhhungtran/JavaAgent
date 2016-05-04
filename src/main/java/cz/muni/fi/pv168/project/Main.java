@@ -147,7 +147,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel14.add(jTextField5, gridBagConstraints);
 
-        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Status", "Available", "On mission", "Deceased", "Retired" }));
+        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel(AgentStatus.values()));
         jComboBox10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox10ActionPerformed(evt);
@@ -163,7 +163,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel14.add(jComboBox10, gridBagConstraints);
 
-        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Experience", "Novice", "Intermediate", "Expert", "Master" }));
+        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel(AgentExperience.values()));
         jComboBox11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox11ActionPerformed(evt);
@@ -1671,9 +1671,9 @@ public class Main extends javax.swing.JFrame
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         String alias = jTextField5.getText();
-        AgentStatus status = AgentStatus.valueOf(((String)jComboBox10.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
-        AgentExperience experience = AgentExperience.valueOf(((String)jComboBox11.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
-        Agent agent = new Agent(0L, alias,status,experience);
+        AgentStatus status = (AgentStatus)jComboBox10.getSelectedItem();
+        AgentExperience experience = (AgentExperience)jComboBox11.getSelectedItem();
+        Agent agent = new Agent(0L, alias, status, experience);
         
         AgentTableModel model = (AgentTableModel)jTable2.getModel();
         model.addAgent(agent);

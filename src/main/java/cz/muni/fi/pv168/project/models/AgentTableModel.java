@@ -2,36 +2,39 @@ package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Agent;
 import java.util.ArrayList;
-import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
- * @author Fillo
+ * @author Filip Petrovic (422334)
  */
-public class AgentTableModel extends AbstractTableModel {
- 
+public class AgentTableModel extends AbstractTableModel
+{
     private List<Agent> agents = new ArrayList<Agent>();
  
     @Override
-    public int getRowCount() {
+    public int getRowCount()
+    {
         return agents.size();
     }
  
     @Override
-    public int getColumnCount() {
+    public int getColumnCount()
+    {
         return 4;
     }
+    
     public void addAgent(Agent agent)
     {
         agents.add(agent);
     }
     
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
+    public Object getValueAt(int rowIndex, int columnIndex)
+    {
         Agent agent = agents.get(rowIndex);
-        switch (columnIndex) {
+        switch(columnIndex)
+        {
             case 0:
                 return agent.getId();
             case 1:

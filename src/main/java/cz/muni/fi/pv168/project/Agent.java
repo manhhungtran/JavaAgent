@@ -12,10 +12,10 @@ public class Agent
     private AgentStatus status;
     private AgentExperience experience;
 
-    public Agent() {
-    }
+    public Agent() {}
 
-    public Agent(Long id, String alias, AgentStatus status, AgentExperience experience) {
+    public Agent(Long id, String alias, AgentStatus status, AgentExperience experience)
+    {
         this.id = id;
         this.alias = alias;
         this.status = status;
