@@ -1387,51 +1387,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel5.add(jButton1, gridBagConstraints);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Alias", "Status", "Experience"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        jTable2.setModel(new AgentTableModel());
         jTable2.setColumnSelectionAllowed(true);
         jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable2);
@@ -1714,7 +1670,6 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        jTable2.setModel(new AgentTableModel());
         String alias = jTextField5.getText();
         AgentStatus status = AgentStatus.valueOf(((String)jComboBox10.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
         AgentExperience experience = AgentExperience.valueOf(((String)jComboBox11.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
@@ -1722,6 +1677,8 @@ public class Main extends javax.swing.JFrame
         
         AgentTableModel model = (AgentTableModel)jTable2.getModel();
         model.addAgent(agent);
+        model.fireTableDataChanged();
+        
         jFrame1.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
 
