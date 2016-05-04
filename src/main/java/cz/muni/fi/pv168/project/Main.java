@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168.project;
 
+import cz.muni.fi.pv168.project.models.AgentTableModel;
+
 /**
  * @author Filip Petrovic (422334)
  */
@@ -146,6 +148,11 @@ public class Main extends javax.swing.JFrame
         jPanel14.add(jTextField5, gridBagConstraints);
 
         jComboBox10.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Status", "Available", "On mission", "Deceased", "Retired" }));
+        jComboBox10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox10ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -157,6 +164,11 @@ public class Main extends javax.swing.JFrame
         jPanel14.add(jComboBox10, gridBagConstraints);
 
         jComboBox11.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Experience", "Novice", "Intermediate", "Expert", "Master" }));
+        jComboBox11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox11ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -1702,6 +1714,14 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        jTable2.setModel(new AgentTableModel());
+        String alias = jTextField5.getText();
+        AgentStatus status = AgentStatus.valueOf(((String)jComboBox10.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
+        AgentExperience experience = AgentExperience.valueOf(((String)jComboBox11.getSelectedItem()).toUpperCase().replaceAll(" ", "_"));
+        Agent agent = new Agent(0L, alias,status,experience);
+        
+        AgentTableModel model = (AgentTableModel)jTable2.getModel();
+        model.addAgent(agent);
         jFrame1.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
 
@@ -1792,6 +1812,14 @@ public class Main extends javax.swing.JFrame
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         jFrame7.dispose();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jComboBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox10ActionPerformed
+
+    private void jComboBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox11ActionPerformed
 
     /**
      * @param args the command line arguments
