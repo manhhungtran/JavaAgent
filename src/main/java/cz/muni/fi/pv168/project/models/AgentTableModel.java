@@ -24,6 +24,24 @@ public class AgentTableModel extends AbstractTableModel
         return 4;
     }
     
+    @Override
+    public String getColumnName(int columnIndex)
+    {
+        switch(columnIndex)
+        {
+            case 0:
+                return "Id";
+            case 1:
+                return "Alias";
+            case 2:
+                return "Status";
+            case 3:
+                return "Experience";
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
+    
     public void addAgent(Agent agent)
     {
         agents.add(agent);
