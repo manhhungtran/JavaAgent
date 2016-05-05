@@ -291,7 +291,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel17.add(jTextField8, gridBagConstraints);
 
-        jComboBox12.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "On mission", "Deceased", "Retired" }));
+        jComboBox12.setModel(new javax.swing.DefaultComboBoxModel(AgentStatus.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -302,7 +302,12 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel17.add(jComboBox12, gridBagConstraints);
 
-        jComboBox13.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Novice", "Intermediate", "Expert", "Master" }));
+        jComboBox13.setModel(new javax.swing.DefaultComboBoxModel(AgentExperience.values()));
+        jComboBox13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox13ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -1679,9 +1684,23 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jFrame2.pack();
-        jFrame2.setLocationRelativeTo(null);
-        jFrame2.setVisible(true);
+        if(jTable2.getSelectedRow() == -1)
+        {
+            jDialog2.pack();
+            jDialog2.setLocationRelativeTo(null);
+            jDialog2.setVisible(true);
+        }
+        else
+        {
+            AgentTableModel model = (AgentTableModel)jTable2.getModel();
+            jTextField8.setText(model.getAgent(jTable2.getSelectedRow()).getAlias());
+            jComboBox12.setSelectedIndex(model.getAgent(jTable2.getSelectedRow()).getStatus().ordinal());
+            jComboBox13.setSelectedIndex(model.getAgent(jTable2.getSelectedRow()).getExperience().ordinal());
+            
+            jFrame2.pack();
+            jFrame2.setLocationRelativeTo(null);
+            jFrame2.setVisible(true);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1720,6 +1739,14 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        String alias = jTextField8.getText();
+        AgentStatus status = (AgentStatus)jComboBox12.getSelectedItem();
+        AgentExperience experience = (AgentExperience)jComboBox13.getSelectedItem();
+        Agent agent = new Agent(0L, alias, status, experience);
+        
+        AgentTableModel model = (AgentTableModel)jTable2.getModel();
+        model.updateAgent(agent, jTable2.getSelectedRow());
+        
         jFrame2.dispose();
     }//GEN-LAST:event_jButton26ActionPerformed
 
@@ -1817,6 +1844,10 @@ public class Main extends javax.swing.JFrame
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jDialog2.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jComboBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox13ActionPerformed
 
     /**
      * @param args the command line arguments

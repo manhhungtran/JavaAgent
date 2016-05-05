@@ -48,6 +48,19 @@ public class AgentTableModel extends AbstractTableModel
         this.fireTableDataChanged();
     }
     
+    public Agent getAgent(int rowIndex)
+    {
+        return agents.get(rowIndex);
+    }
+    
+    public void updateAgent(Agent agent, int rowIndex)
+    {
+        agents.get(rowIndex).setAlias(agent.getAlias());
+        agents.get(rowIndex).setStatus(agent.getStatus());
+        agents.get(rowIndex).setExperience(agent.getExperience());
+        this.fireTableDataChanged();
+    }
+    
     public void removeAgent(int rowIndex)
     {
         agents.remove(rowIndex);
