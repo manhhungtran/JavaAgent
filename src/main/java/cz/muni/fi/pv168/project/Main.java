@@ -795,63 +795,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel11.setLayout(new java.awt.GridBagLayout());
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Select Mission"
-            }
-        ));
+        jTable6.setModel(jTable9.getModel());
         jScrollPane5.setViewportView(jTable6);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -859,7 +803,9 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipady = 350;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel11.add(jScrollPane5, gridBagConstraints);
 
         jButton16.setText("End Mission");
@@ -876,7 +822,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 50);
         jPanel11.add(jButton16, gridBagConstraints);
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Result", "Succeeded", "Failed" }));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(MissionStatus.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -924,63 +870,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel16.setLayout(new java.awt.GridBagLayout());
 
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Select Mission"
-            }
-        ));
+        jTable7.setModel(jTable9.getModel());
         jScrollPane11.setViewportView(jTable7);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -994,63 +884,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanel16.add(jScrollPane11, gridBagConstraints);
 
-        jTable10.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Select Agent"
-            }
-        ));
+        jTable10.setModel(jTable2.getModel());
         jScrollPane12.setViewportView(jTable10);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1118,63 +952,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel13.setLayout(new java.awt.GridBagLayout());
 
-        jTable11.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Select Mission"
-            }
-        ));
+        jTable11.setModel(jTable9.getModel());
         jScrollPane13.setViewportView(jTable11);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1188,63 +966,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanel13.add(jScrollPane13, gridBagConstraints);
 
-        jTable12.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Select Agent"
-            }
-        ));
+        jTable12.setModel(jTable2.getModel());
         jScrollPane14.setViewportView(jTable12);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1300,7 +1022,7 @@ public class Main extends javax.swing.JFrame
         );
         jFrame7Layout.setVerticalGroup(
             jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 855, Short.MAX_VALUE)
+            .addGap(0, 860, Short.MAX_VALUE)
             .addGroup(jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame7Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1817,29 +1539,63 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        jTable7.setModel(jTable9.getModel());
+        jTable10.setModel(jTable2.getModel());
+        
         jFrame6.pack();
         jFrame6.setLocationRelativeTo(null);
         jFrame6.setVisible(true);
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        jFrame5.dispose();
+        if(jTable6.getSelectedRow() == -1)
+        {
+            jDialog4.pack();
+            jDialog4.setLocationRelativeTo(null);
+            jDialog4.setVisible(true);
+        }
+        else
+        {
+            // assignment done
+            jFrame5.dispose();
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        jTable6.setModel(jTable9.getModel());
+        
         jFrame5.pack();
         jFrame5.setLocationRelativeTo(null);
         jFrame5.setVisible(true);
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        jTable11.setModel(jTable9.getModel());
+        jTable12.setModel(jTable2.getModel());
+        
         jFrame7.pack();
         jFrame7.setLocationRelativeTo(null);
         jFrame7.setVisible(true);
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-        jFrame6.dispose();
+        if(jTable7.getSelectedRow() == -1)
+        {
+            jDialog4.pack();
+            jDialog4.setLocationRelativeTo(null);
+            jDialog4.setVisible(true);
+        }
+        else if(jTable10.getSelectedRow() == -1)
+        {
+            jDialog2.pack();
+            jDialog2.setLocationRelativeTo(null);
+            jDialog2.setVisible(true);
+        }
+        else
+        {
+            // create assignment
+            jFrame6.dispose();
+        }
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -1847,7 +1603,23 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        jFrame7.dispose();
+        if(jTable11.getSelectedRow() == -1)
+        {
+            jDialog4.pack();
+            jDialog4.setLocationRelativeTo(null);
+            jDialog4.setVisible(true);
+        }
+        else if(jTable12.getSelectedRow() == -1)
+        {
+            jDialog2.pack();
+            jDialog2.setLocationRelativeTo(null);
+            jDialog2.setVisible(true);
+        }
+        else
+        {
+            // remove assignment
+            jFrame7.dispose();
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
