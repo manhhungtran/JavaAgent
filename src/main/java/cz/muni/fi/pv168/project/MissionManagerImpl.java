@@ -46,8 +46,8 @@ public class MissionManagerImpl implements MissionManager
                 .addValue("codename", mission.getCodename())
                 .addValue("description", mission.getDescription())
                 .addValue("start", Date.valueOf(mission.getStart()))
-                .addValue("difficulty", mission.getDifficulty().name())
-                .addValue("status", mission.getStatus().name());
+                .addValue("difficulty", mission.getDifficulty().toString())
+                .addValue("status", mission.getStatus().toString());
         
         Number id = insertMission.executeAndReturnKey(parameters);
         mission.setId(id.longValue());
@@ -67,8 +67,8 @@ public class MissionManagerImpl implements MissionManager
                 mission.getCodename(),
                 mission.getDescription(),
                 Date.valueOf(mission.getStart()),
-                mission.getDifficulty().name(),
-                mission.getStatus().name(),
+                mission.getDifficulty().toString(),
+                mission.getStatus().toString(),
                 mission.getId()
         );
         
@@ -196,8 +196,8 @@ public class MissionManagerImpl implements MissionManager
                     rs.getString("codename"),
                     rs.getString("description"),
                     rs.getDate("start").toLocalDate(),
-                    MissionDifficulty.valueOf(rs.getString("difficulty")),
-                    MissionStatus.valueOf(rs.getString("status")));
+                    MissionDifficulty.fromString(rs.getString("difficulty")),
+                    MissionStatus.fromString(rs.getString("status")));
         }
     }; 
     

@@ -182,8 +182,8 @@ public class AssignmentManagerImpl implements AssignmentManager
                 rs.getString("mcodename"),
                 rs.getString("mdescription"),
                 rs.getDate("mstart").toLocalDate(),
-                MissionDifficulty.valueOf(rs.getString("mdifficulty")),
-                MissionStatus.valueOf(rs.getString("mstatus")));
+                MissionDifficulty.fromString(rs.getString("mdifficulty")),
+                MissionStatus.fromString(rs.getString("mstatus")));
         
         return new Assignment(
                 rs.getLong("id"),
