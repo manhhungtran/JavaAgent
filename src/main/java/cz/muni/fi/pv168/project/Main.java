@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project;
 import cz.muni.fi.pv168.project.models.AgentTableModel;
 import cz.muni.fi.pv168.project.models.MissionTableModel;
 import java.time.LocalDate;
+import javax.sql.DataSource;
 
 /**
  * @author Filip Petrovic (422334)
@@ -15,6 +16,23 @@ public class Main extends javax.swing.JFrame
     public Main()
     {
         initComponents();
+        
+        DataSource dataSource = null;
+        try
+        {
+            dataSource = DatabaseUtilities.prepareDataSource("database");
+            //DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
+            //DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("populateTables.sql"));
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        
+        AgentManager agentManager = new AgentManagerImpl(dataSource);
+        AgentTableModel agentModel = (AgentTableModel)jTable2.getModel();
+        agentModel.initializeAgentManager(agentManager);
+        jTable2.setModel(agentModel);
     }
 
     /**
@@ -1431,7 +1449,7 @@ public class Main extends javax.swing.JFrame
         String alias = jTextField5.getText();
         AgentStatus status = (AgentStatus)jComboBox10.getSelectedItem();
         AgentExperience experience = (AgentExperience)jComboBox11.getSelectedItem();
-        Agent agent = new Agent(0L, alias, status, experience);
+        Agent agent = new Agent(null, alias, status, experience);
         
         AgentTableModel model = (AgentTableModel)jTable2.getModel();
         model.addAgent(agent);

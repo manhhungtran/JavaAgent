@@ -1,6 +1,9 @@
 package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Agent;
+import cz.muni.fi.pv168.project.AgentExperience;
+import cz.muni.fi.pv168.project.AgentManager;
+import cz.muni.fi.pv168.project.AgentStatus;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -10,12 +13,19 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AgentTableModel extends AbstractTableModel
 {
-    private List<Agent> agents = new ArrayList<>();
- 
+    private AgentManager agentManager;
+    private List<Agent> agentList = new ArrayList<>();
+    
+    public void initializeAgentManager(AgentManager agentManager)
+    {
+        this.agentManager = agentManager;
+        agentList.addAll(agentManager.getAllAgents());
+    }
+    
     @Override
     public int getRowCount()
     {
-        return agents.size();
+        return agentList.size();
     }
  
     @Override
@@ -42,35 +52,58 @@ public class AgentTableModel extends AbstractTableModel
         }
     }
     
+    @Override
+    public Class<?> getColumnClass(int columnIndex)
+    {
+        switch (columnIndex)
+        {
+            case 0:
+                return Integer.class;
+            case 1:
+                return String.class;
+            case 2:
+                return AgentStatus.class;
+            case 3:
+                return AgentExperience.class;
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
+    
     public void addAgent(Agent agent)
     {
-        agents.add(agent);
+        agentManager.addAgent(agent);
+        
+        agentList.clear();
+        agentList.addAll(agentManager.getAllAgents());
         this.fireTableDataChanged();
     }
     
     public Agent getAgent(int rowIndex)
     {
-        return agents.get(rowIndex);
+        return agentList.get(rowIndex);
     }
     
     public void updateAgent(Agent agent, int rowIndex)
     {
-        agents.get(rowIndex).setAlias(agent.getAlias());
-        agents.get(rowIndex).setStatus(agent.getStatus());
-        agents.get(rowIndex).setExperience(agent.getExperience());
+        agentManager.updateAgent(agent);
+        
+        agentList.set(rowIndex, agent);
         this.fireTableDataChanged();
     }
     
     public void removeAgent(int rowIndex)
     {
-        agents.remove(rowIndex);
+        agentManager.deleteAgent(agentList.get(rowIndex).getId());
+        
+        agentList.remove(rowIndex);
         this.fireTableDataChanged();
     }
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
-        Agent agent = agents.get(rowIndex);
+        Agent agent = agentList.get(rowIndex);
         switch(columnIndex)
         {
             case 0:
