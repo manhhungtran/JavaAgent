@@ -16,13 +16,16 @@ public class Main extends javax.swing.JFrame
     public Main()
     {
         initComponents();
-        
+        initializeDatabase();
+    }
+    
+    private void initializeDatabase()
+    {
         DataSource dataSource = null;
         try
         {
             dataSource = DatabaseUtilities.prepareDataSource("database");
             //DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
-            //DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("populateTables.sql"));
         }
         catch(Exception ex)
         {
@@ -33,8 +36,13 @@ public class Main extends javax.swing.JFrame
         AgentTableModel agentModel = (AgentTableModel)jTable2.getModel();
         agentModel.initializeAgentManager(agentManager);
         jTable2.setModel(agentModel);
+        
+        /*MissionManager missionManager = new MissionManagerImpl(dataSource);
+        MissionTableModel missionModel = (MissionTableModel)jTable9.getModel();
+        missionModel.initializeMissionManager(missionManager);
+        jTable9.setModel(missionModel);*/
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -13,7 +13,7 @@ import org.apache.derby.jdbc.EmbeddedDataSource;
  */
 public class DatabaseUtilities
 {
-    protected static DataSource prepareDataSource(String dbName) throws SQLException
+    public static DataSource prepareDataSource(String dbName) throws SQLException
     {
         EmbeddedDataSource dataSource = new EmbeddedDataSource();
         dataSource.setDatabaseName(dbName);
@@ -21,7 +21,7 @@ public class DatabaseUtilities
         return dataSource;
     }
     
-    protected static String[] readSqlStatements(URL url)
+    public static String[] readSqlStatements(URL url)
     {
         try(InputStreamReader reader = new InputStreamReader(url.openStream(), "UTF-8"))
         {
@@ -45,7 +45,7 @@ public class DatabaseUtilities
         }
     }
     
-    protected static void executeSqlScript(DataSource dataSource, URL scriptUrl) throws SQLException
+    public static void executeSqlScript(DataSource dataSource, URL scriptUrl) throws SQLException
     {
         try(Connection connection = dataSource.getConnection())
         {

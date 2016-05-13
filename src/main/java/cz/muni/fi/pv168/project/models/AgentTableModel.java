@@ -74,8 +74,7 @@ public class AgentTableModel extends AbstractTableModel
     {
         agentManager.addAgent(agent);
         
-        agentList.clear();
-        agentList.addAll(agentManager.getAllAgents());
+        agentList.add(agent);
         this.fireTableDataChanged();
     }
     
