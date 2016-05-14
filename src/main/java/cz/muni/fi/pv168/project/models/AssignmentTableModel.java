@@ -36,7 +36,7 @@ public class AssignmentTableModel extends AbstractTableModel
         switch(columnIndex)
         {
             case 0:
-                return "Id";
+                return "Assignment Id";
             case 1:
                 return "Agent Alias";
             case 2:

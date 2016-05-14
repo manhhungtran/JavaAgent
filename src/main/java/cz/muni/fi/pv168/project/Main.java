@@ -4,12 +4,16 @@ import cz.muni.fi.pv168.project.models.AgentTableModel;
 import cz.muni.fi.pv168.project.models.AssignmentTableModel;
 import cz.muni.fi.pv168.project.models.MissionTableModel;
 import cz.muni.fi.pv168.project.swingworkers.AddAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.AddAssignmentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.AddMissionSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.DeleteAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.DeleteAssignmentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.DeleteMissionSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.InitializeAgentModelSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.InitializeAssignmentModelSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.InitializeMissionModelSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.UpdateAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.UpdateAssignmentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.UpdateMissionSwingWorker;
 
 import java.time.LocalDate;
@@ -22,6 +26,7 @@ public class Main extends javax.swing.JFrame
 {
     private AgentManager agentManager;
     private MissionManager missionManager;
+    private AssignmentManager assignmentManager;
     
     /**
      * Creates new form frame
@@ -54,6 +59,11 @@ public class Main extends javax.swing.JFrame
         MissionTableModel missionModel = (MissionTableModel)jTable9.getModel();
         InitializeMissionModelSwingWorker initializeMissionModel = new InitializeMissionModelSwingWorker(missionManager, missionModel);
         initializeMissionModel.execute();
+        
+        assignmentManager = new AssignmentManagerImpl(dataSource);
+        AssignmentTableModel assignmentModel = (AssignmentTableModel)jTable1.getModel();
+        InitializeAssignmentModelSwingWorker initializeAssignmentModel = new InitializeAssignmentModelSwingWorker(assignmentManager, assignmentModel);
+        initializeAssignmentModel.execute();
     }
     
     /**
@@ -124,13 +134,6 @@ public class Main extends javax.swing.JFrame
         jLabel34 = new javax.swing.JLabel();
         jButton34 = new javax.swing.JButton();
         jButton35 = new javax.swing.JButton();
-        jFrame5 = new javax.swing.JFrame();
-        jPanel11 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
-        jButton16 = new javax.swing.JButton();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jButton7 = new javax.swing.JButton();
         jFrame6 = new javax.swing.JFrame();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
@@ -139,20 +142,28 @@ public class Main extends javax.swing.JFrame
         jTable10 = new javax.swing.JTable();
         jButton25 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jFrame7 = new javax.swing.JFrame();
-        jPanel13 = new javax.swing.JPanel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        jTable11 = new javax.swing.JTable();
-        jScrollPane14 = new javax.swing.JScrollPane();
-        jTable12 = new javax.swing.JTable();
-        jButton17 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jDialog2 = new javax.swing.JDialog();
         jLabel3 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
         jDialog4 = new javax.swing.JDialog();
         jLabel4 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
+        jDialog5 = new javax.swing.JDialog();
+        jLabel35 = new javax.swing.JLabel();
+        jButton39 = new javax.swing.JButton();
+        jButton40 = new javax.swing.JButton();
+        jDialog6 = new javax.swing.JDialog();
+        jLabel7 = new javax.swing.JLabel();
+        jButton15 = new javax.swing.JButton();
+        jFrame8 = new javax.swing.JFrame();
+        jPanel21 = new javax.swing.JPanel();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        jTable13 = new javax.swing.JTable();
+        jButton41 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -456,9 +467,9 @@ public class Main extends javax.swing.JFrame
         jLabel25.setText("Are you sure to delete this agent?");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(143, 118, 143, 118);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jDialog1.getContentPane().add(jLabel25, gridBagConstraints);
 
         jButton28.setText("Delete");
@@ -470,9 +481,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(150, 0, 0, 140);
+        gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
         jDialog1.getContentPane().add(jButton28, gridBagConstraints);
 
         jButton29.setText("Cancel");
@@ -482,11 +494,11 @@ public class Main extends javax.swing.JFrame
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(150, 140, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(30, 150, 30, 30);
         jDialog1.getContentPane().add(jButton29, gridBagConstraints);
 
         jFrame3.setName("Add New Mission"); // NOI18N
@@ -798,9 +810,9 @@ public class Main extends javax.swing.JFrame
         jLabel34.setText("Are you sure to delete this mission?");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.insets = new java.awt.Insets(143, 118, 143, 118);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jDialog3.getContentPane().add(jLabel34, gridBagConstraints);
 
         jButton34.setText("Delete");
@@ -812,9 +824,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(150, 0, 0, 140);
+        gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
         jDialog3.getContentPane().add(jButton34, gridBagConstraints);
 
         jButton35.setText("Cancel");
@@ -824,87 +837,12 @@ public class Main extends javax.swing.JFrame
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(150, 140, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(30, 150, 30, 30);
         jDialog3.getContentPane().add(jButton35, gridBagConstraints);
-
-        jFrame5.setName("End Mission"); // NOI18N
-
-        jPanel11.setLayout(new java.awt.GridBagLayout());
-
-        jTable6.setModel(jTable9.getModel());
-        jScrollPane5.setViewportView(jTable6);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipady = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
-        jPanel11.add(jScrollPane5, gridBagConstraints);
-
-        jButton16.setText("End Mission");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 50);
-        jPanel11.add(jButton16, gridBagConstraints);
-
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(MissionStatus.values()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(10, 50, 10, 0);
-        jPanel11.add(jComboBox6, gridBagConstraints);
-
-        jButton7.setText("Cancel");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 10;
-        gridBagConstraints.ipady = 10;
-        gridBagConstraints.insets = new java.awt.Insets(0, 160, 0, 0);
-        jPanel11.add(jButton7, gridBagConstraints);
-
-        javax.swing.GroupLayout jFrame5Layout = new javax.swing.GroupLayout(jFrame5.getContentPane());
-        jFrame5.getContentPane().setLayout(jFrame5Layout);
-        jFrame5Layout.setHorizontalGroup(
-            jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 542, Short.MAX_VALUE)
-            .addGroup(jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jFrame5Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jFrame5Layout.setVerticalGroup(
-            jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
-            .addGroup(jFrame5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jFrame5Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
 
         jFrame6.setName("Assign Agent to Mission"); // NOI18N
 
@@ -915,13 +853,11 @@ public class Main extends javax.swing.JFrame
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         jPanel16.add(jScrollPane11, gridBagConstraints);
 
         jTable10.setModel(jTable2.getModel());
@@ -929,16 +865,14 @@ public class Main extends javax.swing.JFrame
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 20);
         jPanel16.add(jScrollPane12, gridBagConstraints);
 
-        jButton25.setText("Assign Selected Agent");
+        jButton25.setText("Submit");
         jButton25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton25ActionPerformed(evt);
@@ -946,10 +880,10 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 25;
+        gridBagConstraints.ipady = 20;
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
         jPanel16.add(jButton25, gridBagConstraints);
 
@@ -961,17 +895,33 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 100);
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 200);
         jPanel16.add(jButton8, gridBagConstraints);
+
+        jLabel5.setText("Select Mission");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
+        jPanel16.add(jLabel5, gridBagConstraints);
+
+        jLabel6.setText("Select Agent");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 0);
+        jPanel16.add(jLabel6, gridBagConstraints);
 
         javax.swing.GroupLayout jFrame6Layout = new javax.swing.GroupLayout(jFrame6.getContentPane());
         jFrame6.getContentPane().setLayout(jFrame6Layout);
         jFrame6Layout.setHorizontalGroup(
             jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1031, Short.MAX_VALUE)
+            .addGap(0, 974, Short.MAX_VALUE)
             .addGroup(jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame6Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -980,93 +930,11 @@ public class Main extends javax.swing.JFrame
         );
         jFrame6Layout.setVerticalGroup(
             jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 885, Short.MAX_VALUE)
+            .addGap(0, 539, Short.MAX_VALUE)
             .addGroup(jFrame6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame6Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        jFrame7.setName("Remove Agent from Mission"); // NOI18N
-
-        jPanel13.setLayout(new java.awt.GridBagLayout());
-
-        jTable11.setModel(jTable9.getModel());
-        jScrollPane13.setViewportView(jTable11);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel13.add(jScrollPane13, gridBagConstraints);
-
-        jTable12.setModel(jTable2.getModel());
-        jScrollPane14.setViewportView(jTable12);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 350;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanel13.add(jScrollPane14, gridBagConstraints);
-
-        jButton17.setText("Remove Selected Agent");
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
-        jPanel13.add(jButton17, gridBagConstraints);
-
-        jButton9.setText("Cancel");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 25;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 100);
-        jPanel13.add(jButton9, gridBagConstraints);
-
-        javax.swing.GroupLayout jFrame7Layout = new javax.swing.GroupLayout(jFrame7.getContentPane());
-        jFrame7.getContentPane().setLayout(jFrame7Layout);
-        jFrame7Layout.setHorizontalGroup(
-            jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1031, Short.MAX_VALUE)
-            .addGroup(jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jFrame7Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jFrame7Layout.setVerticalGroup(
-            jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
-            .addGroup(jFrame7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jFrame7Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -1111,6 +979,141 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.ipady = 10;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
         jDialog4.getContentPane().add(jButton11, gridBagConstraints);
+
+        jDialog5.setName("Confirmation"); // NOI18N
+        jDialog5.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel35.setText("Are you sure to delete this assignment?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
+        jDialog5.getContentPane().add(jLabel35, gridBagConstraints);
+
+        jButton39.setText("Delete");
+        jButton39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton39ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
+        jDialog5.getContentPane().add(jButton39, gridBagConstraints);
+
+        jButton40.setText("Cancel");
+        jButton40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton40ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(30, 150, 30, 30);
+        jDialog5.getContentPane().add(jButton40, gridBagConstraints);
+
+        jDialog6.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel7.setText("You need to select an assignment first.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
+        jDialog6.getContentPane().add(jLabel7, gridBagConstraints);
+
+        jButton15.setText("Ok");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        jDialog6.getContentPane().add(jButton15, gridBagConstraints);
+
+        jFrame8.setName("Assign Agent to Mission"); // NOI18N
+
+        jPanel21.setLayout(new java.awt.GridBagLayout());
+
+        jTable13.setModel(jTable2.getModel());
+        jScrollPane16.setViewportView(jTable13);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 20);
+        jPanel21.add(jScrollPane16, gridBagConstraints);
+
+        jButton41.setText("Submit");
+        jButton41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton41ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
+        jPanel21.add(jButton41, gridBagConstraints);
+
+        jButton18.setText("Cancel");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.insets = new java.awt.Insets(30, 275, 30, 0);
+        jPanel21.add(jButton18, gridBagConstraints);
+
+        jLabel10.setText("Assign New Agent");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 0);
+        jPanel21.add(jLabel10, gridBagConstraints);
+
+        javax.swing.GroupLayout jFrame8Layout = new javax.swing.GroupLayout(jFrame8.getContentPane());
+        jFrame8.getContentPane().setLayout(jFrame8Layout);
+        jFrame8Layout.setHorizontalGroup(
+            jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 502, Short.MAX_VALUE)
+            .addGroup(jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jFrame8Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jFrame8Layout.setVerticalGroup(
+            jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 539, Short.MAX_VALUE)
+            .addGroup(jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jFrame8Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agent System");
@@ -1328,6 +1331,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
         jButton12.setText("Add New Assignment");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1337,6 +1345,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.add(jButton12, gridBagConstraints);
 
         jButton13.setText("Delete Selected Assignment");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -1346,6 +1359,11 @@ public class Main extends javax.swing.JFrame
         jPanel12.add(jButton13, gridBagConstraints);
 
         jButton14.setText("Edit Selected Assignment");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1562,24 +1580,6 @@ public class Main extends javax.swing.JFrame
         jDialog3.dispose();
     }//GEN-LAST:event_jButton35ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jFrame5.dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        if(jTable6.getSelectedRow() == -1)
-        {
-            jDialog4.pack();
-            jDialog4.setLocationRelativeTo(null);
-            jDialog4.setVisible(true);
-        }
-        else
-        {
-            // assignment done
-            jFrame5.dispose();
-        }
-    }//GEN-LAST:event_jButton16ActionPerformed
-
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         if(jTable7.getSelectedRow() == -1)
         {
@@ -1595,7 +1595,11 @@ public class Main extends javax.swing.JFrame
         }
         else
         {
-            // create assignment
+            Assignment assignment = new Assignment(null, ((MissionTableModel)jTable7.getModel()).getMission(jTable7.getSelectedRow()), ((AgentTableModel)jTable10.getModel()).getAgent(jTable10.getSelectedRow()));
+            
+            AddAssignmentSwingWorker addAssignment = new AddAssignmentSwingWorker(assignmentManager, (AssignmentTableModel)jTable1.getModel(), assignment);
+            addAssignment.execute();
+            
             jFrame6.dispose();
         }
     }//GEN-LAST:event_jButton25ActionPerformed
@@ -1603,30 +1607,6 @@ public class Main extends javax.swing.JFrame
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jFrame6.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        if(jTable11.getSelectedRow() == -1)
-        {
-            jDialog4.pack();
-            jDialog4.setLocationRelativeTo(null);
-            jDialog4.setVisible(true);
-        }
-        else if(jTable12.getSelectedRow() == -1)
-        {
-            jDialog2.pack();
-            jDialog2.setLocationRelativeTo(null);
-            jDialog2.setVisible(true);
-        }
-        else
-        {
-            // remove assignment
-            jFrame7.dispose();
-        }
-    }//GEN-LAST:event_jButton17ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        jFrame7.dispose();
-    }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jComboBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox10ActionPerformed
         // TODO add your handling code here:
@@ -1647,6 +1627,86 @@ public class Main extends javax.swing.JFrame
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         jDialog4.dispose();
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        jTable7.setModel(jTable9.getModel());
+        jTable10.setModel(jTable2.getModel());
+        
+        jFrame6.pack();
+        jFrame6.setLocationRelativeTo(null);
+        jFrame6.setVisible(true);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
+        DeleteAssignmentSwingWorker deleteAssignment = new DeleteAssignmentSwingWorker(assignmentManager, (AssignmentTableModel)jTable1.getModel(), jTable1.getSelectedRow());
+        deleteAssignment.execute();
+        
+        jDialog5.dispose();
+    }//GEN-LAST:event_jButton39ActionPerformed
+
+    private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
+        jDialog5.dispose();
+    }//GEN-LAST:event_jButton40ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        if(jTable1.getSelectedRow() == -1)
+        {
+            jDialog6.pack();
+            jDialog6.setLocationRelativeTo(null);
+            jDialog6.setVisible(true);
+        }
+        else
+        {
+            jDialog5.pack();
+            jDialog5.setLocationRelativeTo(null);
+            jDialog5.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        jDialog6.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
+        if(jTable13.getSelectedRow() == -1)
+        {
+            jDialog2.pack();
+            jDialog2.setLocationRelativeTo(null);
+            jDialog2.setVisible(true);
+        }
+        else
+        {
+            AssignmentTableModel model = (AssignmentTableModel)jTable1.getModel();
+            AgentTableModel agentModel = (AgentTableModel)jTable13.getModel();
+            Assignment assignment = new Assignment(model.getAssignment(jTable1.getSelectedRow()).getId(), model.getAssignment(jTable1.getSelectedRow()).getMission(), agentModel.getAgent(jTable13.getSelectedRow()));
+        
+            UpdateAssignmentSwingWorker updateAssignment = new UpdateAssignmentSwingWorker(assignmentManager, model, assignment, jTable1.getSelectedRow());
+            updateAssignment.execute();
+        
+            jFrame8.dispose();
+        }
+    }//GEN-LAST:event_jButton41ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        jFrame8.dispose();
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        if(jTable1.getSelectedRow() == -1)
+        {
+            jDialog6.pack();
+            jDialog6.setLocationRelativeTo(null);
+            jDialog6.setVisible(true);
+        }
+        else
+        {
+            jTable13.setModel(jTable2.getModel());
+            
+            jFrame8.pack();
+            jFrame8.setLocationRelativeTo(null);
+            jFrame8.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton14ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1694,8 +1754,8 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
@@ -1714,12 +1774,13 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
     private javax.swing.JButton jButton38;
+    private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox10;
     private javax.swing.JComboBox<String> jComboBox11;
     private javax.swing.JComboBox<String> jComboBox12;
@@ -1728,19 +1789,20 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JComboBox<String> jComboBox15;
     private javax.swing.JComboBox<String> jComboBox16;
     private javax.swing.JComboBox<String> jComboBox17;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JDialog jDialog3;
     private javax.swing.JDialog jDialog4;
+    private javax.swing.JDialog jDialog5;
+    private javax.swing.JDialog jDialog6;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
     private javax.swing.JFrame jFrame4;
-    private javax.swing.JFrame jFrame5;
     private javax.swing.JFrame jFrame6;
-    private javax.swing.JFrame jFrame7;
+    private javax.swing.JFrame jFrame8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1761,36 +1823,35 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
-    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable10;
-    private javax.swing.JTable jTable11;
-    private javax.swing.JTable jTable12;
+    private javax.swing.JTable jTable13;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable7;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextArea jTextArea1;
