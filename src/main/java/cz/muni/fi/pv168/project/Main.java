@@ -3,9 +3,13 @@ package cz.muni.fi.pv168.project;
 import cz.muni.fi.pv168.project.models.AgentTableModel;
 import cz.muni.fi.pv168.project.models.MissionTableModel;
 import cz.muni.fi.pv168.project.swingworkers.AddAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.AddMissionSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.DeleteAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.DeleteMissionSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.InitializeAgentModelSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.InitializeMissionModelSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.UpdateAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.UpdateMissionSwingWorker;
 
 import java.time.LocalDate;
 import javax.sql.DataSource;
@@ -16,6 +20,7 @@ import javax.sql.DataSource;
 public class Main extends javax.swing.JFrame
 {
     private AgentManager agentManager;
+    private MissionManager missionManager;
     
     /**
      * Creates new form frame
@@ -41,13 +46,13 @@ public class Main extends javax.swing.JFrame
         
         agentManager = new AgentManagerImpl(dataSource);
         AgentTableModel agentModel = (AgentTableModel)jTable2.getModel();
-        InitializeAgentModelSwingWorker initializeAgentList = new InitializeAgentModelSwingWorker(agentManager, agentModel);
-        initializeAgentList.execute();
+        InitializeAgentModelSwingWorker initializeAgentModel = new InitializeAgentModelSwingWorker(agentManager, agentModel);
+        initializeAgentModel.execute();
         
-        /*MissionManager missionManager = new MissionManagerImpl(dataSource);
+        missionManager = new MissionManagerImpl(dataSource);
         MissionTableModel missionModel = (MissionTableModel)jTable9.getModel();
-        missionModel.initializeMissionManager(missionManager);
-        jTable9.setModel(missionModel);*/
+        InitializeMissionModelSwingWorker initializeMissionModel = new InitializeMissionModelSwingWorker(missionManager, missionModel);
+        initializeMissionModel.execute();
     }
     
     /**
@@ -1527,10 +1532,10 @@ public class Main extends javax.swing.JFrame
         String description = jTextArea1.getText();
         MissionStatus status = (MissionStatus)jComboBox14.getSelectedItem();
         MissionDifficulty difficulty = (MissionDifficulty)jComboBox15.getSelectedItem();
-        Mission mission = new Mission(0L, codename, description, LocalDate.now(), difficulty, status);
+        Mission mission = new Mission(null, codename, description, LocalDate.now(), difficulty, status);
         
-        MissionTableModel model = (MissionTableModel)jTable9.getModel();
-        model.addMission(mission);
+        AddMissionSwingWorker addMission = new AddMissionSwingWorker(missionManager, (MissionTableModel)jTable9.getModel(), mission);
+        addMission.execute();
         
         jFrame3.dispose();
     }//GEN-LAST:event_jButton30ActionPerformed
@@ -1548,7 +1553,8 @@ public class Main extends javax.swing.JFrame
         MissionDifficulty difficulty = (MissionDifficulty)jComboBox17.getSelectedItem();
         Mission mission = new Mission(model.getMission(jTable9.getSelectedRow()).getId(), codename, description, model.getMission(jTable9.getSelectedRow()).getStart(), difficulty, status);
         
-        model.updateMission(mission, jTable9.getSelectedRow());
+        UpdateMissionSwingWorker updateMission = new UpdateMissionSwingWorker(missionManager, model, mission, jTable9.getSelectedRow());
+        updateMission.execute();
         
         jFrame4.dispose();
     }//GEN-LAST:event_jButton32ActionPerformed
@@ -1558,8 +1564,8 @@ public class Main extends javax.swing.JFrame
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        MissionTableModel model = (MissionTableModel)jTable9.getModel();
-        model.removeMission(jTable9.getSelectedRow());
+        DeleteMissionSwingWorker deleteMission = new DeleteMissionSwingWorker(missionManager, (MissionTableModel)jTable9.getModel(), jTable9.getSelectedRow());
+        deleteMission.execute();
         
         jDialog3.dispose();
     }//GEN-LAST:event_jButton34ActionPerformed

@@ -13,12 +13,18 @@ import javax.swing.table.AbstractTableModel;
  */
 public class MissionTableModel extends AbstractTableModel
 {
-    private List<Mission> missions = new ArrayList<>();
- 
+    private List<Mission> missionList = new ArrayList<>();
+    
+    public void initializeModel(List<Mission> missions)
+    {
+        missionList.addAll(missions);
+        this.fireTableDataChanged();
+    }
+    
     @Override
     public int getRowCount()
     {
-        return missions.size();
+        return missionList.size();
     }
  
     @Override
@@ -72,35 +78,31 @@ public class MissionTableModel extends AbstractTableModel
     
     public void addMission(Mission mission)
     {
-        missions.add(mission);
+        missionList.add(mission);
         this.fireTableDataChanged();
     }
     
     public Mission getMission(int rowIndex)
     {
-        return missions.get(rowIndex);
+        return missionList.get(rowIndex);
     }
     
     public void updateMission(Mission mission, int rowIndex)
     {
-        missions.get(rowIndex).setCodename(mission.getCodename());
-        missions.get(rowIndex).setDescription(mission.getDescription());
-        missions.get(rowIndex).setStart(mission.getStart());
-        missions.get(rowIndex).setDifficulty(mission.getDifficulty());
-        missions.get(rowIndex).setStatus(mission.getStatus());
+        missionList.set(rowIndex, mission);
         this.fireTableDataChanged();
     }
     
     public void removeMission(int rowIndex)
     {
-        missions.remove(rowIndex);
+        missionList.remove(rowIndex);
         this.fireTableDataChanged();
     }
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
-        Mission mission = missions.get(rowIndex);
+        Mission mission = missionList.get(rowIndex);
         switch(columnIndex)
         {
             case 0:
