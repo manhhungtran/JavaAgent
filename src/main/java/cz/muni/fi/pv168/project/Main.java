@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168.project;
 
 import cz.muni.fi.pv168.project.models.AgentTableModel;
+import cz.muni.fi.pv168.project.models.AssignmentTableModel;
 import cz.muni.fi.pv168.project.models.MissionTableModel;
 import cz.muni.fi.pv168.project.swingworkers.AddAgentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.AddMissionSwingWorker;
@@ -171,10 +172,11 @@ public class Main extends javax.swing.JFrame
         jButton37 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
-        jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
 
         jFrame1.setLocation(new java.awt.Point(0, 0));
         jFrame1.setMinimumSize(new java.awt.Dimension(250, 250));
@@ -1311,60 +1313,46 @@ public class Main extends javax.swing.JFrame
 
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
-        jButton19.setText("End Mission");
-        jButton19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton19ActionPerformed(evt);
-            }
-        });
+        jTable1.setModel(new AssignmentTableModel());
+        jScrollPane2.setViewportView(jTable1);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel12.add(jButton19, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
+        jPanel12.add(jScrollPane2, gridBagConstraints);
 
-        jButton20.setText("Remove Agent from Mission");
-        jButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton20ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel12.add(jButton20, gridBagConstraints);
-
-        jButton22.setText("Assign Agent to Mission");
-        jButton22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton22ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel12.add(jButton22, gridBagConstraints);
-
-        jLabel10.setText("Manage Assignments");
+        jButton12.setText("Add New Assignment");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
-        jPanel12.add(jLabel10, gridBagConstraints);
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
+        jPanel12.add(jButton12, gridBagConstraints);
+
+        jButton13.setText("Delete Selected Assignment");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
+        jPanel12.add(jButton13, gridBagConstraints);
+
+        jButton14.setText("Edit Selected Assignment");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
+        jPanel12.add(jButton14, gridBagConstraints);
 
         jTabbedPane1.addTab("Assignments", jPanel12);
 
@@ -1578,15 +1566,6 @@ public class Main extends javax.swing.JFrame
         jFrame5.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        jTable7.setModel(jTable9.getModel());
-        jTable10.setModel(jTable2.getModel());
-        
-        jFrame6.pack();
-        jFrame6.setLocationRelativeTo(null);
-        jFrame6.setVisible(true);
-    }//GEN-LAST:event_jButton22ActionPerformed
-
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         if(jTable6.getSelectedRow() == -1)
         {
@@ -1600,23 +1579,6 @@ public class Main extends javax.swing.JFrame
             jFrame5.dispose();
         }
     }//GEN-LAST:event_jButton16ActionPerformed
-
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        jTable6.setModel(jTable9.getModel());
-        
-        jFrame5.pack();
-        jFrame5.setLocationRelativeTo(null);
-        jFrame5.setVisible(true);
-    }//GEN-LAST:event_jButton19ActionPerformed
-
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        jTable11.setModel(jTable9.getModel());
-        jTable12.setModel(jTable2.getModel());
-        
-        jFrame7.pack();
-        jFrame7.setLocationRelativeTo(null);
-        jFrame7.setVisible(true);
-    }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         if(jTable7.getSelectedRow() == -1)
@@ -1729,12 +1691,12 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
@@ -1779,7 +1741,6 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JFrame jFrame6;
     private javax.swing.JFrame jFrame7;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1819,10 +1780,12 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable10;
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable12;
