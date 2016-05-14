@@ -2,6 +2,11 @@ package cz.muni.fi.pv168.project;
 
 import cz.muni.fi.pv168.project.models.AgentTableModel;
 import cz.muni.fi.pv168.project.models.MissionTableModel;
+import cz.muni.fi.pv168.project.swingworkers.AddAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.DeleteAgentSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.InitializeAgentModelSwingWorker;
+import cz.muni.fi.pv168.project.swingworkers.UpdateAgentSwingWorker;
+
 import java.time.LocalDate;
 import javax.sql.DataSource;
 
@@ -10,6 +15,8 @@ import javax.sql.DataSource;
  */
 public class Main extends javax.swing.JFrame
 {
+    private AgentManager agentManager;
+    
     /**
      * Creates new form frame
      */
@@ -32,10 +39,10 @@ public class Main extends javax.swing.JFrame
             System.err.println(ex.getMessage());
         }
         
-        AgentManager agentManager = new AgentManagerImpl(dataSource);
+        agentManager = new AgentManagerImpl(dataSource);
         AgentTableModel agentModel = (AgentTableModel)jTable2.getModel();
-        agentModel.initializeAgentManager(agentManager);
-        jTable2.setModel(agentModel);
+        InitializeAgentModelSwingWorker initializeAgentList = new InitializeAgentModelSwingWorker(agentManager, agentModel);
+        initializeAgentList.execute();
         
         /*MissionManager missionManager = new MissionManagerImpl(dataSource);
         MissionTableModel missionModel = (MissionTableModel)jTable9.getModel();
@@ -1459,8 +1466,8 @@ public class Main extends javax.swing.JFrame
         AgentExperience experience = (AgentExperience)jComboBox11.getSelectedItem();
         Agent agent = new Agent(null, alias, status, experience);
         
-        AgentTableModel model = (AgentTableModel)jTable2.getModel();
-        model.addAgent(agent);
+        AddAgentSwingWorker addAgent = new AddAgentSwingWorker(agentManager, (AgentTableModel)jTable2.getModel(), agent);
+        addAgent.execute();
         
         jFrame1.dispose();
     }//GEN-LAST:event_jButton23ActionPerformed
@@ -1476,15 +1483,16 @@ public class Main extends javax.swing.JFrame
         AgentStatus status = (AgentStatus)jComboBox12.getSelectedItem();
         AgentExperience experience = (AgentExperience)jComboBox13.getSelectedItem();
         Agent agent = new Agent(model.getAgent(jTable2.getSelectedRow()).getId(), alias, status, experience);
-
-        model.updateAgent(agent, jTable2.getSelectedRow());
+        
+        UpdateAgentSwingWorker updateAgent = new UpdateAgentSwingWorker(agentManager, model, agent, jTable2.getSelectedRow());
+        updateAgent.execute();
         
         jFrame2.dispose();
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
-        AgentTableModel model = (AgentTableModel)jTable2.getModel();
-        model.removeAgent(jTable2.getSelectedRow());
+        DeleteAgentSwingWorker deleteAgent = new DeleteAgentSwingWorker(agentManager, (AgentTableModel)jTable2.getModel(), jTable2.getSelectedRow());
+        deleteAgent.execute();
         
         jDialog1.dispose();
     }//GEN-LAST:event_jButton28ActionPerformed

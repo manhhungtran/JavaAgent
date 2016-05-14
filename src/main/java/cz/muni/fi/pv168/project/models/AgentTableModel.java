@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Agent;
 import cz.muni.fi.pv168.project.AgentExperience;
-import cz.muni.fi.pv168.project.AgentManager;
 import cz.muni.fi.pv168.project.AgentStatus;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,12 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AgentTableModel extends AbstractTableModel
 {
-    private AgentManager agentManager;
     private List<Agent> agentList = new ArrayList<>();
     
-    public void initializeAgentManager(AgentManager agentManager)
+    public void initializeModel(List<Agent> agents)
     {
-        this.agentManager = agentManager;
-        agentList.addAll(agentManager.getAllAgents());
+        agentList.addAll(agents);
+        this.fireTableDataChanged();
     }
     
     @Override
@@ -72,8 +70,6 @@ public class AgentTableModel extends AbstractTableModel
     
     public void addAgent(Agent agent)
     {
-        agentManager.addAgent(agent);
-        
         agentList.add(agent);
         this.fireTableDataChanged();
     }
@@ -85,16 +81,12 @@ public class AgentTableModel extends AbstractTableModel
     
     public void updateAgent(Agent agent, int rowIndex)
     {
-        agentManager.updateAgent(agent);
-        
         agentList.set(rowIndex, agent);
         this.fireTableDataChanged();
     }
     
     public void removeAgent(int rowIndex)
     {
-        agentManager.deleteAgent(agentList.get(rowIndex).getId());
-        
         agentList.remove(rowIndex);
         this.fireTableDataChanged();
     }
