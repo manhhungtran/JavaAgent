@@ -6,6 +6,8 @@ import cz.muni.fi.pv168.project.MissionStatus;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -14,6 +16,7 @@ import javax.swing.table.AbstractTableModel;
 public class MissionTableModel extends AbstractTableModel
 {
     private List<Mission> missionList = new ArrayList<>();
+    private ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/project/Locale", Locale.getDefault());
     
     public void initializeModel(List<Mission> missions)
     {
@@ -39,17 +42,17 @@ public class MissionTableModel extends AbstractTableModel
         switch(columnIndex)
         {
             case 0:
-                return "Id";
+                return bundle.getString("id");
             case 1:
-                return "Codename";
+                return bundle.getString("codename");
             case 2:
-                return "Description";
+                return bundle.getString("description");
             case 3:
-                return "Start";
+                return bundle.getString("start");
             case 4:
-                return "Difficulty";
+                return bundle.getString("difficulty");
             case 5:
-                return "Status";
+                return bundle.getString("status");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

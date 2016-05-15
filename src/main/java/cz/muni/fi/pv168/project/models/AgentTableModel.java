@@ -5,6 +5,8 @@ import cz.muni.fi.pv168.project.AgentExperience;
 import cz.muni.fi.pv168.project.AgentStatus;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -13,6 +15,7 @@ import javax.swing.table.AbstractTableModel;
 public class AgentTableModel extends AbstractTableModel
 {
     private List<Agent> agentList = new ArrayList<>();
+    private ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/project/Locale", Locale.getDefault());
     
     public void initializeModel(List<Agent> agents)
     {
@@ -38,13 +41,13 @@ public class AgentTableModel extends AbstractTableModel
         switch(columnIndex)
         {
             case 0:
-                return "Id";
+                return bundle.getString("id");
             case 1:
-                return "Alias";
+                return bundle.getString("alias");
             case 2:
-                return "Status";
+                return bundle.getString("status");
             case 3:
-                return "Experience";
+                return bundle.getString("experience");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

@@ -3,6 +3,8 @@ package cz.muni.fi.pv168.project.models;
 import cz.muni.fi.pv168.project.Assignment;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -11,6 +13,7 @@ import javax.swing.table.AbstractTableModel;
 public class AssignmentTableModel extends AbstractTableModel
 {
     private List<Assignment> assignmentList = new ArrayList<>();
+    private ResourceBundle bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/project/Locale", Locale.getDefault());
     
     public void initializeModel(List<Assignment> assignments)
     {
@@ -36,11 +39,11 @@ public class AssignmentTableModel extends AbstractTableModel
         switch(columnIndex)
         {
             case 0:
-                return "Assignment Id";
+                return bundle.getString("assignment_id");
             case 1:
-                return "Agent Alias";
+                return bundle.getString("agent_alias");
             case 2:
-                return "Mission Codename";
+                return bundle.getString("mission_codename");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
