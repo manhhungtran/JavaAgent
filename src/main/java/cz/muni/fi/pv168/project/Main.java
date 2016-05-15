@@ -53,11 +53,12 @@ public class Main extends javax.swing.JFrame
         try
         {
             dataSource = DatabaseUtilities.prepareDataSource("database");
-            //DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
+            DatabaseUtilities.executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
         }
         catch(Exception ex)
         {
-            System.err.println(ex.getMessage());
+            // If database is already created, nothing happens
+            //System.err.println(ex.getMessage());
         }
         
         agentManager = new AgentManagerImpl(dataSource);
@@ -89,22 +90,18 @@ public class Main extends javax.swing.JFrame
         jFrame1 = new javax.swing.JFrame();
         jPanel14 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
-        jComboBox10 = new javax.swing.JComboBox<>();
         jComboBox11 = new javax.swing.JComboBox<>();
         jButton23 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jButton24 = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         jFrame2 = new javax.swing.JFrame();
         jPanel17 = new javax.swing.JPanel();
         jTextField8 = new javax.swing.JTextField();
-        jComboBox12 = new javax.swing.JComboBox<>();
         jComboBox13 = new javax.swing.JComboBox<>();
         jButton26 = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jButton27 = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
@@ -115,11 +112,9 @@ public class Main extends javax.swing.JFrame
         jFrame3 = new javax.swing.JFrame();
         jPanel18 = new javax.swing.JPanel();
         jTextField9 = new javax.swing.JTextField();
-        jComboBox14 = new javax.swing.JComboBox<>();
         jComboBox15 = new javax.swing.JComboBox<>();
         jButton30 = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jButton31 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
@@ -129,11 +124,9 @@ public class Main extends javax.swing.JFrame
         jFrame4 = new javax.swing.JFrame();
         jPanel19 = new javax.swing.JPanel();
         jTextField10 = new javax.swing.JTextField();
-        jComboBox16 = new javax.swing.JComboBox<>();
         jComboBox17 = new javax.swing.JComboBox<>();
         jButton32 = new javax.swing.JButton();
         jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jButton33 = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
@@ -174,6 +167,8 @@ public class Main extends javax.swing.JFrame
         jButton41 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -216,22 +211,6 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel14.add(jTextField5, gridBagConstraints);
 
-        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel(AgentStatus.values()));
-        jComboBox10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox10ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel14.add(jComboBox10, gridBagConstraints);
-
         jComboBox11.setModel(new javax.swing.DefaultComboBoxModel(AgentExperience.values()));
         jComboBox11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +219,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -256,7 +235,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -273,19 +252,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel14.add(jLabel15, gridBagConstraints);
 
-        jLabel16.setText(bundle.getString("status") + ":");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
-        jPanel14.add(jLabel16, gridBagConstraints);
-
         jLabel17.setText(bundle.getString("experience") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
@@ -299,7 +269,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -356,17 +326,6 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel17.add(jTextField8, gridBagConstraints);
 
-        jComboBox12.setModel(new javax.swing.DefaultComboBoxModel(AgentStatus.values()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel17.add(jComboBox12, gridBagConstraints);
-
         jComboBox13.setModel(new javax.swing.DefaultComboBoxModel(AgentExperience.values()));
         jComboBox13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,7 +334,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -391,7 +350,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -408,19 +367,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel17.add(jLabel21, gridBagConstraints);
 
-        jLabel22.setText(bundle.getString("status") + ":");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
-        jPanel17.add(jLabel22, gridBagConstraints);
-
         jLabel23.setText(bundle.getString("experience") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
@@ -434,7 +384,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -526,21 +476,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel18.add(jTextField9, gridBagConstraints);
 
-        jComboBox14.setModel(new javax.swing.DefaultComboBoxModel(MissionStatus.values()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel18.add(jComboBox14, gridBagConstraints);
-
         jComboBox15.setModel(new javax.swing.DefaultComboBoxModel(MissionDifficulty.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -556,7 +495,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -573,19 +512,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel18.add(jLabel26, gridBagConstraints);
 
-        jLabel27.setText(bundle.getString("status") + ":");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
-        jPanel18.add(jLabel27, gridBagConstraints);
-
         jLabel28.setText(bundle.getString("difficulty") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
@@ -599,7 +529,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -680,21 +610,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel19.add(jTextField10, gridBagConstraints);
 
-        jComboBox16.setModel(new javax.swing.DefaultComboBoxModel(MissionStatus.values()));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        jPanel19.add(jComboBox16, gridBagConstraints);
-
         jComboBox17.setModel(new javax.swing.DefaultComboBoxModel(MissionDifficulty.values()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -710,7 +629,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -727,19 +646,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel19.add(jLabel30, gridBagConstraints);
 
-        jLabel31.setText(bundle.getString("status") + ":");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
-        jPanel19.add(jLabel31, gridBagConstraints);
-
         jLabel32.setText(bundle.getString("difficulty") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
@@ -753,7 +663,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -1075,7 +985,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 20;
@@ -1090,7 +1000,7 @@ public class Main extends javax.swing.JFrame
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.insets = new java.awt.Insets(30, 275, 30, 0);
@@ -1103,6 +1013,24 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 0);
         jPanel21.add(jLabel10, gridBagConstraints);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(AssignmentStatus.values()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 175);
+        jPanel21.add(jComboBox1, gridBagConstraints);
+
+        jLabel9.setText(bundle.getString("status") + ":");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 30, 0, 200);
+        jPanel21.add(jLabel9, gridBagConstraints);
 
         javax.swing.GroupLayout jFrame8Layout = new javax.swing.GroupLayout(jFrame8.getContentPane());
         jFrame8.getContentPane().setLayout(jFrame8Layout);
@@ -1117,7 +1045,7 @@ public class Main extends javax.swing.JFrame
         );
         jFrame8Layout.setVerticalGroup(
             jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 539, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
             .addGroup(jFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jFrame8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1452,7 +1380,6 @@ public class Main extends javax.swing.JFrame
         {
             AgentTableModel model = (AgentTableModel)jTable2.getModel();
             jTextField8.setText(model.getAgent(jTable2.getSelectedRow()).getAlias());
-            jComboBox12.setSelectedIndex(model.getAgent(jTable2.getSelectedRow()).getStatus().ordinal());
             jComboBox13.setSelectedIndex(model.getAgent(jTable2.getSelectedRow()).getExperience().ordinal());
             
             jFrame2.pack();
@@ -1482,9 +1409,8 @@ public class Main extends javax.swing.JFrame
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         String alias = jTextField5.getText();
-        AgentStatus status = (AgentStatus)jComboBox10.getSelectedItem();
         AgentExperience experience = (AgentExperience)jComboBox11.getSelectedItem();
-        Agent agent = new Agent(null, alias, status, experience);
+        Agent agent = new Agent(null, alias, experience);
         
         AddAgentSwingWorker addAgent = new AddAgentSwingWorker(agentManager, (AgentTableModel)jTable2.getModel(), agent);
         addAgent.execute();
@@ -1500,9 +1426,8 @@ public class Main extends javax.swing.JFrame
         AgentTableModel model = (AgentTableModel)jTable2.getModel();
         
         String alias = jTextField8.getText();
-        AgentStatus status = (AgentStatus)jComboBox12.getSelectedItem();
         AgentExperience experience = (AgentExperience)jComboBox13.getSelectedItem();
-        Agent agent = new Agent(model.getAgent(jTable2.getSelectedRow()).getId(), alias, status, experience);
+        Agent agent = new Agent(model.getAgent(jTable2.getSelectedRow()).getId(), alias, experience);
         
         UpdateAgentSwingWorker updateAgent = new UpdateAgentSwingWorker(agentManager, model, agent, jTable2.getSelectedRow());
         updateAgent.execute();
@@ -1533,7 +1458,6 @@ public class Main extends javax.swing.JFrame
             MissionTableModel model = (MissionTableModel)jTable9.getModel();
             jTextField10.setText(model.getMission(jTable9.getSelectedRow()).getCodename());
             jTextArea2.setText(model.getMission(jTable9.getSelectedRow()).getDescription());
-            jComboBox16.setSelectedIndex(model.getMission(jTable9.getSelectedRow()).getStatus().ordinal());
             jComboBox17.setSelectedIndex(model.getMission(jTable9.getSelectedRow()).getDifficulty().ordinal());
             
             jFrame4.pack();
@@ -1545,9 +1469,8 @@ public class Main extends javax.swing.JFrame
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
         String codename = jTextField9.getText();
         String description = jTextArea1.getText();
-        MissionStatus status = (MissionStatus)jComboBox14.getSelectedItem();
         MissionDifficulty difficulty = (MissionDifficulty)jComboBox15.getSelectedItem();
-        Mission mission = new Mission(null, codename, description, LocalDate.now(), difficulty, status);
+        Mission mission = new Mission(null, codename, description, difficulty);
         
         AddMissionSwingWorker addMission = new AddMissionSwingWorker(missionManager, (MissionTableModel)jTable9.getModel(), mission);
         addMission.execute();
@@ -1564,9 +1487,8 @@ public class Main extends javax.swing.JFrame
         
         String codename = jTextField10.getText();
         String description = jTextArea2.getText();
-        MissionStatus status = (MissionStatus)jComboBox16.getSelectedItem();
         MissionDifficulty difficulty = (MissionDifficulty)jComboBox17.getSelectedItem();
-        Mission mission = new Mission(model.getMission(jTable9.getSelectedRow()).getId(), codename, description, model.getMission(jTable9.getSelectedRow()).getStart(), difficulty, status);
+        Mission mission = new Mission(model.getMission(jTable9.getSelectedRow()).getId(), codename, description, difficulty);
         
         UpdateMissionSwingWorker updateMission = new UpdateMissionSwingWorker(missionManager, model, mission, jTable9.getSelectedRow());
         updateMission.execute();
@@ -1604,7 +1526,7 @@ public class Main extends javax.swing.JFrame
         }
         else
         {
-            Assignment assignment = new Assignment(null, ((MissionTableModel)jTable7.getModel()).getMission(jTable7.getSelectedRow()), ((AgentTableModel)jTable10.getModel()).getAgent(jTable10.getSelectedRow()));
+            Assignment assignment = new Assignment(null, AssignmentStatus.IN_PROGRESS, LocalDate.now(), ((AgentTableModel)jTable10.getModel()).getAgent(jTable10.getSelectedRow()), ((MissionTableModel)jTable7.getModel()).getMission(jTable7.getSelectedRow()));
             
             AddAssignmentSwingWorker addAssignment = new AddAssignmentSwingWorker(assignmentManager, (AssignmentTableModel)jTable1.getModel(), assignment);
             addAssignment.execute();
@@ -1616,10 +1538,6 @@ public class Main extends javax.swing.JFrame
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jFrame6.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jComboBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox10ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox10ActionPerformed
 
     private void jComboBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox11ActionPerformed
         // TODO add your handling code here:
@@ -1687,7 +1605,7 @@ public class Main extends javax.swing.JFrame
         {
             AssignmentTableModel model = (AssignmentTableModel)jTable1.getModel();
             AgentTableModel agentModel = (AgentTableModel)jTable13.getModel();
-            Assignment assignment = new Assignment(model.getAssignment(jTable1.getSelectedRow()).getId(), model.getAssignment(jTable1.getSelectedRow()).getMission(), agentModel.getAgent(jTable13.getSelectedRow()));
+            Assignment assignment = new Assignment(model.getAssignment(jTable1.getSelectedRow()).getId(), (AssignmentStatus)jComboBox1.getSelectedItem(), model.getAssignment(jTable1.getSelectedRow()).getStartDate(), agentModel.getAgent(jTable13.getSelectedRow()), model.getAssignment(jTable1.getSelectedRow()).getMission());
         
             UpdateAssignmentSwingWorker updateAssignment = new UpdateAssignmentSwingWorker(assignmentManager, model, assignment, jTable1.getSelectedRow());
             updateAssignment.execute();
@@ -1710,6 +1628,7 @@ public class Main extends javax.swing.JFrame
         else
         {
             jTable13.setModel(jTable2.getModel());
+            jComboBox1.setSelectedIndex(((AssignmentTableModel)jTable1.getModel()).getAssignment(jTable1.getSelectedRow()).getStatus().ordinal());
             
             jFrame8.pack();
             jFrame8.setLocationRelativeTo(null);
@@ -1790,13 +1709,10 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox10;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox11;
-    private javax.swing.JComboBox<String> jComboBox12;
     private javax.swing.JComboBox<String> jComboBox13;
-    private javax.swing.JComboBox<String> jComboBox14;
     private javax.swing.JComboBox<String> jComboBox15;
-    private javax.swing.JComboBox<String> jComboBox16;
     private javax.swing.JComboBox<String> jComboBox17;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
@@ -1813,22 +1729,18 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
@@ -1838,6 +1750,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;

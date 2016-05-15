@@ -2,8 +2,6 @@ package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Mission;
 import cz.muni.fi.pv168.project.MissionDifficulty;
-import cz.muni.fi.pv168.project.MissionStatus;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +31,7 @@ public class MissionTableModel extends AbstractTableModel
     @Override
     public int getColumnCount()
     {
-        return 6;
+        return 4;
     }
     
     @Override
@@ -48,11 +46,7 @@ public class MissionTableModel extends AbstractTableModel
             case 2:
                 return bundle.getString("description");
             case 3:
-                return bundle.getString("start");
-            case 4:
                 return bundle.getString("difficulty");
-            case 5:
-                return bundle.getString("status");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -66,14 +60,11 @@ public class MissionTableModel extends AbstractTableModel
             case 0:
                 return Integer.class;
             case 1:
+                return String.class;
             case 2:
                 return String.class;
             case 3:
-                return LocalDate.class;
-            case 4:
                 return MissionDifficulty.class;
-            case 5:
-                return MissionStatus.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -115,11 +106,7 @@ public class MissionTableModel extends AbstractTableModel
             case 2:
                 return mission.getDescription();
             case 3:
-                return mission.getStart();
-            case 4:
                 return mission.getDifficulty();
-            case 5:
-                return mission.getStatus();
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

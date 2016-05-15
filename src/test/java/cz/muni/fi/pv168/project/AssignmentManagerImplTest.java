@@ -44,16 +44,16 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         missionManager = new MissionManagerImpl(dataSource);
         assignmentManager = new AssignmentManagerImpl(dataSource);
     
-        agentOne = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
-        agentTwo = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.MASTER);
-        agentThree = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
+        agentOne = createAgent(null, "First", AgentExperience.NOVICE);
+        agentTwo = createAgent(null, "Second", AgentExperience.MASTER);
+        agentThree = createAgent(null, "Third", AgentExperience.EXPERT);
         
-        missionOne = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        missionTwo = createMission(null, "Write all unit tests, now!!!", LocalDate.now(), MissionDifficulty.IMPOSSIBLE, MissionStatus.NEW);
+        missionOne = createMission(null, "Testing Mission.", "Do tests.", MissionDifficulty.CHUCKNORRIS);
+        missionTwo = createMission(null, "Another one", "Write all unit tests, now!!!", MissionDifficulty.IMPOSSIBLE);
         
-        first = createAssignment(null, agentOne, missionOne);
-        second = createAssignment(null, agentTwo, missionOne);
-        third = createAssignment(null, agentThree, missionTwo);
+        first = createAssignment(null, AssignmentStatus.IN_PROGRESS, LocalDate.now(), agentOne, missionOne);
+        second = createAssignment(null, AssignmentStatus.FAILED, LocalDate.now(), agentTwo, missionOne);
+        third = createAssignment(null, AssignmentStatus.SUCCEEDED, LocalDate.now(), agentThree, missionTwo);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -83,12 +83,14 @@ public class AssignmentManagerImplTest extends SetupBaseTest
         missionManager.addMission(missionOne);
         assignmentManager.addAssignment(first);
         
-        Assignment update = createAssignment(first.getId(), agentTwo, missionOne);
+        Assignment update = createAssignment(first.getId(), AssignmentStatus.SUCCEEDED, LocalDate.now(), agentTwo, missionOne);
         assignmentManager.updateAssignment(update);
         
+        assertEquals("Updated assignment's id is incorrect.", update.getId(), assignmentManager.getAssignment(update.getId()).getId());
+        assertEquals("Updated assignment's status is incorrect.", update.getStatus(), assignmentManager.getAssignment(update.getId()).getStatus());
+        assertEquals("Updated assignment's start date is incorrect.", update.getStartDate(), assignmentManager.getAssignment(update.getId()).getStartDate());
         assertEquals("Updated assignment's agent is incorrect.", update.getAgent(), assignmentManager.getAssignment(update.getId()).getAgent());
         assertEquals("Updated assignment's mission is incorrect.", update.getMission(), assignmentManager.getAssignment(update.getId()).getMission());
-        assertEquals("Updated assignment's mission is incorrect.", update.getId(), assignmentManager.getAssignment(update.getId()).getId());
     }
     
     @Test
@@ -112,7 +114,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     }
     
     @Test
-    public void testGetAllAssignments() 
+    public void getAllAssignments() 
     {
         agentManager.addAgent(agentOne);
         agentManager.addAgent(agentTwo);
@@ -128,7 +130,39 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     }
     
     @Test
-    public void testGetAssignmentsForAgent() 
+    public void getAssignmentsWithStatus()
+    {
+        agentManager.addAgent(agentOne);
+        agentManager.addAgent(agentTwo);
+        agentManager.addAgent(agentThree);
+        missionManager.addMission(missionOne);
+        missionManager.addMission(missionTwo);
+        assignmentManager.addAssignment(first);
+        assignmentManager.addAssignment(second);
+        assignmentManager.addAssignment(third);
+        
+        List<Assignment> assignmentsInProgress = assignmentManager.getAssignmentsWithStatus(AssignmentStatus.IN_PROGRESS);
+        for(Assignment assignment : assignmentsInProgress)
+        {
+            if(!assignment.getStatus().equals(AssignmentStatus.IN_PROGRESS))
+            {
+                fail("Following assignment with different status than IN_PROGRESS was returned: " + assignment);
+            }
+        }
+        
+        List<Assignment> others = assignmentManager.getAllAssignments();
+        others.removeAll(assignmentsInProgress);
+        for(Assignment assignment : others)
+        {
+            if(assignment.getStatus().equals(AssignmentStatus.IN_PROGRESS))
+            {
+                fail("Following assignment with desired status IN_PROGRESS wasn't returned: " + assignment);
+            }
+        }
+    }
+    
+    @Test
+    public void getAssignmentsForAgent() 
     {
         agentManager.addAgent(agentOne);
         agentManager.addAgent(agentTwo);
@@ -147,7 +181,7 @@ public class AssignmentManagerImplTest extends SetupBaseTest
     }
     
     @Test
-    public void testGetAssignmentsForMission() 
+    public void getAssignmentsForMission() 
     {
         agentManager.addAgent(agentOne);
         agentManager.addAgent(agentTwo);

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.project;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -19,10 +20,10 @@ public class AssignmentManagerImpl implements AssignmentManager
     private final JdbcTemplate jdbc;
     private static final Logger logger = Logger.getLogger(AssignmentManagerImpl.class.getName());
     
-    private static final String SQLBASE = "SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
-             "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
-             "FROM Agent INNER JOIN Assignment ON Agent.id = agentId " +
-             "INNER JOIN Mission ON Mission.id = missionId";
+    private static final String SQLBASE = "SELECT assignment.id as id, assignment.status as status, assignment.start as start, " +
+                                          "agent.id as aid, agent.alias as aalias, agent.experience as aexperience, " +
+                                          "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.codename as mcodename " +
+                                          "FROM Agent INNER JOIN Assignment ON Agent.id = agentId INNER JOIN Mission ON Mission.id = missionId";
     
     public AssignmentManagerImpl(DataSource dataSource)
     {
@@ -45,8 +46,10 @@ public class AssignmentManagerImpl implements AssignmentManager
         
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc).withTableName("Assignment").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("missionId", assignment.getMission().getId())
-            .addValue("agentId", assignment.getAgent().getId());
+            .addValue("status", assignment.getStatus().toString())
+            .addValue("start", Date.valueOf(assignment.getStartDate()))
+            .addValue("agentId", assignment.getAgent().getId())
+            .addValue("missionId", assignment.getMission().getId());
         
         Number id = insert.executeAndReturnKey(parameters);
         assignment.setId(id.longValue());
@@ -62,7 +65,9 @@ public class AssignmentManagerImpl implements AssignmentManager
             throw new IllegalArgumentException("Assignment id is null.");
         }
                 
-        int count = jdbc.update("UPDATE Assignment SET agentId = ?, missionId = ? WHERE id = ?",
+        int count = jdbc.update("UPDATE Assignment SET status = ?, start = ?, agentId = ?, missionId = ? WHERE id = ?",
+            assignment.getStatus().toString(),
+            Date.valueOf(assignment.getStartDate()),
             assignment.getAgent().getId(),
             assignment.getMission().getId(),
             assignment.getId());
@@ -87,7 +92,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         
         try
         {
-            int deletedRows = jdbc.update("DELETE FROM Assignment WHERE id=?", id); 
+            int deletedRows = jdbc.update("DELETE FROM Assignment WHERE id = ?", id); 
             if(deletedRows == 0)
             {
                 throw new EntityNotFoundException("Assignment with id <" + id + "> was not found in database.");
@@ -109,7 +114,7 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try
         {
-          return jdbc.queryForObject(SQLBASE + " WHERE Assignment.id=?", assignmentMapper, id);
+          return jdbc.queryForObject(SQLBASE + " WHERE Assignment.id = ?", assignmentMapper, id);
         }
         catch (Exception ex)
         {
@@ -133,19 +138,19 @@ public class AssignmentManagerImpl implements AssignmentManager
     }
     
     @Override
-    public List<Assignment> getAssignmentsForMission(Mission mission) 
+    public List<Assignment> getAssignmentsWithStatus(AssignmentStatus status)
     {
         try
         {
-            return jdbc.query(SQLBASE + " WHERE Mission.id = ?", assignmentMapper, mission.getId());
+            return jdbc.query(SQLBASE + " WHERE status = ?", assignmentMapper, status.toString());
         }
         catch (Exception ex)
         {
-            logger.log(Level.SEVERE, "Error when retrieving assignment with mission: " + mission, ex);
-            throw new DatabaseErrorException("Error when retrieving assignment with mission: " + mission, ex);
+            logger.log(Level.SEVERE, "Error when retrieving assignments with status: " + status, ex);
+            throw new DatabaseErrorException("Error when retrieving assignments with status: " + status, ex);
         }
     }
-
+    
     @Override
     public List<Assignment> getAssignmentsForAgent(Agent agent) 
     {
@@ -155,8 +160,22 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
         catch (Exception ex)
         {
-            logger.log(Level.SEVERE, "Error when retrieving assignment with agent: " + agent, ex);
-            throw new DatabaseErrorException("Error when retrieving assignment with agent: " + agent, ex);
+            logger.log(Level.SEVERE, "Error when retrieving assignments for agent: " + agent, ex);
+            throw new DatabaseErrorException("Error when retrieving assignments for agent: " + agent, ex);
+        }
+    }
+    
+    @Override
+    public List<Assignment> getAssignmentsForMission(Mission mission) 
+    {
+        try
+        {
+            return jdbc.query(SQLBASE + " WHERE Mission.id = ?", assignmentMapper, mission.getId());
+        }
+        catch (Exception ex)
+        {
+            logger.log(Level.SEVERE, "Error when retrieving assignments for mission: " + mission, ex);
+            throw new DatabaseErrorException("Error when retrieving assignments for mission: " + mission, ex);
         }
     }
     
@@ -166,33 +185,37 @@ public class AssignmentManagerImpl implements AssignmentManager
         {
             throw new IllegalArgumentException("Assignment is null.");
         }
+        if(assignment.getStatus() == null)
+        {
+            throw new IllegalArgumentException("Assignment status is null.");
+        }
+        if(assignment.getStartDate() == null)
+        {
+            throw new IllegalArgumentException("Assignment start date is null.");
+        }
         if(assignment.getAgent() == null)
         {
-            throw new IllegalArgumentException("Agent in an assignment is null.");
+            throw new IllegalArgumentException("Assigned agent is null.");
         }
         if(assignment.getMission() == null)
         {
-            throw new IllegalArgumentException("Mission in an assignment is null.");
+            throw new IllegalArgumentException("Assigned mission is null.");
         }
     }
-    
      
     private final RowMapper<Assignment> assignmentMapper = (rs, rowNum) -> 
     {
         Agent agent = new Agent(
             rs.getLong("aid"),
             rs.getString("aalias"),
-            AgentStatus.fromString(rs.getString("astatus")),
             AgentExperience.fromString(rs.getString("aexperience")));
         
         Mission mission = new Mission(
             rs.getLong("mid"),
             rs.getString("mcodename"),
             rs.getString("mdescription"),
-            rs.getDate("mstart").toLocalDate(),
-            MissionDifficulty.fromString(rs.getString("mdifficulty")),
-            MissionStatus.fromString(rs.getString("mstatus")));
+            MissionDifficulty.fromString(rs.getString("mdifficulty")));
         
-        return new Assignment(rs.getLong("id"), mission, agent);
+        return new Assignment(rs.getLong("id"), AssignmentStatus.fromString(rs.getString("status")), rs.getDate("start").toLocalDate(), agent, mission);
     };
 }

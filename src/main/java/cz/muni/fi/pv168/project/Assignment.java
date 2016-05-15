@@ -1,33 +1,53 @@
 package cz.muni.fi.pv168.project;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * @author Tran Manh Hung 433556
  */
-public class Assignment {
-
-    private Mission mission;
-    private Agent agent;
+public class Assignment
+{
     private Long id;
+    private AssignmentStatus status;
+    private LocalDate startDate;
+    private Agent agent;
+    private Mission mission;
     
-    public Assignment(Long id, Mission mission, Agent agent) {
+    public Assignment() {}
+        
+    public Assignment(Long id, AssignmentStatus status, LocalDate startDate, Agent agent, Mission mission) {
         this.id = id;
-        this.mission = mission;
+        this.status = status;
+        this.startDate = startDate;
         this.agent = agent;
-    }
-
-    public Assignment() {
-    }
-
-    public Mission getMission() {
-        return mission;
-    }
-
-    public void setMission(Mission mission) {
         this.mission = mission;
     }
+    
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public AssignmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AssignmentStatus status) {
+        this.status = status;
+    }
+    
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+    
     public Agent getAgent() {
         return agent;
     }
@@ -35,13 +55,13 @@ public class Assignment {
     public void setAgent(Agent agent) {
         this.agent = agent;
     }
-
-    public Long getId() {
-        return id;
+    
+    public Mission getMission() {
+        return mission;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMission(Mission mission) {
+        this.mission = mission;
     }
 
     @Override
@@ -62,6 +82,6 @@ public class Assignment {
 
     @Override
     public String toString() {
-        return "Assigment{" + "mission=" + mission + ", agent=" + agent + ", id=" + id + '}';
+        return "Assignment: { id = " + id + ", status = " + status + ", start date = " + startDate + ", agent = " + agent + ", mission = " + mission + " }";
     }
 }

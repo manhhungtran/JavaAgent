@@ -31,7 +31,7 @@ public class AgentManagerImplTest extends SetupBaseTest
     @Test
     public void addNewAgent()
     {
-        Agent agent = createAgent(null, "Agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent agent = createAgent(null, "Agent", AgentExperience.NOVICE);
         manager.addAgent(agent);
         
         assertNotNull("Agent's id is null.", agent.getId());
@@ -49,29 +49,28 @@ public class AgentManagerImplTest extends SetupBaseTest
     @Test(expected = EntityNotFoundException.class)
     public void updateNonExistentAgent() throws Exception
     {
-        Agent nonExistentAgent = createAgent(1L, "Non-existent agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent nonExistentAgent = createAgent(1L, "Non-existent agent", AgentExperience.NOVICE);
         manager.updateAgent(nonExistentAgent);
     }
     
     @Test
     public void updateAgent() throws Exception
     {
-        Agent agent = createAgent(null, "Agent", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
+        Agent agent = createAgent(null, "Agent", AgentExperience.NOVICE);
         manager.addAgent(agent);
         
-        Agent update = createAgent(agent.getId(), "Asddfd", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent update = createAgent(agent.getId(), "Asddfd", AgentExperience.NOVICE);
         manager.updateAgent(update);
         
         assertEquals("Updated agent's alias is incorrect.", update.getAlias(), manager.getAgent(update.getId()).getAlias());
-        assertEquals("Updated agent's status is incorrect.", update.getStatus(), manager.getAgent(update.getId()).getStatus());
         assertEquals("Updated agent's experience is incorrect.", update.getExperience(), manager.getAgent(update.getId()).getExperience());
     }
     
     @Test
     public void deleteAgent()
     {
-        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
+        Agent first = createAgent(null, "First", AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentExperience.NOVICE);
         manager.addAgent(first);
         manager.addAgent(second);
 
@@ -91,10 +90,10 @@ public class AgentManagerImplTest extends SetupBaseTest
     {
         assertThat(manager.getAllAgents().isEmpty());
         
-        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
-        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
+        Agent first = createAgent(null, "First", AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentExperience.NOVICE);
+        Agent third = createAgent(null, "Third", AgentExperience.EXPERT);
+        Agent fourth = createAgent(null, "Fourth", AgentExperience.MASTER);
         
         manager.addAgent(first);
         manager.addAgent(second);
@@ -107,10 +106,10 @@ public class AgentManagerImplTest extends SetupBaseTest
     @Test
     public void getAgentsWithExperience()
     {
-        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
-        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
+        Agent first = createAgent(null, "First", AgentExperience.EXPERT);
+        Agent second = createAgent(null, "Second", AgentExperience.NOVICE);
+        Agent third = createAgent(null, "Third", AgentExperience.EXPERT);
+        Agent fourth = createAgent(null, "Fourth", AgentExperience.MASTER);
         
         manager.addAgent(first);
         manager.addAgent(second);
@@ -133,39 +132,6 @@ public class AgentManagerImplTest extends SetupBaseTest
             if(agent.getExperience().equals(AgentExperience.EXPERT))
             {
                 fail("Following agent with desired experience EXPERT wasn't returned: " + agent);
-            }
-        }
-    }
-    
-    @Test
-    public void getAgentsWithStatus()
-    {
-        Agent first = createAgent(null, "First", AgentStatus.AVAILABLE, AgentExperience.NOVICE);
-        Agent second = createAgent(null, "Second", AgentStatus.ON_MISSION, AgentExperience.NOVICE);
-        Agent third = createAgent(null, "Third", AgentStatus.AVAILABLE, AgentExperience.EXPERT);
-        Agent fourth = createAgent(null, "Fourth", AgentStatus.RETIRED, AgentExperience.MASTER);
-        
-        manager.addAgent(first);
-        manager.addAgent(second);
-        manager.addAgent(third);
-        manager.addAgent(fourth);
-        
-        List<Agent> availableAgents = manager.getAgentsWithStatus(AgentStatus.AVAILABLE);
-        for(Agent agent : availableAgents)
-        {
-            if(!agent.getStatus().equals(AgentStatus.AVAILABLE))
-            {
-                fail("Following agent with different status than AVAILABLE was returned: " + agent);
-            }
-        }
-        
-        List<Agent> others = manager.getAllAgents();
-        others.removeAll(availableAgents);
-        for(Agent agent : others)
-        {
-            if(agent.getStatus().equals(AgentStatus.AVAILABLE))
-            {
-                fail("Following agent with desired status AVAILABLE wasn't returned: " + agent);
             }
         }
     }

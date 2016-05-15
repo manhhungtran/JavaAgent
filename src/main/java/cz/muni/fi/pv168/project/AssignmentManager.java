@@ -43,24 +43,33 @@ public interface AssignmentManager
     Assignment getAssignment(Long id);
     
     /**
-     * Get all assignments
-     * @return Collection of all assignments in database
+     * Returns list of all assignments.
+     * @return List of all assignments.
+     * @throws DatabaseErrorException when database error occurs.
      */
     List<Assignment> getAllAssignments();
-
-    /**
-     * Get collection of assignments based on mission
-     * @param mission
-     * @return Collection of assignments
-     * @throws DatabaseErrorException when database error occurs
-     */
-    List<Assignment> getAssignmentsForMission(Mission mission);
     
     /**
-     * Get collection of assignments based on agent
-     * @param agent
-     * @return Collection of assignments
-     * @throws DatabaseErrorException when database error occurs
+     * Returns list of all assignments with given status.
+     * @param status Desired status.
+     * @return List of all assignments with given status.
+     * @throws DatabaseErrorException when database error occurs.
+     */
+    List<Assignment> getAssignmentsWithStatus(AssignmentStatus status);
+    
+    /**
+     * Returns list of all assignments for given agent.
+     * @param agent Desired agent.
+     * @return List of all assignments for given agent.
+     * @throws DatabaseErrorException when database error occurs.
      */
     List<Assignment> getAssignmentsForAgent(Agent agent);
+    
+    /**
+     * Returns list of all assignments for given mission.
+     * @param mission Desired mission.
+     * @return List of all assignments for given mission.
+     * @throws DatabaseErrorException when database error occurs.
+     */
+    List<Assignment> getAssignmentsForMission(Mission mission);
 }

@@ -69,34 +69,33 @@ public abstract class SetupBaseTest {
         }
     }
     
-    protected static Agent createAgent(Long id, String alias, AgentStatus status, AgentExperience experience)
+    protected static Agent createAgent(Long id, String alias, AgentExperience experience)
     {
         Agent agent = new Agent();
         agent.setId(id);
         agent.setAlias(alias);
-        agent.setStatus(status);
         agent.setExperience(experience);
         return agent;
     }
     
-    protected static Mission createMission(Long id, String description, LocalDate start, MissionDifficulty difficulty, MissionStatus status) {
+    protected static Mission createMission(Long id, String codename, String description, MissionDifficulty difficulty)
+    {
         Mission mission = new Mission();
         mission.setId(id);
+        mission.setCodename(codename);
         mission.setDescription(description);
         mission.setDifficulty(difficulty);
-        mission.setDescription(description);
-        mission.setStart(start);  
-        mission.setStatus(status);
         return mission;
     }
     
-    protected static Assignment createAssignment(Long id, Agent agent, Mission mission)
+    protected static Assignment createAssignment(Long id, AssignmentStatus status, LocalDate startDate, Agent agent, Mission mission)
     {
         Assignment assignment = new Assignment();
         assignment.setId(id);
+        assignment.setStatus(status);
+        assignment.setStartDate(startDate);
         assignment.setAgent(agent);
         assignment.setMission(mission);
-        
         return assignment;
     }
 }

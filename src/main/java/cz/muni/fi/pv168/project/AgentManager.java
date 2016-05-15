@@ -56,12 +56,4 @@ public interface AgentManager
      * @throws DatabaseErrorException when database error occurs.
      */
     List<Agent> getAgentsWithExperience(AgentExperience experience);
-    
-    /**
-     * Returns list of all agents with given status.
-     * @param status Desired status.
-     * @return List of all agents with given status.
-     * @throws DatabaseErrorException when database error occurs.
-     */
-    List<Agent> getAgentsWithStatus(AgentStatus status);
 }

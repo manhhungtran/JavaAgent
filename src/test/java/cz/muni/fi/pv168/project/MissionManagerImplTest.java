@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168.project;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +23,11 @@ public class MissionManagerImplTest extends SetupBaseTest
         dataSource = prepareDataSource("memory:missionmanagerimpl-test");
         executeSqlScript(dataSource, AssignmentManager.class.getResource("createTables.sql"));
         manager = new MissionManagerImpl(dataSource);
-        first = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
-        second = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.HARD, MissionStatus.FAILED);
-        third = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.EASY, MissionStatus.ONGOING);
-        fourth = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.EASY, MissionStatus.SUCCEDED);
-        fifth = createMission(null, "Testing Mission.", LocalDate.now(), MissionDifficulty.CHUCKNORRIS, MissionStatus.ONGOING);
+        first = createMission(null, "Testing Mission.", "Do something", MissionDifficulty.CHUCKNORRIS);
+        second = createMission(null, "Testing Mission.", "Do something", MissionDifficulty.HARD);
+        third = createMission(null, "Testing Mission.", "Do something", MissionDifficulty.EASY);
+        fourth = createMission(null, "Testing Mission.", "Do something", MissionDifficulty.EASY);
+        fifth = createMission(null, "Testing Mission.", "Do something", MissionDifficulty.CHUCKNORRIS);
     }
 
     /**
@@ -76,13 +75,6 @@ public class MissionManagerImplTest extends SetupBaseTest
             //ok
         }
                         
-        try
-        {
-            manager.getMissionsWithStatus(null);
-        }catch(IllegalArgumentException ignored) 
-        {
-            //ok
-        }
         
         try
         {
@@ -140,30 +132,6 @@ public class MissionManagerImplTest extends SetupBaseTest
     }
 
     /**
-     * Test of getMissionsWithStatus method, of class MissionManagerImpl.
-     */
-    @Test
-    public void testGetMissionsWithStatus() 
-    {
-        manager.addMission(first);
-        manager.addMission(second);
-        manager.addMission(third);
-        manager.addMission(fourth);
-        manager.addMission(fifth);
-        
-        List<Mission> result = manager.getMissionsWithStatus(MissionStatus.FAILED);
-     
-        assertTrue("Retrieved collection doesn't contain right amount od missions.", result.size() == 1);
-        assertTrue("Retrieved collection doesn't contain required mission", result.contains(second));
-        
-        result = manager.getMissionsWithStatus(MissionStatus.ONGOING);
-        assertTrue("Retrieved collection doesn't contain right amount od missions.", result.size() == 3);
-        assertTrue("Retrieved collection doesn't contain required mission", result.contains(first));
-        assertTrue("Retrieved collection doesn't contain required mission", result.contains(third));
-        assertTrue("Retrieved collection doesn't contain required mission", result.contains(fifth));
-    }
-
-    /**
      * Test of getMissionsWithDifficulty method, of class MissionManagerImpl.
      */
     @Test
@@ -213,7 +181,5 @@ public class MissionManagerImplTest extends SetupBaseTest
         assertEquals(second.getId(), result.getId());
         assertEquals(second.getDescription(), result.getDescription());
         assertEquals(second.getDifficulty(), result.getDifficulty());
-        assertEquals(second.getStatus(), result.getStatus());
-        assertEquals(second.getStart(), result.getStart());
     }
 }

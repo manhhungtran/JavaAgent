@@ -41,8 +41,7 @@ public class AgentManagerImpl implements AgentManager
         SimpleJdbcInsert insertAgent = new SimpleJdbcInsert(jdbc).withTableName("Agent").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("alias", agent.getAlias())
-            .addValue("experience", agent.getExperience().toString())
-            .addValue("status", agent.getStatus().toString());
+            .addValue("experience", agent.getExperience().toString());
                 
         Number id = insertAgent.executeAndReturnKey(parameters);
         agent.setId(id.longValue());
@@ -57,9 +56,8 @@ public class AgentManagerImpl implements AgentManager
         {
             throw new IllegalArgumentException("Agent id is null.");
         }
-        int updatedRows = jdbc.update("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?", 
+        int updatedRows = jdbc.update("UPDATE Agent SET alias = ?, experience = ? WHERE id = ?", 
             agent.getAlias(), 
-            agent.getStatus().toString(), 
             agent.getExperience().toString(), 
             agent.getId());
         
@@ -106,7 +104,7 @@ public class AgentManagerImpl implements AgentManager
     {
         try
         {
-            return jdbc.queryForObject("SELECT * FROM Agent WHERE id= ?", agentMapper, id);
+            return jdbc.queryForObject("SELECT * FROM Agent WHERE id = ?", agentMapper, id);
         }
         catch(Exception ex)
         {
@@ -148,25 +146,6 @@ public class AgentManagerImpl implements AgentManager
         }
     }
     
-    @Override
-    public List<Agent> getAgentsWithStatus(AgentStatus status)
-    {
-        if(status == null)
-        {
-            throw new IllegalArgumentException("Null argument given.");
-        }
-        
-        try
-        {
-            return jdbc.query("SELECT * FROM Agent WHERE status = ?", agentMapper, status.toString());
-        }
-        catch(Exception ex)
-        {
-            logger.log(Level.SEVERE, "Error when retrieving agents.", ex);
-            throw new DatabaseErrorException("Error when retrieving agents.", ex);
-        }
-    }
-    
     private void validateAgent(Agent agent)
     {
         if(agent == null)
@@ -177,10 +156,6 @@ public class AgentManagerImpl implements AgentManager
         {
             throw new IllegalArgumentException("Agent alias is null.");
         }
-        if(agent.getStatus() == null)
-        {
-            throw new IllegalArgumentException("Agent status is null.");
-        }
         if(agent.getExperience() == null)
         {
             throw new IllegalArgumentException("Agent experience is null.");
@@ -188,9 +163,10 @@ public class AgentManagerImpl implements AgentManager
     }
     
     private final RowMapper<Agent> agentMapper = (rs, rowNum) ->
-        new Agent(
+        new Agent
+        (
             rs.getLong("id"),
             rs.getString("alias"),
-            AgentStatus.fromString(rs.getString("status")),
-            AgentExperience.fromString(rs.getString("experience")));
+            AgentExperience.fromString(rs.getString("experience"))
+        );
 }

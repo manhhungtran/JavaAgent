@@ -9,32 +9,31 @@ public class Agent
 {
     private Long id;
     private String alias;
-    private AgentStatus status;
     private AgentExperience experience;
 
     public Agent() {}
 
-    public Agent(Long id, String alias, AgentStatus status, AgentExperience experience)
+    public Agent(Long id, String alias, AgentExperience experience)
     {
         this.id = id;
         this.alias = alias;
-        this.status = status;
         this.experience = experience;
     }
     
     public Long getId() { return id; }
     public String getAlias() { return alias; }
-    public AgentStatus getStatus() { return status; }
     public AgentExperience getExperience() { return experience; }
     
     public void setId(Long id) { this.id = id; }    
     public void setAlias(String alias) { this.alias = alias; }
-    public void setStatus(AgentStatus status) { this.status = status; }
     public void setExperience(AgentExperience experience) { this.experience = experience; }
     
-    @Override public String toString()
+    @Override
+    public int hashCode()
     {
-        return "{ " + alias + ", " + id + ", " + status + ", " + experience + " }";
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        return hash;
     }
     
     @Override
@@ -47,12 +46,9 @@ public class Agent
         
         return id.equals(((Agent)other).id);
     }
-
-    @Override
-    public int hashCode()
+    
+    @Override public String toString()
     {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        return hash;
+        return "Agent: { id = " + id + ", alias = " + alias + ", experience = " + experience + " }";
     }
 }

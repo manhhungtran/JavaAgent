@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Assignment;
+import cz.muni.fi.pv168.project.AssignmentStatus;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,7 +32,7 @@ public class AssignmentTableModel extends AbstractTableModel
     @Override
     public int getColumnCount()
     {
-        return 3;
+        return 5;
     }
     
     @Override
@@ -41,8 +43,12 @@ public class AssignmentTableModel extends AbstractTableModel
             case 0:
                 return bundle.getString("assignment_id");
             case 1:
-                return bundle.getString("agent_alias");
+                return bundle.getString("status");
             case 2:
+                return bundle.getString("start");
+            case 3:
+                return bundle.getString("agent_alias");
+            case 4:
                 return bundle.getString("mission_codename");
             default:
                 throw new IllegalArgumentException("columnIndex");
@@ -57,8 +63,12 @@ public class AssignmentTableModel extends AbstractTableModel
             case 0:
                 return Integer.class;
             case 1:
-                return String.class;
+                return AssignmentStatus.class;
             case 2:
+                return LocalDate.class;
+            case 3:
+                return String.class;
+            case 4:
                 return String.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
@@ -97,8 +107,12 @@ public class AssignmentTableModel extends AbstractTableModel
             case 0:
                 return assignment.getId();
             case 1:
-                return assignment.getAgent().getAlias();
+                return assignment.getStatus();
             case 2:
+                return assignment.getStartDate();
+            case 3:
+                return assignment.getAgent().getAlias();
+            case 4:
                 return assignment.getMission().getCodename();
             default:
                 throw new IllegalArgumentException("columnIndex");

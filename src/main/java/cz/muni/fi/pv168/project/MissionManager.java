@@ -3,7 +3,6 @@ package cz.muni.fi.pv168.project;
 import java.util.List;
 
 /**
- *
  * @author Tran Manh Hung (433556)
  */
 public interface MissionManager 
@@ -39,14 +38,6 @@ public interface MissionManager
      * @return Collection of all missions in database
      */
     List<Mission> getAllMissions();
-    
-    /**
-     * Get collection of missions based on difficulty
-     * @param status
-     * @return Collection of missions
-     * @throws DatabaseErrorException when database error occurs
-     */
-    List<Mission> getMissionsWithStatus(MissionStatus status);
     
     /**
      * Get collection of missions based on difficulty

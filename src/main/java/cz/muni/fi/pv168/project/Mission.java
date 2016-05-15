@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168.project;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -11,22 +10,16 @@ public class Mission
     private Long id;
     private String codename;
     private String description;
-    private LocalDate start;
     private MissionDifficulty difficulty;
-    private MissionStatus status;
 
-    public Mission() {
-    }
+    public Mission() {}
 
-    public Mission(Long id, String codename, String description, LocalDate start, MissionDifficulty difficulty, MissionStatus status) {
+    public Mission(Long id, String codename, String description, MissionDifficulty difficulty) {
         this.id = id;
         this.codename = codename;
         this.description = description;
-        this.start = start;
         this.difficulty = difficulty;
-        this.status = status;
     }
-    
     
     public Long getId()
     {
@@ -56,16 +49,6 @@ public class Mission
         this.description = description;
     }
 
-    public LocalDate getStart()
-    {
-        return start;
-    }
-
-    public void setStart(LocalDate start)
-    {
-        this.start = start;
-    }
-
     public MissionDifficulty getDifficulty()
     {
         return difficulty;
@@ -74,16 +57,6 @@ public class Mission
     public void setDifficulty(MissionDifficulty difficulty)
     {
         this.difficulty = difficulty;
-    }
-
-    public MissionStatus getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(MissionStatus status)
-    {
-        this.status = status;
     }
 
     @Override
@@ -98,27 +71,19 @@ public class Mission
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object other)
     {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
+        if(!(other instanceof Mission))
         {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        final Mission other = (Mission) obj;
-        return Objects.equals(this.id, other.id);
+        
+        return id.equals(((Mission)other).id);
     }
 
     @Override
     public String toString() 
     {
-        return "Mission{" + "id=" + id + ", description=" + description + ", start=" + start + ", difficulty=" + difficulty + ", status=" + status + '}';
+        return "Mission: { id = " + id + ", description = " + description + ", difficulty = " + difficulty + " }";
     }
 }

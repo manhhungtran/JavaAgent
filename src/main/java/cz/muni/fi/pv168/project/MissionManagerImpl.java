@@ -46,9 +46,7 @@ public class MissionManagerImpl implements MissionManager
         SqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("codename", mission.getCodename())
             .addValue("description", mission.getDescription())
-            .addValue("start", Date.valueOf(mission.getStart()))
-            .addValue("difficulty", mission.getDifficulty().toString())
-            .addValue("status", mission.getStatus().toString());
+            .addValue("difficulty", mission.getDifficulty().toString());
         
         Number id = insertMission.executeAndReturnKey(parameters);
         mission.setId(id.longValue());
@@ -64,12 +62,10 @@ public class MissionManagerImpl implements MissionManager
             throw new IllegalArgumentException("Mission id is null.");
         }
         
-        int count = jdbc.update("UPDATE Mission SET codename = ?, description = ?, start = ?, difficulty = ?, status = ? WHERE id = ?",
+        int count = jdbc.update("UPDATE Mission SET codename = ?, description = ?, difficulty = ? WHERE id = ?",
             mission.getCodename(),
             mission.getDescription(),
-            Date.valueOf(mission.getStart()),
             mission.getDifficulty().toString(),
-            mission.getStatus().toString(),
             mission.getId()
         );
         
@@ -88,7 +84,7 @@ public class MissionManagerImpl implements MissionManager
     {
         try
         {
-            return jdbc.queryForObject("SELECT * FROM Mission WHERE id= ?", missionMapper, id);
+            return jdbc.queryForObject("SELECT * FROM Mission WHERE id = ?", missionMapper, id);
         }
         catch(Exception ex)
         {
@@ -108,25 +104,6 @@ public class MissionManagerImpl implements MissionManager
         {
             logger.log(Level.SEVERE, "Error when retrieving all missions.", ex);
             throw new DatabaseErrorException("Error when retrieving all missions.", ex);
-        }
-    }
-
-    @Override
-    public List<Mission> getMissionsWithStatus(MissionStatus status) 
-    {
-        if(status == null)
-        {
-            throw new IllegalArgumentException("Null argument given.");
-        }
-        
-        try
-        {
-            return jdbc.query("SELECT * FROM Mission WHERE status = ?", missionMapper, status.toString());
-        }
-        catch(Exception ex)
-        {
-            logger.log(Level.SEVERE, "Error when retrieving missions.", ex);
-            throw new DatabaseErrorException("Error when retrieving missions.", ex);
         }
     }
 
@@ -158,7 +135,7 @@ public class MissionManagerImpl implements MissionManager
          
         try
         {
-            int count = jdbc.update("DELETE FROM Mission WHERE id=?", id); 
+            int count = jdbc.update("DELETE FROM Mission WHERE id = ?", id); 
             
             if(count == 0)
             {
@@ -182,20 +159,17 @@ public class MissionManagerImpl implements MissionManager
         {
             throw new IllegalArgumentException("Mission is null.");
         }
-        
-        if(mission.getStart() == null)
+        if(mission.getCodename() == null)
         {
-            throw new IllegalArgumentException("Start date is null.");
+            throw new IllegalArgumentException("Mission codename is null.");
         }
-        
+        if(mission.getDescription() == null)
+        {
+            throw new IllegalArgumentException("Mission description is null.");
+        }
         if(mission.getDifficulty() == null)
         {
-            throw new IllegalArgumentException("Difficulty is null.");
-        }
-        
-        if(mission.getStatus() == null)
-        {
-            throw new IllegalArgumentException("Status is null.");
+            throw new IllegalArgumentException("Mission difficulty is null.");
         }
     }
     
@@ -206,9 +180,7 @@ public class MissionManagerImpl implements MissionManager
                 rs.getLong("id"),
                 rs.getString("codename"),
                 rs.getString("description"),
-                rs.getDate("start").toLocalDate(),
-                MissionDifficulty.fromString(rs.getString("difficulty")),
-                MissionStatus.fromString(rs.getString("status")));
+                MissionDifficulty.fromString(rs.getString("difficulty")));
         }
     }; 
     

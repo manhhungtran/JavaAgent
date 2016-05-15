@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.project.models;
 
 import cz.muni.fi.pv168.project.Agent;
 import cz.muni.fi.pv168.project.AgentExperience;
-import cz.muni.fi.pv168.project.AgentStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,7 +31,7 @@ public class AgentTableModel extends AbstractTableModel
     @Override
     public int getColumnCount()
     {
-        return 4;
+        return 3;
     }
     
     @Override
@@ -45,8 +44,6 @@ public class AgentTableModel extends AbstractTableModel
             case 1:
                 return bundle.getString("alias");
             case 2:
-                return bundle.getString("status");
-            case 3:
                 return bundle.getString("experience");
             default:
                 throw new IllegalArgumentException("columnIndex");
@@ -63,8 +60,6 @@ public class AgentTableModel extends AbstractTableModel
             case 1:
                 return String.class;
             case 2:
-                return AgentStatus.class;
-            case 3:
                 return AgentExperience.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
@@ -105,8 +100,6 @@ public class AgentTableModel extends AbstractTableModel
             case 1:
                 return agent.getAlias();
             case 2:
-                return agent.getStatus();
-            case 3:
                 return agent.getExperience();
             default:
                 throw new IllegalArgumentException("columnIndex");
