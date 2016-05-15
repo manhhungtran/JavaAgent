@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +17,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 public class AgentManagerImpl implements AgentManager
 {
     private final JdbcTemplate jdbc;
+    private static final Logger logger = Logger.getLogger(AgentManagerImpl.class.getName());
 
     public AgentManagerImpl(DataSource dataSource)
     {
@@ -35,12 +38,11 @@ public class AgentManagerImpl implements AgentManager
             throw new IllegalArgumentException("Agent id is already set.");
         }
         
-        SimpleJdbcInsert insertAgent = new SimpleJdbcInsert(jdbc)
-                .withTableName("Agent").usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert insertAgent = new SimpleJdbcInsert(jdbc).withTableName("Agent").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("alias", agent.getAlias())
-                .addValue("experience", agent.getExperience().toString())
-                .addValue("status", agent.getStatus().toString());
+            .addValue("alias", agent.getAlias())
+            .addValue("experience", agent.getExperience().toString())
+            .addValue("status", agent.getStatus().toString());
                 
         Number id = insertAgent.executeAndReturnKey(parameters);
         agent.setId(id.longValue());
@@ -56,10 +58,10 @@ public class AgentManagerImpl implements AgentManager
             throw new IllegalArgumentException("Agent id is null.");
         }
         int updatedRows = jdbc.update("UPDATE Agent SET alias = ?, status = ?, experience = ? WHERE id = ?", 
-                agent.getAlias(), 
-                agent.getStatus().toString(), 
-                agent.getExperience().toString(), 
-                agent.getId());
+            agent.getAlias(), 
+            agent.getStatus().toString(), 
+            agent.getExperience().toString(), 
+            agent.getId());
         
         if(updatedRows == 0)
         {
@@ -94,6 +96,7 @@ public class AgentManagerImpl implements AgentManager
         }
         catch(DataAccessException | EntityNotFoundException | DatabaseErrorException ex)
         {
+            logger.log(Level.SEVERE, "Error when deleting agent with id: " + id, ex);
             throw new DatabaseErrorException("Error when deleting agent with id: " + id, ex);
         }
     }
@@ -103,18 +106,27 @@ public class AgentManagerImpl implements AgentManager
     {
         try
         {
-           return jdbc.queryForObject("SELECT * FROM Agent WHERE id= ?", agentMapper, id);
+            return jdbc.queryForObject("SELECT * FROM Agent WHERE id= ?", agentMapper, id);
         }
         catch(Exception ex)
         {
-           throw new DatabaseErrorException("Error when retrieving agent with id: " + id, ex);
+            logger.log(Level.SEVERE, "Error when retrieving agent with id: " + id, ex);
+            throw new DatabaseErrorException("Error when retrieving agent with id: " + id, ex);
         }
     }
     
     @Override
     public List<Agent> getAllAgents()
     {
-        return jdbc.query("SELECT * FROM Agent", agentMapper);
+        try
+        {
+            return jdbc.query("SELECT * FROM Agent", agentMapper);
+        }
+        catch(Exception ex)
+        {
+            logger.log(Level.SEVERE, "Error when retrieving all agents.", ex);
+            throw new DatabaseErrorException("Error when retrieving all agents.", ex);
+        }
     }
     
     @Override
@@ -122,16 +134,17 @@ public class AgentManagerImpl implements AgentManager
     {
         if(experience == null)
         {
-        throw new IllegalArgumentException("Null argument given.");
+            throw new IllegalArgumentException("Null argument given.");
         }
         
         try
         {
-           return jdbc.query("SELECT * FROM Agent WHERE experience = ?", agentMapper, experience.toString());
+            return jdbc.query("SELECT * FROM Agent WHERE experience = ?", agentMapper, experience.toString());
         }
         catch(Exception ex)
         {
-           throw new DatabaseErrorException("Error when retrieving missions.", ex);
+            logger.log(Level.SEVERE, "Error when retrieving agents.", ex);
+            throw new DatabaseErrorException("Error when retrieving agents.", ex);
         }
     }
     
@@ -140,16 +153,17 @@ public class AgentManagerImpl implements AgentManager
     {
         if(status == null)
         {
-        throw new IllegalArgumentException("Null argument given.");
+            throw new IllegalArgumentException("Null argument given.");
         }
         
         try
         {
-           return jdbc.query("SELECT * FROM Agent WHERE status = ?", agentMapper, status.toString());
+            return jdbc.query("SELECT * FROM Agent WHERE status = ?", agentMapper, status.toString());
         }
         catch(Exception ex)
         {
-           throw new DatabaseErrorException("Error when retrieving missions.", ex);
+            logger.log(Level.SEVERE, "Error when retrieving agents.", ex);
+            throw new DatabaseErrorException("Error when retrieving agents.", ex);
         }
     }
     

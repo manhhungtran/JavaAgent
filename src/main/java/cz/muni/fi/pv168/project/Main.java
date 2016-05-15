@@ -1221,7 +1221,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel5.add(jScrollPane1, gridBagConstraints);
 
         jButton2.setText("Edit Selected Agent");
@@ -1281,7 +1281,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel20.add(jScrollPane10, gridBagConstraints);
 
         jButton37.setText("Edit Selected Mission");
@@ -1327,7 +1327,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
         jButton12.setText("Add New Assignment");
@@ -1355,10 +1355,10 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 15);
         jPanel12.add(jButton13, gridBagConstraints);
 
-        jButton14.setText("Edit Selected Assignment");
+        jButton14.setText("Change Agent for Selected Assignment");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);

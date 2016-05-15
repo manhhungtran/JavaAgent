@@ -1,6 +1,8 @@
 package cz.muni.fi.pv168.project;
 
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import javax.sql.DataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +17,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 public class AssignmentManagerImpl implements AssignmentManager
 {
     private final JdbcTemplate jdbc;
+    private static final Logger logger = Logger.getLogger(AssignmentManagerImpl.class.getName());
     
     private static final String SQLBASE = "SELECT assignment.id as id, agent.id as aid, agent.alias as aalias, agent.status as astatus, agent.experience as aexperience, " +
              "mission.id as mid, mission.description as mdescription, mission.difficulty as mdifficulty, mission.status as mstatus, mission.codename as mcodename, mission.start as mstart " +
@@ -40,11 +43,11 @@ public class AssignmentManagerImpl implements AssignmentManager
             throw new IllegalArgumentException("Assignment id is already set.");
         }
         
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc)
-                .withTableName("Assignment").usingGeneratedKeyColumns("id");
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbc).withTableName("Assignment").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("missionId", assignment.getMission().getId())
-                .addValue("agentId", assignment.getAgent().getId());
+            .addValue("missionId", assignment.getMission().getId())
+            .addValue("agentId", assignment.getAgent().getId());
+        
         Number id = insert.executeAndReturnKey(parameters);
         assignment.setId(id.longValue());
     }
@@ -60,9 +63,9 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
                 
         int count = jdbc.update("UPDATE Assignment SET agentId = ?, missionId = ? WHERE id = ?",
-                assignment.getAgent().getId(),
-                assignment.getMission().getId(),
-                assignment.getId());
+            assignment.getAgent().getId(),
+            assignment.getMission().getId(),
+            assignment.getId());
         
         if(count == 0)
         {
@@ -96,6 +99,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
         catch(DataAccessException | EntityNotFoundException | DatabaseErrorException ex)
         {
+            logger.log(Level.SEVERE, "Error when deleting assignment with id: " + id, ex);
             throw new DatabaseErrorException("Error when deleting assignment with id: " + id, ex);
         }
     }
@@ -109,6 +113,7 @@ public class AssignmentManagerImpl implements AssignmentManager
         }
         catch (Exception ex)
         {
+            logger.log(Level.SEVERE, "Error when retrieving assignment with id: " + id, ex);
             throw new DatabaseErrorException("Error when retrieving assignment with id: " + id, ex);
         }
     }
@@ -118,10 +123,11 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try
         {
-          return jdbc.query(SQLBASE, assignmentMapper);
+            return jdbc.query(SQLBASE, assignmentMapper);
         }
         catch (Exception ex) 
         {
+            logger.log(Level.SEVERE, "Error when retrieving all assignments.", ex);
             throw new DatabaseErrorException("Error when retrieving all assignments.", ex);
         }
     }
@@ -131,11 +137,12 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try
         {
-          return jdbc.query(SQLBASE + " WHERE Mission.id = ?", assignmentMapper, mission.getId());
+            return jdbc.query(SQLBASE + " WHERE Mission.id = ?", assignmentMapper, mission.getId());
         }
         catch (Exception ex)
         {
-            throw new DatabaseErrorException("Error when retrieving assignment with mission: " + mission.toString(), ex);
+            logger.log(Level.SEVERE, "Error when retrieving assignment with mission: " + mission, ex);
+            throw new DatabaseErrorException("Error when retrieving assignment with mission: " + mission, ex);
         }
     }
 
@@ -144,11 +151,12 @@ public class AssignmentManagerImpl implements AssignmentManager
     {
         try
         {
-          return jdbc.query(SQLBASE + " WHERE Agent.id = ?", assignmentMapper, agent.getId());
+            return jdbc.query(SQLBASE + " WHERE Agent.id = ?", assignmentMapper, agent.getId());
         }
         catch (Exception ex)
         {
-            throw new DatabaseErrorException("Error when retrieving assignment with agent: " + agent.toString(), ex);
+            logger.log(Level.SEVERE, "Error when retrieving assignment with agent: " + agent, ex);
+            throw new DatabaseErrorException("Error when retrieving assignment with agent: " + agent, ex);
         }
     }
     
@@ -172,22 +180,19 @@ public class AssignmentManagerImpl implements AssignmentManager
     private final RowMapper<Assignment> assignmentMapper = (rs, rowNum) -> 
     {
         Agent agent = new Agent(
-                rs.getLong("aid"),
-                rs.getString("aalias"),
-                AgentStatus.fromString(rs.getString("astatus")),
-                AgentExperience.fromString(rs.getString("aexperience")));
+            rs.getLong("aid"),
+            rs.getString("aalias"),
+            AgentStatus.fromString(rs.getString("astatus")),
+            AgentExperience.fromString(rs.getString("aexperience")));
         
         Mission mission = new Mission(
-                rs.getLong("mid"),
-                rs.getString("mcodename"),
-                rs.getString("mdescription"),
-                rs.getDate("mstart").toLocalDate(),
-                MissionDifficulty.fromString(rs.getString("mdifficulty")),
-                MissionStatus.fromString(rs.getString("mstatus")));
+            rs.getLong("mid"),
+            rs.getString("mcodename"),
+            rs.getString("mdescription"),
+            rs.getDate("mstart").toLocalDate(),
+            MissionDifficulty.fromString(rs.getString("mdifficulty")),
+            MissionStatus.fromString(rs.getString("mstatus")));
         
-        return new Assignment(
-                rs.getLong("id"),
-                mission,
-                agent);
+        return new Assignment(rs.getLong("id"), mission, agent);
     };
 }
