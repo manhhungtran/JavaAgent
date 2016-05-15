@@ -17,6 +17,8 @@ import cz.muni.fi.pv168.project.swingworkers.UpdateAssignmentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.UpdateMissionSwingWorker;
 
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.sql.DataSource;
 
 /**
@@ -24,6 +26,7 @@ import javax.sql.DataSource;
  */
 public class Main extends javax.swing.JFrame
 {
+    private ResourceBundle bundle;
     private AgentManager agentManager;
     private MissionManager missionManager;
     private AssignmentManager assignmentManager;
@@ -33,8 +36,15 @@ public class Main extends javax.swing.JFrame
      */
     public Main()
     {
+        initializeLocale();
         initComponents();
         initializeDatabase();
+    }
+    
+    private void initializeLocale()
+    {
+        Locale locale = Locale.getDefault();
+        bundle = ResourceBundle.getBundle("cz/muni/fi/pv168/project/Locale", locale);
     }
     
     private void initializeDatabase()
@@ -1182,7 +1192,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(jButton6, gridBagConstraints);
 
-        jLabel8.setText("Main Menu");
+        jLabel8.setText(bundle.getString("main_menu"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
