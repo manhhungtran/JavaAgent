@@ -205,7 +205,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel14.setLayout(new java.awt.GridBagLayout());
 
-        jTextField5.setText("Enter Agent Alias Here");
+        jTextField5.setText(bundle.getString("enter_agent_alias_here"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -248,7 +248,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel14.add(jComboBox11, gridBagConstraints);
 
-        jButton23.setText("Submit");
+        jButton23.setText(bundle.getString("submit"));
         jButton23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton23ActionPerformed(evt);
@@ -264,7 +264,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 100);
         jPanel14.add(jButton23, gridBagConstraints);
 
-        jLabel15.setText("Alias:");
+        jLabel15.setText(bundle.getString("alias") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -273,7 +273,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel14.add(jLabel15, gridBagConstraints);
 
-        jLabel16.setText("Status:");
+        jLabel16.setText(bundle.getString("status") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -282,7 +282,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel14.add(jLabel16, gridBagConstraints);
 
-        jLabel17.setText("Experience:");
+        jLabel17.setText(bundle.getString("experience") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -291,7 +291,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel14.add(jLabel17, gridBagConstraints);
 
-        jButton24.setText("Cancel");
+        jButton24.setText(bundle.getString("cancel"));
         jButton24.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton24ActionPerformed(evt);
@@ -306,7 +306,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel14.add(jButton24, gridBagConstraints);
 
-        jLabel20.setText("Add New Agent");
+        jLabel20.setText(bundle.getString("add_new_agent"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -383,7 +383,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel17.add(jComboBox13, gridBagConstraints);
 
-        jButton26.setText("Submit");
+        jButton26.setText(bundle.getString("submit"));
         jButton26.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton26ActionPerformed(evt);
@@ -399,7 +399,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 100);
         jPanel17.add(jButton26, gridBagConstraints);
 
-        jLabel21.setText("Alias:");
+        jLabel21.setText(bundle.getString("alias") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -408,7 +408,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel17.add(jLabel21, gridBagConstraints);
 
-        jLabel22.setText("Status:");
+        jLabel22.setText(bundle.getString("status") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -417,7 +417,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel17.add(jLabel22, gridBagConstraints);
 
-        jLabel23.setText("Experience:");
+        jLabel23.setText(bundle.getString("experience") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -426,7 +426,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel17.add(jLabel23, gridBagConstraints);
 
-        jButton27.setText("Cancel");
+        jButton27.setText(bundle.getString("cancel"));
         jButton27.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton27ActionPerformed(evt);
@@ -441,7 +441,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel17.add(jButton27, gridBagConstraints);
 
-        jLabel24.setText("Edit Agent");
+        jLabel24.setText(bundle.getString("edit_agent"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -474,7 +474,7 @@ public class Main extends javax.swing.JFrame
         jDialog1.setName("Confirmation"); // NOI18N
         jDialog1.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel25.setText("Are you sure to delete this agent?");
+        jLabel25.setText(bundle.getString("are_you_sure_to_delete_this_agent"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -482,7 +482,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jDialog1.getContentPane().add(jLabel25, gridBagConstraints);
 
-        jButton28.setText("Delete");
+        jButton28.setText(bundle.getString("delete"));
         jButton28.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton28ActionPerformed(evt);
@@ -497,7 +497,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
         jDialog1.getContentPane().add(jButton28, gridBagConstraints);
 
-        jButton29.setText("Cancel");
+        jButton29.setText(bundle.getString("cancel"));
         jButton29.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton29ActionPerformed(evt);
@@ -515,7 +515,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel18.setLayout(new java.awt.GridBagLayout());
 
-        jTextField9.setText("Enter Mission Codename Here");
+        jTextField9.setText(bundle.getString("enter_mission_codename_here"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -548,7 +548,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel18.add(jComboBox15, gridBagConstraints);
 
-        jButton30.setText("Submit");
+        jButton30.setText(bundle.getString("submit"));
         jButton30.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton30ActionPerformed(evt);
@@ -564,7 +564,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 100);
         jPanel18.add(jButton30, gridBagConstraints);
 
-        jLabel26.setText("Codename:");
+        jLabel26.setText(bundle.getString("codename") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -573,7 +573,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel18.add(jLabel26, gridBagConstraints);
 
-        jLabel27.setText("Status:");
+        jLabel27.setText(bundle.getString("status") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -582,7 +582,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel18.add(jLabel27, gridBagConstraints);
 
-        jLabel28.setText("Difficulty:");
+        jLabel28.setText(bundle.getString("difficulty") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -591,7 +591,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel18.add(jLabel28, gridBagConstraints);
 
-        jButton31.setText("Cancel");
+        jButton31.setText(bundle.getString("cancel"));
         jButton31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton31ActionPerformed(evt);
@@ -606,7 +606,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel18.add(jButton31, gridBagConstraints);
 
-        jLabel29.setText("Add New Mission");
+        jLabel29.setText(bundle.getString("add_new_mission"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -615,7 +615,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 30, 0);
         jPanel18.add(jLabel29, gridBagConstraints);
 
-        jLabel1.setText("Description:");
+        jLabel1.setText(bundle.getString("description") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -626,7 +626,7 @@ public class Main extends javax.swing.JFrame
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Enter Mission Description Here");
+        jTextArea1.setText(bundle.getString("enter_mission_description_here"));
         jScrollPane6.setViewportView(jTextArea1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -702,7 +702,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel19.add(jComboBox17, gridBagConstraints);
 
-        jButton32.setText("Submit");
+        jButton32.setText(bundle.getString("submit"));
         jButton32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton32ActionPerformed(evt);
@@ -718,7 +718,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 100);
         jPanel19.add(jButton32, gridBagConstraints);
 
-        jLabel30.setText("Codename:");
+        jLabel30.setText(bundle.getString("codename") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -727,7 +727,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel19.add(jLabel30, gridBagConstraints);
 
-        jLabel31.setText("Status:");
+        jLabel31.setText(bundle.getString("status") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
@@ -736,7 +736,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel19.add(jLabel31, gridBagConstraints);
 
-        jLabel32.setText("Difficulty:");
+        jLabel32.setText(bundle.getString("difficulty") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -745,7 +745,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
         jPanel19.add(jLabel32, gridBagConstraints);
 
-        jButton33.setText("Cancel");
+        jButton33.setText(bundle.getString("cancel"));
         jButton33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton33ActionPerformed(evt);
@@ -760,7 +760,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel19.add(jButton33, gridBagConstraints);
 
-        jLabel33.setText("Edit Mission");
+        jLabel33.setText(bundle.getString("edit_mission"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -769,7 +769,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 30, 0);
         jPanel19.add(jLabel33, gridBagConstraints);
 
-        jLabel2.setText("Description:");
+        jLabel2.setText(bundle.getString("description") + ":");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -817,7 +817,7 @@ public class Main extends javax.swing.JFrame
         jDialog3.setName("Confirmation"); // NOI18N
         jDialog3.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel34.setText("Are you sure to delete this mission?");
+        jLabel34.setText(bundle.getString("are_you_sure_to_delete_this_mission"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -825,7 +825,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jDialog3.getContentPane().add(jLabel34, gridBagConstraints);
 
-        jButton34.setText("Delete");
+        jButton34.setText(bundle.getString("delete"));
         jButton34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton34ActionPerformed(evt);
@@ -840,7 +840,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
         jDialog3.getContentPane().add(jButton34, gridBagConstraints);
 
-        jButton35.setText("Cancel");
+        jButton35.setText(bundle.getString("cancel"));
         jButton35.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton35ActionPerformed(evt);
@@ -882,7 +882,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 20);
         jPanel16.add(jScrollPane12, gridBagConstraints);
 
-        jButton25.setText("Submit");
+        jButton25.setText(bundle.getString("submit"));
         jButton25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton25ActionPerformed(evt);
@@ -897,7 +897,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
         jPanel16.add(jButton25, gridBagConstraints);
 
-        jButton8.setText("Cancel");
+        jButton8.setText(bundle.getString("cancel"));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -911,7 +911,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 200);
         jPanel16.add(jButton8, gridBagConstraints);
 
-        jLabel5.setText("Select Mission");
+        jLabel5.setText(bundle.getString("select_mission"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -919,7 +919,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 0);
         jPanel16.add(jLabel5, gridBagConstraints);
 
-        jLabel6.setText("Select Agent");
+        jLabel6.setText(bundle.getString("select_agent"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -950,12 +950,12 @@ public class Main extends javax.swing.JFrame
 
         jDialog2.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText("You need to select an agent first.");
+        jLabel3.setText(bundle.getString("you_need_to_select_an_agent_first"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
         jDialog2.getContentPane().add(jLabel3, gridBagConstraints);
 
-        jButton10.setText("Ok");
+        jButton10.setText(bundle.getString("ok"));
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
@@ -971,12 +971,12 @@ public class Main extends javax.swing.JFrame
 
         jDialog4.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel4.setText("You need to select a mission first.");
+        jLabel4.setText(bundle.getString("you_need_to_select_a_mission_first"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
         jDialog4.getContentPane().add(jLabel4, gridBagConstraints);
 
-        jButton11.setText("Ok");
+        jButton11.setText(bundle.getString("ok"));
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
@@ -993,7 +993,7 @@ public class Main extends javax.swing.JFrame
         jDialog5.setName("Confirmation"); // NOI18N
         jDialog5.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel35.setText("Are you sure to delete this assignment?");
+        jLabel35.setText(bundle.getString("are_you_sure_to_delete_this_assignment"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1001,7 +1001,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jDialog5.getContentPane().add(jLabel35, gridBagConstraints);
 
-        jButton39.setText("Delete");
+        jButton39.setText(bundle.getString("delete"));
         jButton39.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton39ActionPerformed(evt);
@@ -1016,7 +1016,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 30, 30, 150);
         jDialog5.getContentPane().add(jButton39, gridBagConstraints);
 
-        jButton40.setText("Cancel");
+        jButton40.setText(bundle.getString("cancel"));
         jButton40.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton40ActionPerformed(evt);
@@ -1032,12 +1032,12 @@ public class Main extends javax.swing.JFrame
 
         jDialog6.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel7.setText("You need to select an assignment first.");
+        jLabel7.setText(bundle.getString("you_need_to_select_an_assignment_first"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
         jDialog6.getContentPane().add(jLabel7, gridBagConstraints);
 
-        jButton15.setText("Ok");
+        jButton15.setText(bundle.getString("ok"));
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -1067,7 +1067,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 20);
         jPanel21.add(jScrollPane16, gridBagConstraints);
 
-        jButton41.setText("Submit");
+        jButton41.setText(bundle.getString("submit"));
         jButton41.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton41ActionPerformed(evt);
@@ -1082,7 +1082,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
         jPanel21.add(jButton41, gridBagConstraints);
 
-        jButton18.setText("Cancel");
+        jButton18.setText(bundle.getString("cancel"));
         jButton18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton18ActionPerformed(evt);
@@ -1096,7 +1096,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(30, 275, 30, 0);
         jPanel21.add(jButton18, gridBagConstraints);
 
-        jLabel10.setText("Assign New Agent");
+        jLabel10.setText(bundle.getString("assign_new_agent"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1126,7 +1126,7 @@ public class Main extends javax.swing.JFrame
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Agent System");
+        setTitle(bundle.getString("agent_management_system"));
         setLocation(new java.awt.Point(0, 0));
         setName("Agent System"); // NOI18N
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
@@ -1135,7 +1135,7 @@ public class Main extends javax.swing.JFrame
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jButton4.setText("Manage Agents");
+        jButton4.setText(bundle.getString("manage_agents"));
         jButton4.setMaximumSize(new java.awt.Dimension(133, 23));
         jButton4.setMinimumSize(new java.awt.Dimension(133, 23));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -1158,7 +1158,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(jButton4, gridBagConstraints);
 
-        jButton5.setText("Manage Missions");
+        jButton5.setText(bundle.getString("manage_missions"));
         jButton5.setMaximumSize(new java.awt.Dimension(133, 23));
         jButton5.setMinimumSize(new java.awt.Dimension(133, 23));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -1176,7 +1176,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(jButton5, gridBagConstraints);
 
-        jButton6.setText("Manage Assignments");
+        jButton6.setText(bundle.getString("manage_assignments"));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -1199,11 +1199,11 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         jPanel1.add(jLabel8, gridBagConstraints);
 
-        jTabbedPane1.addTab("Main Menu", jPanel1);
+        jTabbedPane1.addTab(bundle.getString("main_menu"), jPanel1);
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("Add New Agent");
+        jButton1.setText(bundle.getString("add_new_agent"));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1218,7 +1218,6 @@ public class Main extends javax.swing.JFrame
         jPanel5.add(jButton1, gridBagConstraints);
 
         jTable2.setModel(new AgentTableModel());
-        jTable2.setColumnSelectionAllowed(true);
         jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable2);
         jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -1234,7 +1233,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel5.add(jScrollPane1, gridBagConstraints);
 
-        jButton2.setText("Edit Selected Agent");
+        jButton2.setText(bundle.getString("edit_selected_agent"));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -1248,7 +1247,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel5.add(jButton2, gridBagConstraints);
 
-        jButton3.setText("Delete Selected Agent");
+        jButton3.setText(bundle.getString("delete_selected_agent"));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -1262,11 +1261,11 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel5.add(jButton3, gridBagConstraints);
 
-        jTabbedPane1.addTab("Agents", jPanel5);
+        jTabbedPane1.addTab(bundle.getString("agents"), jPanel5);
 
         jPanel20.setLayout(new java.awt.GridBagLayout());
 
-        jButton36.setText("Add New Mission");
+        jButton36.setText(bundle.getString("add_new_mission"));
         jButton36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton36ActionPerformed(evt);
@@ -1294,7 +1293,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel20.add(jScrollPane10, gridBagConstraints);
 
-        jButton37.setText("Edit Selected Mission");
+        jButton37.setText(bundle.getString("edit_selected_mission"));
         jButton37.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton37ActionPerformed(evt);
@@ -1308,7 +1307,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel20.add(jButton37, gridBagConstraints);
 
-        jButton38.setText("Delete Selected Mission");
+        jButton38.setText(bundle.getString("delete_selected_mission"));
         jButton38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton38ActionPerformed(evt);
@@ -1322,7 +1321,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel20.add(jButton38, gridBagConstraints);
 
-        jTabbedPane1.addTab("Missions", jPanel20);
+        jTabbedPane1.addTab(bundle.getString("missions"), jPanel20);
 
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
@@ -1340,7 +1339,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 15, 15, 15);
         jPanel12.add(jScrollPane2, gridBagConstraints);
 
-        jButton12.setText("Add New Assignment");
+        jButton12.setText(bundle.getString("add_new_assignment"));
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
@@ -1354,7 +1353,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel12.add(jButton12, gridBagConstraints);
 
-        jButton13.setText("Delete Selected Assignment");
+        jButton13.setText(bundle.getString("delete_selected_assignment"));
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
@@ -1368,7 +1367,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 15);
         jPanel12.add(jButton13, gridBagConstraints);
 
-        jButton14.setText("Change Agent for Selected Assignment");
+        jButton14.setText(bundle.getString("edit_selected_assignment"));
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);
@@ -1382,7 +1381,7 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(10, 15, 0, 0);
         jPanel12.add(jButton14, gridBagConstraints);
 
-        jTabbedPane1.addTab("Assignments", jPanel12);
+        jTabbedPane1.addTab(bundle.getString("assignments"), jPanel12);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
