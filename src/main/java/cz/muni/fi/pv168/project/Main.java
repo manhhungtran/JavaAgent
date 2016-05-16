@@ -176,6 +176,9 @@ public class Main extends javax.swing.JFrame
         jDialog8 = new javax.swing.JDialog();
         jLabel12 = new javax.swing.JLabel();
         jButton17 = new javax.swing.JButton();
+        jDialog9 = new javax.swing.JDialog();
+        jLabel13 = new javax.swing.JLabel();
+        jButton19 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -1102,6 +1105,27 @@ public class Main extends javax.swing.JFrame
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
         jDialog8.getContentPane().add(jButton17, gridBagConstraints);
 
+        jDialog9.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel13.setText(bundle.getString("given_assignment_already_exists"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
+        jDialog9.getContentPane().add(jLabel13, gridBagConstraints);
+
+        jButton19.setText(bundle.getString("ok"));
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        jDialog9.getContentPane().add(jButton19, gridBagConstraints);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(bundle.getString("agent_management_system"));
         setLocation(new java.awt.Point(0, 0));
@@ -1505,6 +1529,16 @@ public class Main extends javax.swing.JFrame
         UpdateAgentSwingWorker updateAgent = new UpdateAgentSwingWorker(agentManager, model, agent, jTable2.getSelectedRow());
         updateAgent.execute();
         
+        List<Assignment> assignmentList = ((AssignmentTableModel)jTable1.getModel()).getAllAssignments();
+        for(int i = 0; i < assignmentList.size(); i++)
+        {
+            if(assignmentList.get(i).getAgent().equals(agent))
+            {
+                Assignment assignment = new Assignment(assignmentList.get(i).getId(), assignmentList.get(i).getStatus(), assignmentList.get(i).getStartDate(), agent, assignmentList.get(i).getMission());
+                ((AssignmentTableModel)jTable1.getModel()).updateAssignment(assignment, i);
+            }
+        }
+        
         jFrame2.dispose();
     }//GEN-LAST:event_jButton26ActionPerformed
 
@@ -1566,6 +1600,16 @@ public class Main extends javax.swing.JFrame
         UpdateMissionSwingWorker updateMission = new UpdateMissionSwingWorker(missionManager, model, mission, jTable9.getSelectedRow());
         updateMission.execute();
         
+        List<Assignment> assignmentList = ((AssignmentTableModel)jTable1.getModel()).getAllAssignments();
+        for(int i = 0; i < assignmentList.size(); i++)
+        {
+            if(assignmentList.get(i).getMission().equals(mission))
+            {
+                Assignment assignment = new Assignment(assignmentList.get(i).getId(), assignmentList.get(i).getStatus(), assignmentList.get(i).getStartDate(), assignmentList.get(i).getAgent(), mission);
+                ((AssignmentTableModel)jTable1.getModel()).updateAssignment(assignment, i);
+            }
+        }
+        
         jFrame4.dispose();
     }//GEN-LAST:event_jButton32ActionPerformed
 
@@ -1599,9 +1643,24 @@ public class Main extends javax.swing.JFrame
         }
         else
         {
-            Assignment assignment = new Assignment(null, AssignmentStatus.IN_PROGRESS, LocalDate.now(), ((AgentTableModel)jTable10.getModel()).getAgent(jTable10.getSelectedRow()), ((MissionTableModel)jTable7.getModel()).getMission(jTable7.getSelectedRow()));
+            AssignmentTableModel assignmentModel = ((AssignmentTableModel)jTable1.getModel());
+            Agent assignedAgent = ((AgentTableModel)jTable10.getModel()).getAgent(jTable10.getSelectedRow());
+            Mission assignedMission = ((MissionTableModel)jTable7.getModel()).getMission(jTable7.getSelectedRow());
             
-            AddAssignmentSwingWorker addAssignment = new AddAssignmentSwingWorker(assignmentManager, (AssignmentTableModel)jTable1.getModel(), assignment);
+            for(Assignment assignment : assignmentModel.getAllAssignments())
+            {
+                if(assignment.getAgent().equals(assignedAgent) && assignment.getMission().equals(assignedMission))
+                {
+                    jDialog9.pack();
+                    jDialog9.setLocationRelativeTo(null);
+                    jDialog9.setVisible(true);
+                    return;
+                }
+            }
+            
+            Assignment assignment = new Assignment(null, AssignmentStatus.IN_PROGRESS, LocalDate.now(), assignedAgent, assignedMission);
+            
+            AddAssignmentSwingWorker addAssignment = new AddAssignmentSwingWorker(assignmentManager, assignmentModel, assignment);
             addAssignment.execute();
             
             jFrame6.dispose();
@@ -1719,6 +1778,10 @@ public class Main extends javax.swing.JFrame
         jDialog8.dispose();
     }//GEN-LAST:event_jButton17ActionPerformed
 
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        jDialog9.dispose();
+    }//GEN-LAST:event_jButton19ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1769,6 +1832,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
@@ -1807,6 +1871,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JDialog jDialog6;
     private javax.swing.JDialog jDialog7;
     private javax.swing.JDialog jDialog8;
+    private javax.swing.JDialog jDialog9;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
@@ -1817,6 +1882,7 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
