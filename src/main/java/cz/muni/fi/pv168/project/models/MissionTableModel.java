@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.models;
 import cz.muni.fi.pv168.project.Mission;
 import cz.muni.fi.pv168.project.MissionDifficulty;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -81,6 +82,11 @@ public class MissionTableModel extends AbstractTableModel
         return missionList.get(rowIndex);
     }
     
+    public List<Mission> getAllAssignments()
+    {
+        return Collections.unmodifiableList(missionList);
+    }
+    
     public void updateMission(Mission mission, int rowIndex)
     {
         missionList.set(rowIndex, mission);
@@ -91,6 +97,18 @@ public class MissionTableModel extends AbstractTableModel
     {
         missionList.remove(rowIndex);
         this.fireTableDataChanged();
+    }
+    
+    public int getMissionRowIndex(Mission mission)
+    {
+        for(int i = 0; i < missionList.size(); i++)
+        {
+            if(missionList.get(i).equals(mission))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     
     @Override

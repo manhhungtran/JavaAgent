@@ -3,6 +3,7 @@ package cz.muni.fi.pv168.project.models;
 import cz.muni.fi.pv168.project.Agent;
 import cz.muni.fi.pv168.project.AgentExperience;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -77,6 +78,11 @@ public class AgentTableModel extends AbstractTableModel
         return agentList.get(rowIndex);
     }
     
+    public List<Agent> getAllAssignments()
+    {
+        return Collections.unmodifiableList(agentList);
+    }
+    
     public void updateAgent(Agent agent, int rowIndex)
     {
         agentList.set(rowIndex, agent);
@@ -87,6 +93,18 @@ public class AgentTableModel extends AbstractTableModel
     {
         agentList.remove(rowIndex);
         this.fireTableDataChanged();
+    }
+    
+    public int getAgentRowIndex(Agent agent)
+    {
+        for(int i = 0; i < agentList.size(); i++)
+        {
+            if(agentList.get(i).equals(agent))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     
     @Override

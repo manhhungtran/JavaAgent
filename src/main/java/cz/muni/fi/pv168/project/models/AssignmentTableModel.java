@@ -4,6 +4,7 @@ import cz.muni.fi.pv168.project.Assignment;
 import cz.muni.fi.pv168.project.AssignmentStatus;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -84,6 +85,11 @@ public class AssignmentTableModel extends AbstractTableModel
     public Assignment getAssignment(int rowIndex)
     {
         return assignmentList.get(rowIndex);
+    }
+    
+    public List<Assignment> getAllAssignments()
+    {
+        return Collections.unmodifiableList(assignmentList);
     }
     
     public void updateAssignment(Assignment assignment, int rowIndex)

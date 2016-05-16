@@ -17,6 +17,7 @@ import cz.muni.fi.pv168.project.swingworkers.UpdateAssignmentSwingWorker;
 import cz.muni.fi.pv168.project.swingworkers.UpdateMissionSwingWorker;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.sql.DataSource;
@@ -169,6 +170,12 @@ public class Main extends javax.swing.JFrame
         jLabel10 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
+        jDialog7 = new javax.swing.JDialog();
+        jLabel11 = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
+        jDialog8 = new javax.swing.JDialog();
+        jLabel12 = new javax.swing.JLabel();
+        jButton17 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
@@ -1053,6 +1060,48 @@ public class Main extends javax.swing.JFrame
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        jDialog7.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel11.setText(bundle.getString("agent_with_assigned_mission_cannot_be_deleted"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
+        jDialog7.getContentPane().add(jLabel11, gridBagConstraints);
+
+        jButton16.setText(bundle.getString("ok"));
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        jDialog7.getContentPane().add(jButton16, gridBagConstraints);
+
+        jDialog8.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jLabel12.setText(bundle.getString("mission_with_assigned_agent_cannot_be_deleted"));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(20, 15, 0, 15);
+        jDialog8.getContentPane().add(jLabel12, gridBagConstraints);
+
+        jButton17.setText(bundle.getString("ok"));
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        jDialog8.getContentPane().add(jButton17, gridBagConstraints);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(bundle.getString("agent_management_system"));
         setLocation(new java.awt.Point(0, 0));
@@ -1355,6 +1404,18 @@ public class Main extends javax.swing.JFrame
         }
         else
         {
+            List<Assignment> assignmentList = ((AssignmentTableModel)jTable1.getModel()).getAllAssignments();
+            for(Assignment assignment : assignmentList)
+            {
+                if(assignment.getMission().equals(((MissionTableModel)jTable9.getModel()).getMission(jTable9.getSelectedRow())))
+                {
+                    jDialog8.pack();
+                    jDialog8.setLocationRelativeTo(null);
+                    jDialog8.setVisible(true);
+                    return;
+                }
+            }
+            
             jDialog3.pack();
             jDialog3.setLocationRelativeTo(null);
             jDialog3.setVisible(true);
@@ -1397,6 +1458,18 @@ public class Main extends javax.swing.JFrame
         }
         else
         {
+            List<Assignment> assignmentList = ((AssignmentTableModel)jTable1.getModel()).getAllAssignments();
+            for(Assignment assignment : assignmentList)
+            {
+                if(assignment.getAgent().equals(((AgentTableModel)jTable2.getModel()).getAgent(jTable2.getSelectedRow())))
+                {
+                    jDialog7.pack();
+                    jDialog7.setLocationRelativeTo(null);
+                    jDialog7.setVisible(true);
+                    return;
+                }
+            }
+            
             jDialog1.pack();
             jDialog1.setLocationRelativeTo(null);
             jDialog1.setVisible(true);
@@ -1628,6 +1701,8 @@ public class Main extends javax.swing.JFrame
         else
         {
             jTable13.setModel(jTable2.getModel());
+            int selectedAgentRowIndex = ((AgentTableModel)jTable2.getModel()).getAgentRowIndex(((AssignmentTableModel)jTable1.getModel()).getAssignment(jTable1.getSelectedRow()).getAgent());
+            jTable13.setRowSelectionInterval(selectedAgentRowIndex, selectedAgentRowIndex);
             jComboBox1.setSelectedIndex(((AssignmentTableModel)jTable1.getModel()).getAssignment(jTable1.getSelectedRow()).getStatus().ordinal());
             
             jFrame8.pack();
@@ -1635,6 +1710,14 @@ public class Main extends javax.swing.JFrame
             jFrame8.setVisible(true);
         }
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        jDialog7.dispose();
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        jDialog8.dispose();
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1683,6 +1766,8 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton23;
@@ -1720,6 +1805,8 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JDialog jDialog4;
     private javax.swing.JDialog jDialog5;
     private javax.swing.JDialog jDialog6;
+    private javax.swing.JDialog jDialog7;
+    private javax.swing.JDialog jDialog8;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
@@ -1728,6 +1815,8 @@ public class Main extends javax.swing.JFrame
     private javax.swing.JFrame jFrame8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
